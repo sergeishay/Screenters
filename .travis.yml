@@ -1,5 +1,7 @@
 deploy:
     region: 'eu-central-1'
+    language: node_js
+    node_js: node
     app: 'Screenters'
     env: 'screenters-env'
     bucket_name: 'elasticbeanstalk-eu-central-1-002502823779'
