@@ -4,8 +4,8 @@ node_js: node
 deploy:
     provider: elasticbeanstalk
     region: 'eu-central-1'
-    app: 'Screenters'
-    env: 'screenters-env'
+    app: 'ScreentersDocker'
+    env: 'screentersdocker-env'
     bucket_name: 'elasticbeanstalk-eu-central-1-002502823779'
     bucket_path: 'docker'
     access_key_id: "AKIAQBFJOB5RWLFR3EHJ"
