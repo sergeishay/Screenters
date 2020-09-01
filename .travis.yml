@@ -9,6 +9,6 @@ deploy:
     bucket_name: 'elasticbeanstalk-eu-central-1-002502823779'
     bucket_path: 'docker'
     access_key_id: 
-        secure: $AKIAQBFJOB5RWLFR3EHJ
+        secure: AKIAQBFJOB5RWLFR3EHJ
     secret_access_key: 
-        secure: $Mj65hD+6nbZBdTVjHAUFVGKzVbRrJbD2iyQBMLCO
+        secure: Mj65hD+6nbZBdTVjHAUFVGKzVbRrJbD2iyQBMLCO
