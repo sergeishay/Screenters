@@ -7,5 +7,5 @@ deploy:
     env: 'screenters-env'
     bucket_name: 'elasticbeanstalk-eu-central-1-002502823779'
     bucket_path: 'docker'
-    access_key_id: $AKIAQBFJOB5RWLFR3EHJ
-    secret_access_key: $Mj65hD+6nbZBdTVjHAUFVGKzVbRrJbD2iyQBMLCO
+    - access_key_id: $AKIAQBFJOB5RWLFR3EHJ
+    - secret_access_key: $Mj65hD+6nbZBdTVjHAUFVGKzVbRrJbD2iyQBMLCO
