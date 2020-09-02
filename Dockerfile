@@ -11,21 +11,18 @@ COPY package.json .
 
 RUN npm install
 
-RUN yarn install --production
-
 COPY . .
 
 RUN npm run build
 
 EXPOSE 3000
-EXPOSE 3001
 
 ENV SERVER_PORT=3000
 ENV API_PORT=3001
 
 CMD [ "npm", "start" ]
 
-# # ---------------
+# ---------------
 
 # FROM node:10-alpine
 
@@ -38,6 +35,8 @@ CMD [ "npm", "start" ]
 # COPY --from=build /app/package.json .
 
 # RUN yarn install --production
+
+# RUN npm run build
 
 # COPY --from=build /app/build ./build
 # COPY --from=build /app/src/auth_config.json ./src/auth_config.json
