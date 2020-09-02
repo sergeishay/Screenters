@@ -12,6 +12,7 @@ const port = process.env.API_PORT || 3001;
 const appPort = process.env.SERVER_PORT || 3000;
 const appOrigin = authConfig.appOrigin || `http://localhost:${appPort}`;
 
+
 if (!authConfig.domain || !authConfig.audience) {
   throw new Error(
     "Please make sure that auth_config.json is in place and populated"
