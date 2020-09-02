@@ -6,7 +6,9 @@ const { join } = require("path");
 const app = express();
 
 app.use((req, res, next) => {
-        if (!req.secure) {
+        console.log(req);
+        
+        if (!req.secure && req.headers["x-forwarded-proto"] !== "https") {
                 console.log("now i am secure");
                 return res.redirect('https://' + req.get('host') + req.url);
         }
