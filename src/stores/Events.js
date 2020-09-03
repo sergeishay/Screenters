@@ -3,34 +3,34 @@ import { Event } from './Event'
 import axios from 'axios'
 export class Events {
     @observable listOfEvents = [];
+
     constructor() {
 
         this.init()
     }
     init = async () => {
-        console.log('INIT')
         this.getAllEvents()
     }
     @action async getAllEvents() {
         let getData = await axios.get("http://localhost:8080/api/events")
         getData = getData.data
+        console.log(getData)
         for(let d of getData){
-            console.log(d)
-            this.listOfEvents.push(new Event(d.id, d.name, d.description, d.imgURL, d.videoURL, d.coverImgURL, d.price, d.categoryID, d.creatorID))
+            this.listOfEvents.push(new Event(d.id, d.name, d.description, d.imageURL, d.videoURL, d.coverImgURL, d.price, d.categoryID, d.creatorID))
         }
         console.log(this.listOfEvents)
     }
-    @action addNewEvent() {
-
+    @action async addNewEvent(creatorId) {
+        let addEvent = await axios.post(`http://localhost:8080/api/event/${creatorId}`)
     }
 
-    @action removeEvent(id) {
+    @action async deleteEvent(eventId) {
+        let deleteEvent = await axios.delete(`http://localhost:8080/api/event/${eventId}`)
 
     }
-
-    @action updateEvent(id) {
-
-    }
+    @action async updateEvent(eventId) {
+        let updateEvent = await axios.put(`http://localhost:8080/api/event/${eventId}`)
+    }   
     @computed get topEvents() {
 
     }
