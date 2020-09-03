@@ -5,10 +5,11 @@ export class Show{
     @observable endTime 
     @observable showID
     @observable eventID
-
-
-    @action updateShow(){
-        
+    
+    constructor(startTime , endTime , showID , eventID){
+        this.startTime = startTime;
+        this.endTime = endTime;
+        this.showID = showID; 
+        this.eventID = eventID;
     }
-
 }

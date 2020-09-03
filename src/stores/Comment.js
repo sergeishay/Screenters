@@ -9,10 +9,14 @@ export class Comment {
     @observable reviewTime
     @observable reviewParentID
     @observable reviewEventID
-
-
-    @action updateShow(){
-        
+    constructor(reviewID ,header, text  , reviewUserID , reviewShowID , reviewTime , reviewParentID , reviewEventID){
+        this.reviewID = reviewID
+        this.header = header 
+        this.text = text 
+        this.reviewUserID = reviewUserID
+        this.reviewShowID = reviewShowID
+        this.reviewTime = reviewTime
+        this.reviewParentID = reviewParentID
+        this.reviewEventID = reviewEventID
     }
-
 }
