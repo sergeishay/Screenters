@@ -1,0 +1,10 @@
+.view img,
+.view video {
+  position: relative;
+  display: block;
+  width: 100%;
+}
+.btn.btn-sm {
+  padding: 0.5rem 1rem;
+  font-size: 0.6rem;
+}

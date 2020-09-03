@@ -1,4 +1,6 @@
 import React, { useState } from 'react'
+import { MDBBtn } from 'mdbreact'
+
 import { Jumbotron } from 'reactstrap'
 
 import './Carousel.css'
@@ -31,13 +33,14 @@ const items = [
   },
 ]
 
-const SCRCarousel = props => {
+const JumboCarousel = props => {
   const [activeIndex, setActiveIndex] = useState(0)
   const [animating, setAnimating] = useState(false)
 
   const next = () => {
     if (animating) return
-    const nextIndex = activeIndex === items.length - 1 ? 0 : activeIndex + 1
+    const nextIndex =
+      activeIndex === props.data.length - 1 ? 0 : activeIndex + 1
     setActiveIndex(nextIndex)
   }
 
@@ -52,17 +55,27 @@ const SCRCarousel = props => {
     setActiveIndex(newIndex)
   }
 
-  const slides = items.map(item => {
+  const slides = props.data.map(item => {
+    console.log(item)
     return (
       <CarouselItem
         onExiting={() => setAnimating(true)}
         onExited={() => setAnimating(false)}
-        key={item.src}
+        key={item.image}
       >
-        <img src={item.src} alt={item.altText} />
+        <img src={item.image} alt={item.header} />
         <CarouselCaption
-          captionText={item.caption}
-          captionHeader={item.caption}
+          captionText={
+            <>
+              <MDBBtn
+                onClick={() => props.buttonNavigate(item.id)}
+                color='primary'
+              >
+                DETAILS
+              </MDBBtn>
+            </>
+          }
+          captionHeader={item.header}
         />
       </CarouselItem>
     )
@@ -71,7 +84,7 @@ const SCRCarousel = props => {
     <>
       <Carousel activeIndex={activeIndex} next={next} previous={previous}>
         <CarouselIndicators
-          items={items}
+          items={props.data}
           activeIndex={activeIndex}
           onClickHandler={goToIndex}
         />
@@ -91,4 +104,4 @@ const SCRCarousel = props => {
   )
 }
 
-export default SCRCarousel
+export default JumboCarousel
