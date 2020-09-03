@@ -36,7 +36,11 @@ const NavbarPage = () => {
   return (
     <MDBNavbar color='indigo' dark expand='md'>
       <MDBNavbarBrand>
-        <strong className='white-text'>Screenters</strong>
+        <img
+          src='/screenters-logo.png'
+          className='scr-logo float-left'
+          alt='aligment'
+        />
       </MDBNavbarBrand>
       <MDBNavbarToggler onClick={toggle} />
       <MDBCollapse id='navbarCollapse3' isOpen={isOpen} navbar>
