@@ -5,8 +5,8 @@ import MultiSelect from '../Inputs/MultiSelect'
 import Checkbox from '../Inputs/Checkbox'
 
 const categories = [
-  { id: 1, name_en: 'LIVE' },
-  { id: 2, name_en: 'DEAD' },
+  { value: 1, text: 'LIVE' },
+  { value: 2, text: 'DEAD' },
 ]
 
 const FilterCategories = () => {
@@ -46,7 +46,11 @@ const FilterCategories = () => {
       </MDBRow>
       <MDBRow>
         <MDBCol>
-          <MultiSelect />
+          <MultiSelect
+            selected='Select categories'
+            label='Categories'
+            options={categories}
+          />
         </MDBCol>
       </MDBRow>
     </MDBContainer>
