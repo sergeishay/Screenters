@@ -1,3 +1,7 @@
+.col {
+  padding-right: 2px;
+  padding-left: 2px;
+}
 .next-steps .fa-link {
   margin-right: 5px;
 }

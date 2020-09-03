@@ -4,6 +4,7 @@ import { Container } from 'reactstrap'
 
 import Loading from './components/Loading'
 import NavBar from './components/NavBar'
+import NavbarPage from './components/Navbar/Navbar'
 import Footer from './components/Footer'
 import Home from './views/Home'
 import Homepage from './views/Homepage'
@@ -17,6 +18,7 @@ import './App.css'
 
 // fontawesome
 import initFontAwesome from './utils/initFontAwesome'
+import BroadcastRoom from './views/BroadcastRoom'
 initFontAwesome()
 
 const App = () => {
@@ -33,13 +35,19 @@ const App = () => {
   return (
     <Router history={history}>
       <div id='app' className='d-flex flex-column h-100'>
-        <NavBar />
+        <NavbarPage />
         <Route exact path='/homepage-test' render={() => <Homepage />} />
+        <Route
+          exact
+          path='/broadcast-room/:roomId'
+          render={() => <BroadcastRoom />}
+        />
         <Container className='flex-grow-1 mt-5'>
           <Switch>
             <Route path='/' exact component={Home} />
             <Route path='/profile' component={Profile} />
             <Route path='/external-api' component={ExternalApi} />
+            <Route path='/event/:id' component={ExternalApi} />
           </Switch>
         </Container>
         <Footer />
