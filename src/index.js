@@ -10,9 +10,9 @@ import { Auth0Provider } from "@auth0/auth0-react";
 import config from "./auth_config.json";
 import history from "./utils/history";
 import { Events } from './stores/Events'
-import { Show } from './stores/Show'
+import { GeneralStore } from './stores/GeneralStore'
 import { User } from './stores/User'
-// import { Creators } from './stores/Creators'
+import { Creator } from './stores/Creator'
 
 const onRedirectCallback = (appState) => {
   history.push(
@@ -23,10 +23,10 @@ const onRedirectCallback = (appState) => {
 };
 
 const eventsStores = new Events()
-const showStore = new Show()
+const generalStore = new GeneralStore()
 const userStore = new User()
-// const creatorStore = new Creators()
-const stores =  {eventsStores , showStore , userStore }
+const creatorStore = new Creator()
+const stores =  {eventsStores , creatorStore , userStore ,generalStore}
 ReactDOM.render(
   <Auth0Provider
     domain={config.domain}
