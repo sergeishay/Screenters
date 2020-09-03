@@ -11,7 +11,7 @@ const selectOptions = ['Date', 'Popularity', 'Screenter']
 const EventGrid = inject('eventsStores')(
   observer(props => {
     const events = props.eventsStores.listOfEvents
-    console.log('EVENT GRID', events)
+
     return (
       <>
         <MDBContainer>
