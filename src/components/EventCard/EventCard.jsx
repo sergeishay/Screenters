@@ -8,27 +8,27 @@ import {
   MDBCardText,
   MDBCol,
 } from 'mdbreact'
+import { inject, observer } from 'mobx-react'
 
-const EventCard = () => {
+const EventCard = observer(props => {
   return (
     <MDBCol style={{ maxWidth: '22rem' }}>
       <MDBCard>
         <MDBCardImage
           className='img-fluid'
-          src='https://mdbootstrap.com/img/Mockups/Lightbox/Thumbnail/img%20(67).jpg'
+          src={props.eventDetails.imgURL}
           waves
         />
         <MDBCardBody>
-          <MDBCardTitle>Card title</MDBCardTitle>
-          <MDBCardText>
-            Some quick example text to build on the card title and make up the
-            bulk of the card's content.
-          </MDBCardText>
-          <MDBBtn href='#'>Click</MDBBtn>
+          <MDBCardTitle>{props.eventDetails.name}</MDBCardTitle>
+          <MDBCardText>{props.eventDetails.description}</MDBCardText>
+          {(props.isEdit && <MDBBtn href='#'>EDIT</MDBBtn>) || (
+            <MDBBtn href='#'>BOOK</MDBBtn>
+          )}
         </MDBCardBody>
       </MDBCard>
     </MDBCol>
   )
-}
+})
 
 export default EventCard
