@@ -1,4 +1,4 @@
-import React, { Component } from 'react'
+import React from 'react'
 import { MDBContainer, MDBAutocomplete } from 'mdbreact'
 
 const AutocompletePage = props => {

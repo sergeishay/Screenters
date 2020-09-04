@@ -5,7 +5,7 @@ import Filters from '../Filters/Filters'
 
 const SideBar = () => {
   return (
-    <MDBContainer>
+    <MDBContainer fluid='true'>
       <Filters />
     </MDBContainer>
   )
