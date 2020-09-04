@@ -3,7 +3,11 @@ import { MDBContainer, MDBRow, MDBCol } from 'mdbreact'
 import { MDBTypography } from 'mdbreact'
 import FilterCategories from './FilterCategories'
 const Filters = () => {
-  return <FilterCategories />
+  return (
+    <MDBContainer fluid='true'>
+      <FilterCategories />
+    </MDBContainer>
+  )
 }
 
 export default Filters

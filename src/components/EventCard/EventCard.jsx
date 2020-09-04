@@ -8,7 +8,7 @@ import {
   MDBCardText,
   MDBCol,
 } from 'mdbreact'
-import { inject, observer } from 'mobx-react'
+import { observer } from 'mobx-react'
 import { useHistory } from 'react-router-dom'
 
 import './EventCard.css'
@@ -31,12 +31,12 @@ const EventCard = observer(props => {
           <MDBCardText>{props.eventDetails.description}</MDBCardText>
           {(props.isEdit && <MDBBtn href='#'>EDIT</MDBBtn>) || (
             <>
-              <button type='button' class='btn btn-default btn-sm'>
+              <button type='button' className='btn btn-default btn-sm'>
                 BOOK
               </button>
               <button
                 type='button'
-                class='btn btn-primary btn-sm'
+                className='btn btn-primary btn-sm'
                 onClick={handleDetailsClick}
               >
                 DETAILS

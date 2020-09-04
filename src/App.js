@@ -6,7 +6,7 @@ import Loading from './components/Loading'
 import NavBar from './components/NavBar'
 import NavbarPage from './components/Navbar/Navbar'
 import Footer from './components/Footer'
-import Home from './views/Home'
+import EventPage from './views/EventPage'
 import Homepage from './views/Homepage'
 import Profile from './views/Profile'
 import ExternalApi from './views/ExternalApi'
@@ -36,20 +36,24 @@ const App = () => {
     <Router history={history}>
       <div id='app' className='d-flex flex-column h-100'>
         <NavbarPage />
-        <Route exact path='/homepage-test' render={() => <Homepage />} />
-        <Route
-          exact
-          path='/broadcast-room/:roomId'
-          render={() => <BroadcastRoom />}
-        />
-        <Container className='flex-grow-1 mt-5'>
-          <Switch>
-            <Route path='/' exact component={Home} />
-            <Route path='/profile' component={Profile} />
-            <Route path='/external-api' component={ExternalApi} />
-            <Route path='/event/:id' component={ExternalApi} />
-          </Switch>
-        </Container>
+
+        <Switch>
+          <Route exact path='/' exact render={() => <Homepage />} />
+          <Route exact path='/homepage-test' render={() => <Homepage />} />
+          <Route
+            exact
+            path='/broadcast-room/:roomId'
+            render={() => <BroadcastRoom />}
+          />
+          <Route exact path='/profile' component={Profile} />
+          <Route exact path='/external-api' component={ExternalApi} />
+          <Route
+            exact
+            path='/event/:id'
+            render={({ match }) => <EventPage match={match} />}
+          />
+        </Switch>
+
         <Footer />
       </div>
     </Router>

@@ -25,7 +25,6 @@ const EventGrid = inject('eventsStores')(
       console.log('SORT', attr)
     }
 
-    console.log('EVENT GRID', eventList)
     return (
       <>
         <MDBContainer>
