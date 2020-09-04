@@ -6,7 +6,7 @@ export class GeneralStore {
   @observable creators
   @observable hashtag
   @observable rating
-  @observable singleEvent = []
+  @observable singleEvent = {}
 
   constructor() {
     this.init()
@@ -21,7 +21,7 @@ export class GeneralStore {
       `http://localhost:8080/api/events/${eventId}`
     )
     getEventById = getEventById.data.event
-    this.singleEvent.push(getEventById)
+    this.singleEvent = getEventById
     console.log(this.singleEvent)
   }
 

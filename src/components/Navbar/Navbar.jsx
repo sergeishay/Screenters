@@ -34,7 +34,7 @@ const NavbarPage = () => {
   }
 
   return (
-    <MDBNavbar color='indigo' dark expand='md'>
+    <MDBNavbar color='primary' dark expand='md'>
       <MDBNavbarBrand>
         <img
           src='/screenters-logo.png'
@@ -46,7 +46,7 @@ const NavbarPage = () => {
       <MDBCollapse id='navbarCollapse3' isOpen={isOpen} navbar>
         <MDBNavbarNav left>
           <MDBNavItem active>
-            <MDBNavLink to='/homepage-test' exact>
+            <MDBNavLink to='/' exact>
               Home
             </MDBNavLink>
           </MDBNavItem>
