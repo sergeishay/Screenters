@@ -18,7 +18,7 @@ export class Events {
         // getData = getData.event
         console.log(getData.data)
         for(let d of getData.data){
-            this.listOfEvents.push(new Event(d.event.id, d.name, d.event.description, d.event.imageURL, d.event.videoURL, d.event.coverImgURL, d.event.price, d.event.categoryID,d.event.creatorID))
+            this.listOfEvents.push(new Event(d.event.id, d.event.name, d.event.description, d.event.imageURL, d.event.videoURL, d.event.coverImgURL, d.event.price, d.event.categoryID,d.event.creatorID))
         }
         console.log(this.listOfEvents)
     }

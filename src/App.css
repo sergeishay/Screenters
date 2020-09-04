@@ -37,3 +37,7 @@
 .result-block-container .result-block {
   opacity: 1;
 }
+
+h2 {
+  padding-left: 15px;
+}

@@ -11,7 +11,8 @@ import Homepage from './views/Homepage'
 import Profile from './views/Profile'
 import ExternalApi from './views/ExternalApi'
 import { useAuth0 } from '@auth0/auth0-react'
-import history from './utils/history'
+import history from './utils/history';
+import Creator from './views/Creator'
 
 // styles
 import './App.css'
@@ -48,6 +49,7 @@ const App = () => {
             <Route path='/profile' component={Profile} />
             <Route path='/external-api' component={ExternalApi} />
             <Route path='/event/:id' component={ExternalApi} />
+            <Route path='/creator/:id' component={({match}) => <Creator match={match}/>} />
           </Switch>
         </Container>
         <Footer />

@@ -63,9 +63,7 @@ export class Creator extends User {
         let deleteCreator = await axios.delete(`http://localhost:8080/api/creators/${creatorId}`)
 
     }
-    @action async updateCreator(creatorId) {
-        let updateCreator = await axios.put(`http://localhost:8080/api/creators/${creatorId}`)
-
+    @action async updateCreator(creatorId, data) {
+        let updateCreator = await axios.put(`http://localhost:8080/api/creators/${creatorId}`, data)
     }
-
 }
