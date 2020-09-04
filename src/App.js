@@ -11,7 +11,8 @@ import Homepage from './views/Homepage'
 import Profile from './views/Profile'
 import ExternalApi from './views/ExternalApi'
 import { useAuth0 } from '@auth0/auth0-react'
-import history from './utils/history'
+import history from './utils/history';
+import Creator from './views/Creator'
 
 // styles
 import './App.css'
@@ -36,7 +37,6 @@ const App = () => {
     <Router history={history}>
       <div id='app' className='d-flex flex-column h-100'>
         <NavbarPage />
-
         <Switch>
           <Route exact path='/' exact render={() => <Homepage />} />
           <Route exact path='/homepage-test' render={() => <Homepage />} />
@@ -52,8 +52,8 @@ const App = () => {
             path='/event/:id'
             render={({ match }) => <EventPage match={match} />}
           />
+           <Route path='/creator/:id' component={({match}) => <Creator match={match}/>} />
         </Switch>
-
         <Footer />
       </div>
     </Router>

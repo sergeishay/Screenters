@@ -29,7 +29,7 @@ const EventCard = observer(props => {
         <MDBCardBody>
           <MDBCardTitle>{props.eventDetails.name}</MDBCardTitle>
           <MDBCardText>{props.eventDetails.description}</MDBCardText>
-          {(props.isEdit && <MDBBtn href='#'>EDIT</MDBBtn>) || (
+          {(props.isEdit && <MDBBtn onClick={handleDetailsClick}>EDIT</MDBBtn>) || (
             <>
               <button type='button' className='btn btn-default btn-sm'>
                 BOOK
