@@ -3,6 +3,7 @@ import axios from 'axios'
 import React from 'react'
 import { useAuth0 } from '@auth0/auth0-react'
 import { Show } from './Show'
+import { Events } from './Events'
 import { User } from './User'
 
 export class GeneralStore {
@@ -14,10 +15,11 @@ export class GeneralStore {
     @observable singleEvent = {
         shows: [],
     }
-
-    constructor() {
+    
+    constructor(listOfEvents) {
         // const { user } = useAuth0()
         // let context = Auth0Context
+        this.listOfEvents = listOfEvents
         this.init()
     }
     init = async () => {
@@ -25,6 +27,7 @@ export class GeneralStore {
         // this.currentUser()
         this.gelAllCategories()
         // this.addUser()
+        // this.updateEvent(3 , {field: "name" , value : "check232"})
     }
 
     @action async getEventById(eventId) {
@@ -69,7 +72,7 @@ export class GeneralStore {
             null,
             'USER',
             null,
-            null, 
+            null,
         )
         let addUser = await axios.post(`http://localhost:8080/api/users`, insertUsesData)
         console.log(addUser)
@@ -78,12 +81,35 @@ export class GeneralStore {
 
     @action async checkUserInDataBase(user) {
         let stupidUser = user.sub
-        let checkUserInDataBase = await axios.get( `http://localhost:8080/api/users/${stupidUser}`)
+        let checkUserInDataBase = await axios.get(`http://localhost:8080/api/users/${stupidUser}`)
         console.log(checkUserInDataBase)
         if (checkUserInDataBase.data) {
             this.getCurrentUser(checkUserInDataBase.data)
         } else {
             this.addUser(user)
+        }
+    }
+
+
+    @action async deleteEvent(eventId) {
+        let deleteEvent = await axios.delete(`http://localhost:8080/api/events/${eventId}`)
+        console.log(deleteEvent)
+        this.newEvents.find(deleteId => deleteId.eventID)
+    }
+    @action async updateEvent(eventId, eventData) {
+        this.singleEvent = eventData;
+
+        let updateEvent = await axios.put(`http://localhost:8080/api/events/${eventId}`, eventData)
+        if (updateEvent) {
+            let key = eventData.field
+            console.log(key)
+            let value = eventData.value
+            let toUpdate = this.listOfEvents.listOfEvents.findIndex(eventUpdate => eventUpdate.id === eventId)
+            console.log(toUpdate)
+            this.listOfEvents.listOfEvents[toUpdate][key] = value
+            console.log(this.listOfEvents.listOfEvents)
+        }else{
+            console.log("error")
         }
     }
 }

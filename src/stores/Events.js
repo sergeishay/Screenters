@@ -4,7 +4,7 @@ import axios from 'axios'
 export class Events {
     @observable listOfEvents = [];
     @observable creators = []
-    @observable hashtags =[]
+    @observable hashtags = []
     @observable categories = []
     constructor() {
 
@@ -16,28 +16,27 @@ export class Events {
     @action async getAllEvents() {
         let getData = await axios.get("http://localhost:8080/api/events")
         // console.log(getData.data)
-        for(let d of getData.data){
-            let counter = 0 ;
-            const rating = d.shows.reduce((total , item)=> {
-                if(item.rating){
+        for (let d of getData.data) {
+            let counter = 0;
+            const rating = d.shows.reduce((total, item) => {
+                if (item.rating) {
                     counter++
-                    return total+item.rating
-                }else{
-                    return total 
+                    return total + item.rating
+                } else {
+                    return total
                 }
-            } , 0)
-            const avgRating = (counter == 0 )? 5 : rating/counter
-            // id, name, description, imageURL, videoURL, coverImgURL, price, creatorID, categoryID , shows , rating
-            this.listOfEvents.push(new Event(d.id, d.name, d.description, d.imageURL, d.videoURL, d.coverImgURL, d.price, d.categoryID,d.creatorID , d.shows , avgRating))
+            }, 0)
+            const avgRating = (counter == 0) ? 5 : rating / counter
+            this.listOfEvents.push(new Event(d.id, d.name, d.description, d.imageURL, d.videoURL, d.coverImgURL, d.price, d.creatorID, d.categoryID,  d.shows, avgRating))
 
         }
-        // console.log(this.listOfEvents)
+
     }
- 
+
     @computed get topEvents() {
 
     }
-  
+
 }
 
 // @observable products = [];
