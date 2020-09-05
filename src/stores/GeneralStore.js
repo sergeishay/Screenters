@@ -11,7 +11,7 @@ export class GeneralStore {
     @observable creators
     @observable hashtags = []
 
-    @observable currentUser = null
+    @observable currentUser = {}
     @observable singleEvent = {
         shows: [],
     }
@@ -48,16 +48,19 @@ export class GeneralStore {
             this.categories.push(c)
         })
     }
-    @action async getCurrentUser(currentUserData) {
+    @action  getCurrentUser(currentUserData) {
+        console.log(currentUserData)
         this.currentUser = currentUserData
         console.log(this.currentUser)
     }
-
+    // id, firstName, lastName, username, imageURL, videoURL, email, birthday, memberSince, gender, about ,userRole ,  isAuthorized,  phone
     // id, firstName, lastName, username, imgURL, videoURL, email, birthday, memberSince, gender, about ,userRole ,  isAuthorized,  phone
+
+
+
     @action async addUser(userData) {
 
 
-        console.log(userData.sub)
         let insertUsesData = new User(
             userData.sub,
             userData.given_name || null,
@@ -74,6 +77,7 @@ export class GeneralStore {
             null,
             null,
         )
+        console.log(insertUsesData)
         let addUser = await axios.post(`http://localhost:8080/api/users`, insertUsesData)
         console.log(addUser)
         this.getCurrentUser(addUser)
@@ -81,14 +85,27 @@ export class GeneralStore {
 
     @action async checkUserInDataBase(user) {
         let stupidUser = user.sub
+        console.log(stupidUser)
         let checkUserInDataBase = await axios.get(`http://localhost:8080/api/users/${stupidUser}`)
         console.log(checkUserInDataBase)
         if (checkUserInDataBase.data) {
             this.getCurrentUser(checkUserInDataBase.data)
         } else {
+            console.log("here some ")
             this.addUser(user)
         }
     }
+
+
+
+
+
+
+
+
+
+
+
 
 
     @action async deleteEvent(eventId) {
@@ -96,6 +113,9 @@ export class GeneralStore {
         console.log(deleteEvent)
         this.newEvents.find(deleteId => deleteId.eventID)
     }
+
+
+
     @action async updateEvent(eventId, eventData) {
         console.log(eventData)
 
