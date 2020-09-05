@@ -15,7 +15,7 @@ const Calendar = props => {
 
   const currentUser = props.currentUser
 
-  const events = props.events
+  const shows = props.shows
   const handleShowClick = info => {
     console.log(info.event)
     setSelectedShow({
@@ -27,6 +27,7 @@ const Calendar = props => {
     toggleBookModal()
   }
   const handleDateClick = info => {
+    console.log()
     if (currentUser.userRole === 'CREATOR') {
       console.log(info)
       setSelectedDate({
@@ -65,7 +66,7 @@ const Calendar = props => {
         plugins={[dayGridPlugin, interactionPlugin]}
         initialView='dayGridMonth'
         weekends={true}
-        events={events}
+        events={shows}
         eventClick={handleShowClick}
         dateClick={handleDateClick}
       />
