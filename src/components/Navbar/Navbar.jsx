@@ -93,7 +93,7 @@ const NavbarPage = () => {
               </MDBDropdownToggle>
               <MDBDropdownMenu>
                 <MDBDropdownItem header>{user.name}</MDBDropdownItem>
-                <MDBDropdownItem href='/profile'>
+                <MDBDropdownItem href={`/creator/${user.sub}`}>
                   <FontAwesomeIcon icon='user' className='mr-3' /> Profile
                 </MDBDropdownItem>
                 <MDBDropdownItem

@@ -8,7 +8,7 @@ export class User {
     @observable id
     @observable firstName
     @observable lastName
-    @observable imgURL
+    @observable imageURL
     @observable memberSince
     @observable isAuthorized
     @observable birthday
@@ -23,11 +23,11 @@ export class User {
     @observable pastShows = []
 
 
-    constructor(id, firstName, lastName, username, imgURL, videoURL, email, birthday, memberSince, gender, about ,userRole ,  isAuthorized,  phone) {
+    constructor(id, firstName, lastName, username, imageURL, videoURL, email, birthday, memberSince, gender, about ,userRole ,  isAuthorized,  phone) {
         this.id = id
         this.firstName = firstName
         this.lastName = lastName
-        this.imgURL = imgURL
+        this.imageURL = imageURL
         this.memberSince = memberSince
         this.isAuthorized = isAuthorized
         this.username = username
