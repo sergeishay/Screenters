@@ -24,7 +24,6 @@ const Paypal = observer(props => {
             <ReactPayPal />
           </div> 
           :<div>
-            <h1>React-PayPal</h1>
             <button onClick={() => {setCheckout(true)}} className="checkout-button">Checkout</button>
           </div>
         }

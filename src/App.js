@@ -7,8 +7,8 @@ import Loading from './components/Loading'
 import NavBar from './components/NavBar'
 import NavbarPage from './components/Navbar/Navbar'
 import Footer from './components/Footer'
-import Paypal from './components/Paypal/PaypalBtn'
 import EventPage from './views/EventPage'
+import PaypalBtn from './components/Paypal/PaypalBtn'
 import Homepage from './views/Homepage'
 import About from './views/About'
 import Profile from './views/Profile'
@@ -49,6 +49,7 @@ const App = inject('generalStore')(
         <div id='app' className='d-flex flex-column h-100'>
           <NavbarPage />
           <Switch>
+            <Route exact path='/paypal' exact render={() => <PaypalBtn />} />
             <Route exact path='/' exact render={() => <Homepage />} />
             <Route exact path='/homepage-test' render={() => <Homepage />} />
             <Route
