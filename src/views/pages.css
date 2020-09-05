@@ -13,3 +13,6 @@
 .select-wrapper span.caret {
   right: 10px;
 }
+h2 {
+  padding-left: 0 !important;
+}

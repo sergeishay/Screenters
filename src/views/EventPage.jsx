@@ -40,10 +40,17 @@ const EventPage = inject('generalStore')(
 
     const saveData = field => {
       if (field === 'title') {
-        console.log('UPDATE DATA', eventTitle)
+        store.updateEvent(store.singleEvent.id, {
+          field: 'name',
+          value: eventTitle,
+        })
       }
       if (field === 'description') {
         console.log('UPDATE DATA', eventDescription)
+        store.updateEvent(store.singleEvent.id, {
+          field: 'description',
+          value: eventDescription,
+        })
       }
     }
 
@@ -137,7 +144,7 @@ const EventPage = inject('generalStore')(
             <MDBCol>
               <MyCalendar
                 currentUser={currentUser}
-                events={formatShows(store.singleEvent.shows)}
+                shows={formatShows(store.singleEvent.shows)}
               />
             </MDBCol>
           </MDBRow>

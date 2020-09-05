@@ -18,7 +18,7 @@ export class Event {
     @observable shows = []
     @observable comments = []
     @observable rating
-    constructor(id, name, description, imageURL, videoURL, coverImgURL, price, creatorID, categoryID) {
+    constructor(id, name, description, imageURL, videoURL, coverImgURL, price, creatorID, categoryID ,  shows , rating) {
         this.id = id
         this.name = name
         this.description = description
@@ -29,14 +29,16 @@ export class Event {
         this.creatorID = creatorID
         this.categoryID = categoryID
 
+        this.shows = shows
+        this.rating = rating
         this.init()
     }
     init = async () => {
         // this.getAllEvents()
         // this.getComments()
     }
-    @action async addShow(eventId, showId) {
-        let addNewShow = await axios.post(`http://localhost:8080/api/events/${eventId}/${showId}`)
+    @action async addShow(showData) {
+        let addNewShow = await axios.post(`http://localhost:8080/api/events/` ,  showData)
     }
     @action async removeShow(eventId , showId) {
         let deleteShow = await axios.post(`http://localhost:8080/api/events/${eventId}/${showId}`)
