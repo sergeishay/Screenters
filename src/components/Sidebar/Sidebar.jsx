@@ -3,10 +3,10 @@ import { MDBContainer, MDBRow, MDBCol } from 'mdbreact'
 import { MDBTypography } from 'mdbreact'
 import Filters from '../Filters/Filters'
 
-const SideBar = () => {
+const SideBar = props => {
   return (
     <MDBContainer fluid='true'>
-      <Filters />
+      <Filters categoryFunction={props.categoryFunction} />
     </MDBContainer>
   )
 }

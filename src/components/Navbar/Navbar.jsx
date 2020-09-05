@@ -60,13 +60,6 @@ const NavbarPage = () => {
               Creators
             </MDBNavLink>
           </MDBNavItem>
-          {isAuthenticated && (
-            <MDBNavItem>
-              <MDBNavLink to='/external-api' exact>
-                External-api
-              </MDBNavLink>
-            </MDBNavItem>
-          )}
         </MDBNavbarNav>
         <MDBNavbarNav right>
           {!isAuthenticated && (

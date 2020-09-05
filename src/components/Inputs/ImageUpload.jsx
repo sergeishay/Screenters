@@ -12,16 +12,17 @@ const ImageUplaod = props => {
           className='img-fluid full-width z-depth-2'
           alt={props.alt}
         />
+
+        {props.isEdit && (
+          <MDBBtn
+            size='sm'
+            className='imageUpload-edit-btn'
+            onClick={handleEditClick}
+          >
+            Upload New Image
+          </MDBBtn>
+        )}
       </div>
-      {props.isEdit && (
-        <MDBBtn
-          size='lg'
-          className='imageUpload-edit-btn'
-          onClick={handleEditClick}
-        >
-          Upload New Image
-        </MDBBtn>
-      )}
     </>
   )
 }

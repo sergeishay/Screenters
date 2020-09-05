@@ -5,8 +5,10 @@ import { useState } from 'react'
 const MultiSelect = props => {
   const [options, setOptions] = useState(props.options)
   const setSelect = selection => {
-    setOptions(selection)
+    console.log(selection)
+    props.categoryFunction(selection)
   }
+
   return (
     <div>
       <MDBSelect
@@ -15,7 +17,7 @@ const MultiSelect = props => {
         options={options}
         selected={props.selected}
         label={props.label}
-        onChange={setSelect}
+        getValue={setSelect}
       />
     </div>
   )
