@@ -52,32 +52,33 @@ export class GeneralStore {
 
   // id, firstName, lastName, username, imgURL, videoURL, email, birthday, memberSince, gender, about ,userRole ,  isAuthorized,  phone
   @action async addUser(userData) {
-    console.log(userData.name)
-
+    console.log(userData)
     let insertUsesData = new User(
-      'fdssdfaddgfgfdsgfgfdsgfsdgdf',
+      userData,
       userData.given_name,
       userData.family_name,
+      userData.nickname,
       userData.picture,
+      null,
+      userData.email,
+      null,
       userData.updated_at,
       null,
       null,
-      'dsfsdfsdfsdffasdfasffadfa',
-      userData.email,
+      'USER',
       null,
-      null,
-      'USER'
+      null
     )
-    console.log(insertUsesData.id)
     let addUser = await axios.post(
       `http://localhost:8080/api/users`,
       insertUsesData
     )
     console.log(addUser)
+    this.getCurrentUser(addUser)
   }
 
   @action async checkUserInDataBase(user) {
-    let stupidUser = 102
+    let stupidUser = user.sub
     let checkUserInDataBase = await axios.get(
       `http://localhost:8080/api/users/${stupidUser}`
     )

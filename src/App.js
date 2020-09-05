@@ -38,10 +38,8 @@ const App = inject('generalStore')(
     }
     if (user) {
       console.log(user)
-      console.log(user.sub)
-      // props.generalStore.addUser(user)
-      // props.generalStore.checkUserInDataBase(user)
-      // props.generalStore.getCurrentUser(user.sub)
+      props.generalStore.checkUserInDataBase(user)
+
     } else {
       console.log('not')
     }
