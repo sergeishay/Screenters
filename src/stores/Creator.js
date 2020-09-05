@@ -77,8 +77,6 @@ export class Creator extends User {
       eventData
     )
     this.newEvents.push(eventData)
-    console.log(addEvent.data)
-    console.log(this.newEvents)
   }
 
   @action async deleteEvent(eventId) {

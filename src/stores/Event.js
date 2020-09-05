@@ -18,7 +18,7 @@ export class Event {
     @observable shows = []
     @observable comments = []
     @observable rating
-    constructor(id, name, description, imageURL, videoURL, coverImgURL, price, creatorID, categoryID) {
+    constructor(id, name, description, imageURL, videoURL, coverImgURL, price, creatorID, categoryID , shows , rating) {
         this.id = id
         this.name = name
         this.description = description
@@ -28,7 +28,8 @@ export class Event {
         this.price = price
         this.creatorID = creatorID
         this.categoryID = categoryID
-
+        this.shows = shows
+        this.rating = rating
         this.init()
     }
     init = async () => {

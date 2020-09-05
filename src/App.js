@@ -9,6 +9,7 @@ import NavbarPage from './components/Navbar/Navbar'
 import Footer from './components/Footer'
 import EventPage from './views/EventPage'
 import Homepage from './views/Homepage'
+import About from './views/About'
 import Profile from './views/Profile'
 import ExternalApi from './views/ExternalApi'
 import { useAuth0 } from '@auth0/auth0-react'
@@ -55,6 +56,7 @@ const App = inject('generalStore')(
               render={({ match }) => <BroadcastRoom match={match} />}
             />
             <Route exact path='/profile' component={Profile} />
+            <Route exact path='/about' component={About} />
             <Route exact path='/external-api' component={ExternalApi} />
             <Route
               exact
