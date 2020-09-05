@@ -15,8 +15,8 @@ export class Creator extends User {
     // @observable eventData = {categoryID: 1, coverImgURL: "https://img.wcdn.co.il/f_auto,w_1200,t_54/9/0/0/8/900829-46.jpg", creatorID: "facebook%7C3768160376546114",  description: "ajsdhasd", hashtags: [], id: 3,   imageURL: "http://dummyimage.com/206x164.jpg/dddddd/000000", name: "AssiCohenShauliShow", price: 180, shows :[], videoURL: "http://dummyimage.com/206x164.jpg/dddddd/000000" }
     constructor(id, firstName, lastName, username, imgURL, videoURL, email, birthday, memberSince, gender, about ,userRole ,  isAuthorized,  phone) {
         super(id, firstName, lastName, username, imgURL, videoURL, email, birthday, memberSince, gender, about ,userRole ,  isAuthorized,  phone)
-        this.creatorID = creatorID
-        this.rating = rating
+        // this.creatorID = creatorID
+        // this.rating = rating
         
         this.eventData = {categoryID: 1, coverImgURL: "https://img.wcdn.co.il/f_auto,w_1200,t_54/9/0/0/8/900829-46.jpg", creatorID: "facebook%7C3768160376546114",  description: "ajsdhasd", hashtags: [], id: null ,   imageURL: "http://dummyimage.com/206x164.jpg/dddddd/000000", name: "aq", price: 180 , videoURL: "http://dummyimage.com/206x164.jpg/dddddd/000000" }
 
