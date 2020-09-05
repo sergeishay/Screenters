@@ -1,30 +1,69 @@
-import React, { Fragment, useState } from 'react'
-import { MDBContainer, MDBRow, MDBCol, MDBTypography } from 'mdbreact'
+import React, { useEffect } from 'react'
+import { MDBContainer, MDBRow, MDBCol, MDBTypography, MDBInput } from 'mdbreact'
 import { inject, observer } from 'mobx-react'
+import MyCalendar from '../components/Calendar/Calendar'
+import SwitchField from '../components/Inputs/SwitchField'
+import ImageUplaod from '../components/Inputs/ImageUpload'
+
 import './pages.css'
-import { useEffect } from 'react'
-// import Calendar from '../components/Calendar/Calendar'
+import { useRef } from 'react'
+import { useState } from 'react'
+
+const formatShows = shows => {
+  return shows.map(show => ({
+    id: show.id,
+    title: 'my event',
+    start: show.startTime,
+    end: show.endTime,
+  }))
+}
+
+const isEventCreator = (user, eventID) => {
+  if (!user.userRole === 'CREATOR') return false
+}
 
 const EventPage = inject('generalStore')(
   observer(props => {
     const store = props.generalStore
     const eventID = props.match.params.id
 
+    const [eventTitle, setEventTitle] = useState('')
+    const [eventDescription, setEventDescription] = useState('')
+
+    const currentUser = {
+      userID: 1,
+      userRole: 'USER',
+      username: 'Chikoom',
+      futureShows: [],
+      pastShows: [],
+    }
+
+    const saveData = field => {
+      if (field === 'title') {
+        console.log('UPDATE DATA', eventTitle)
+      }
+      if (field === 'description') {
+        console.log('UPDATE DATA', eventDescription)
+      }
+    }
+
     useEffect(() => {
       const getEvent = async () => {
         await store.getEventById(eventID)
-        console.log('EVENT', store.singleEvent)
+        setEventTitle(store.singleEvent.name)
+        setEventDescription(store.singleEvent.description)
       }
       getEvent()
     }, [])
+
     return (
       <>
-        <img
+        <ImageUplaod
           src={store.singleEvent.coverImgURL}
-          className='img-fluid full-width'
           alt={store.singleEvent.name}
+          isEdit={true}
         />
-        <p></p>
+        <div className='spacer'>&nbsp;</div>
         <MDBContainer>
           <MDBRow>
             <MDBCol md='4'>
@@ -35,26 +74,85 @@ const EventPage = inject('generalStore')(
               />
             </MDBCol>
             <MDBCol md='8'>
-              <MDBTypography tag='h2' variant='h2-responsive'>
-                {store.singleEvent.name}
-              </MDBTypography>
+              {/*  EVENT NAME  */}
+              <SwitchField
+                showComponent={
+                  <MDBTypography
+                    className='inline'
+                    tag='h2'
+                    variant='h2-responsive'
+                  >
+                    <strong>{store.singleEvent.name}</strong>
+                  </MDBTypography>
+                }
+                editComponent={
+                  <MDBInput
+                    group={false}
+                    className='input-small'
+                    size='sm'
+                    label='Edit event name'
+                    getValue={value => setEventTitle(value)}
+                    value={eventTitle}
+                  />
+                }
+                updateFunction={saveData}
+                fieldToUpdate='title'
+                isActive={true}
+              />
+
               <MDBTypography tag='h3' variant='h3-responsive'>
                 {store.singleEvent.creatorID}
               </MDBTypography>
-              <p>{store.singleEvent.description}</p>
+
+              {/* EVENT DESCRIPTION  */}
+              <SwitchField
+                showComponent={<p>{store.singleEvent.description}</p>}
+                editComponent={
+                  <MDBInput
+                    type='textarea'
+                    label='Edit event description'
+                    rows='5'
+                    getValue={value => setEventDescription(value)}
+                    value={eventDescription}
+                  />
+                }
+                updateFunction={saveData}
+                fieldToUpdate='description'
+                isActive={true}
+              />
             </MDBCol>
           </MDBRow>
         </MDBContainer>
+        <div className='spacer'>&nbsp;</div>
+
         <MDBContainer>
           <MDBRow>
             <MDBCol>
               <MDBTypography tag='h3' variant='h3-responsive'>
-                UPCOMING SHOWS:
+                UPCOMING SCREENINGS:
               </MDBTypography>
             </MDBCol>
           </MDBRow>
           <MDBRow>
-            <MDBCol>{/* <Calendar /> */}</MDBCol>
+            <MDBCol>
+              <MyCalendar
+                currentUser={currentUser}
+                events={formatShows(store.singleEvent.shows)}
+              />
+            </MDBCol>
+          </MDBRow>
+        </MDBContainer>
+        <div className='spacer'>&nbsp;</div>
+        <MDBContainer>
+          <MDBRow>
+            <MDBCol>
+              <MDBTypography tag='h3' variant='h3-responsive'>
+                MORE EVENTS BY :
+              </MDBTypography>
+            </MDBCol>
+          </MDBRow>
+          <MDBRow>
+            <MDBCol></MDBCol>
           </MDBRow>
         </MDBContainer>
       </>

@@ -12,7 +12,8 @@ import Homepage from './views/Homepage'
 import Profile from './views/Profile'
 import ExternalApi from './views/ExternalApi'
 import { useAuth0 } from '@auth0/auth0-react'
-import history from './utils/history'
+import history from './utils/history';
+import Creator from './views/Creator'
 
 // styles
 import './App.css'
@@ -26,6 +27,49 @@ initFontAwesome()
 const App = inject('generalStore')(
   observer(props => {
     const { isLoading, error, user } = useAuth0()
+
+    if (error) {
+      return <div>Oops... {error.message}</div>
+    }
+
+    if (isLoading) {
+      return <Loading />
+    }
+    if(user){
+      console.log(user)
+      console.log(user.sub)
+      // props.generalStore.addUser(user)
+      // props.generalStore.checkUserInDataBase(user)
+      // props.generalStore.getCurrentUser(user.sub)
+    }else{
+      console.log("not")
+    }
+  return (
+    <Router history={history}>
+      <div id='app' className='d-flex flex-column h-100'>
+        <NavbarPage />
+        <Switch>
+          <Route exact path='/' exact render={() => <Homepage />} />
+          <Route exact path='/homepage-test' render={() => <Homepage />} />
+          <Route
+            exact
+            path='/broadcast-room/:roomId'
+            render={({ match }) => <BroadcastRoom match={match} />}
+          />
+          <Route exact path='/profile' component={Profile} />
+          <Route exact path='/external-api' component={ExternalApi} />
+          <Route
+            exact
+            path='/event/:id'
+            render={({ match }) => <EventPage match={match} />}
+          />
+           <Route path='/creator/:id' component={({match}) => <Creator match={match}/>} />
+        </Switch>
+        <Footer />
+      </div>
+    </Router>
+  )
+}
 
     if (error) {
       return <div>Oops... {error.message}</div>
