@@ -50,7 +50,7 @@ export class GeneralStore {
     @action async addUser(userData) {
         console.log(userData.name)
 
-        let insertUsesData = new User("fdssdfaddgfgfdsgfgfdsgfsdgdf", userData.given_name , userData.family_name , userData.picture , userData.updated_at , null ,null , "dsfsdfsdfsdffasdfasffadfa", userData.email , null ,null , "USER")
+        let insertUsesData = new User("fdssdfaddgfgfdsgfgfdsgfsdgdf", userData.given_name , userData.family_name ,userData.nickname, userData.picture , null ,  userData.email , null ,  userData.updated_at , null ,null ,"USER", null ,null )
         console.log(insertUsesData.id)
         let addUser = await axios.post(`http://localhost:8080/api/users` ,insertUsesData)
         console.log(addUser)

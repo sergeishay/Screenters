@@ -11,7 +11,7 @@ export class Events {
         this.init()
     }
     init = async () => {
-        // this.getAllEvents()
+        // this.getAllEvents()git 
     }
     @action async getAllEvents() {
         let getData = await axios.get("http://localhost:8080/api/events")
