@@ -40,19 +40,18 @@ const EventPage = inject('generalStore')(
 
     const saveData = field => {
       if (field === 'title') {
-        const eventData = {
-          field: 'title',
+       
+        store.updateEvent(store.singleEvent.id, {
+          field: 'name',
           value: eventTitle,
-        }
-        store.updateEvent(store.singleEvent.id, eventData)
+        })
       }
       if (field === 'description') {
         console.log('UPDATE DATA', eventDescription)
-        const eventData = {
+        store.updateEvent(store.singleEvent.id, {
           field: 'description',
-          value: eventTitle,
-        }
-        store.updateEvent(store.singleEvent.id, eventData)
+          value: eventDescription,
+        })
       }
     }
 

@@ -27,6 +27,7 @@ export class Events {
                 }
             }, 0)
             const avgRating = (counter == 0) ? 5 : rating / counter
+            console.log(d.categoryID)
             this.listOfEvents.push(new Event(d.id, d.name, d.description, d.imageURL, d.videoURL, d.coverImgURL, d.price, d.creatorID, d.categoryID,  d.shows, avgRating))
 
         }

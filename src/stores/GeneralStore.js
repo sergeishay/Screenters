@@ -15,7 +15,7 @@ export class GeneralStore {
     @observable singleEvent = {
         shows: [],
     }
-    
+
     constructor(listOfEvents) {
         // const { user } = useAuth0()
         // let context = Auth0Context
@@ -97,18 +97,21 @@ export class GeneralStore {
         this.newEvents.find(deleteId => deleteId.eventID)
     }
     @action async updateEvent(eventId, eventData) {
-        this.singleEvent = eventData;
+        console.log(eventData)
 
         let updateEvent = await axios.put(`http://localhost:8080/api/events/${eventId}`, eventData)
-        if (updateEvent) {
+        console.log(updateEvent)
+        if (updateEvent.data) {
             let key = eventData.field
             console.log(key)
             let value = eventData.value
+            this.singleEvent[key] = value;
+            console.log(this.singleEvent)
             let toUpdate = this.listOfEvents.listOfEvents.findIndex(eventUpdate => eventUpdate.id === eventId)
             console.log(toUpdate)
             this.listOfEvents.listOfEvents[toUpdate][key] = value
             console.log(this.listOfEvents.listOfEvents)
-        }else{
+        } else { 
             console.log("error")
         }
     }
