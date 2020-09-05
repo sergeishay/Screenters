@@ -17,7 +17,19 @@ export class Events {
         let getData = await axios.get("http://localhost:8080/api/events")
         // console.log(getData.data)
         for(let d of getData.data){
-            this.listOfEvents.push(new Event(d.id, d.name, d.description, d.imageURL, d.videoURL, d.coverImgURL, d.price, d.categoryID,d.creatorID))
+            let counter = 0 ;
+            const rating = d.shows.reduce((total , item)=> {
+                if(item.rating){
+                    counter++
+                    return total+item.rating
+                }else{
+                    return total 
+                }
+            } , 0)
+            const avgRating = (counter == 0 )? 5 : rating/counter
+            // id, name, description, imageURL, videoURL, coverImgURL, price, creatorID, categoryID , shows , rating
+            this.listOfEvents.push(new Event(d.id, d.name, d.description, d.imageURL, d.videoURL, d.coverImgURL, d.price, d.categoryID,d.creatorID , d.shows , avgRating))
+
         }
         // console.log(this.listOfEvents)
     }
