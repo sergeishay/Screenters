@@ -54,11 +54,11 @@ export class GeneralStore {
     @action async addUser(userData) {
 
 
-        console.log(userData)
+        console.log(userData.sub)
         let insertUsesData = new User(
-            userData,
-            userData.given_name,
-            userData.family_name,
+            userData.sub,
+            userData.given_name || null,
+            userData.family_name || null,
             userData.nickname,
             userData.picture,
             null,
