@@ -2,34 +2,30 @@ import { observable, action, computed, get } from 'mobx'
 import { Event } from './Event'
 import axios from 'axios'
 export class Events {
-  @observable listOfEvents = []
-  @observable creators = []
-  @observable hashtags = []
-  @observable categories = []
-  constructor() {
-    this.init()
-  }
-  init = async () => {
-    this.getAllEvents()
-  }
-  @action async getAllEvents() {
-    let getData = await axios.get('http://localhost:8080/api/events')
-    // getData = getData.event
-    console.log(getData.data)
-    for (let d of getData.data) {
-      this.listOfEvents.push(
-        new Event(
-          d.event.id,
-          d.event.name,
-          d.event.description,
-          d.event.imageURL,
-          d.event.videoURL,
-          d.event.coverImgURL,
-          d.event.price,
-          d.event.categoryID,
-          d.event.creatorID
-        )
-      )
+
+    @observable listOfEvents = [];
+    @observable creators = []
+    @observable hashtags =[]
+    @observable categories = []
+    constructor() {
+
+        this.init()
+    }
+    init = async () => {
+        this.getAllEvents()
+    }
+    @action async getAllEvents() {
+        let getData = await axios.get("http://localhost:8080/api/events")
+        // getData = getData.event
+        console.log(getData.data)
+        for(let d of getData.data){
+            this.listOfEvents.push(new Event(d.event.id, d.event.name, d.event.description, d.event.imageURL, d.event.videoURL, d.event.coverImgURL, d.event.price, d.event.categoryID,d.event.creatorID))
+        }
+        console.log(this.listOfEvents)
+    }
+ 
+    @computed get topEvents() {
+
     }
     console.log(this.listOfEvents)
   }
