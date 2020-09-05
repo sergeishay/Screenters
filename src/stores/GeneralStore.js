@@ -23,7 +23,7 @@ export class GeneralStore {
   init = async () => {
     // this.getEventById(5)
     // this.currentUser()
-    // this.gelAllCategories()
+    this.gelAllCategories()
     // this.addUser()
   }
 
