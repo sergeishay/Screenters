@@ -8,7 +8,7 @@ import { useLocation } from 'react-router-dom'
 import './BroadcastRoom.css'
 import axios from 'axios'
 const queryString = require('query-string')
-const ENDPOINT = 'http://localhost:8181'
+const ENDPOINT = 'https://2edea80c20a6.ngrok.io/:8181'
 const ID = 321
 
 const Homepage = inject('eventsStores')(
@@ -45,19 +45,25 @@ const Homepage = inject('eventsStores')(
       }
     }
 
-    const connectToNewUser = (
-      peerUserID,
-      stream,
-      peer,
-      connectedUserID,
-      otherUserStream
-    ) => {
+    const connectToNewUser = (peerUserID, stream, peer, connectedUserID) => {
       console.log('user-connected with id:', connectedUserID)
+      console.log('PEER USER ID:', peerUserID)
+
+      const streamData = { userID: currentUserID, userStream: stream.id }
+      const conn = peer.connect(peerUserID)
+      conn.on('open', function () {
+        conn.send(streamData)
+      })
 
       const call = peer.call(peerUserID, stream)
       const video = document.createElement('video')
       call.on('stream', userVideoStream => {
-        addVideoStream(video, userVideoStream, 'participants-videos')
+        console.log('STREEEEEEEEE', userVideoStream)
+        const element =
+          parseInt(creatorID) === parseInt(peerUserID)
+            ? 'main-video'
+            : 'participants-videos'
+        addVideoStream(video, userVideoStream, element)
       })
     }
 
@@ -90,7 +96,7 @@ const Homepage = inject('eventsStores')(
 
               addVideoStream(myVideoObject, stream, element)
 
-              const peer = new Peer(undefined, {
+              const peer = new Peer(currentUserID, {
                 path: '/peerjs',
                 host: '/',
                 port: '8181',
@@ -108,6 +114,13 @@ const Homepage = inject('eventsStores')(
                   )
                 }
               )
+
+              peer.on('connection', function (conn) {
+                console.log(conn)
+                conn.on('data', function (data) {
+                  console.log('DATA FROM PEER', data)
+                })
+              })
 
               peer.on('open', id => {
                 socket.emit(
@@ -127,15 +140,28 @@ const Homepage = inject('eventsStores')(
                   { video: true, audio: true },
                   function (stream) {
                     console.log('Got user media')
+
+                    // const streamData = {
+                    //   userID: currentUserID,
+                    //   userStream: stream.id,
+                    // }
+
+                    // const connection = peer.connect(conn.provider.id)
+                    // connection.on('open', function () {
+                    //   connection.send(streamData)
+                    // })
+
                     call.answer(stream) // Answer the call with an A/V stream.
                     call.on('stream', function (remoteStream) {
                       const newVideoObject = document.createElement('video')
-
-                      addVideoStream(
-                        newVideoObject,
-                        remoteStream,
-                        'participants-videos'
-                      )
+                      console.log('CALLLLL', call)
+                      console.log('parseInt(creatorID)', parseInt(creatorID))
+                      console.log('parseInt(call.peer)', parseInt(call.peer))
+                      const element =
+                        parseInt(creatorID) === parseInt(call.peer)
+                          ? 'main-video'
+                          : 'participants-videos'
+                      addVideoStream(newVideoObject, remoteStream, element)
                     })
                   },
                   function (err) {
