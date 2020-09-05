@@ -6,6 +6,7 @@ import Loading from './components/Loading'
 import NavBar from './components/NavBar'
 import NavbarPage from './components/Navbar/Navbar'
 import Footer from './components/Footer'
+import Paypal from './components/Paypal/Paypal'
 import EventPage from './views/EventPage'
 import Homepage from './views/Homepage'
 import Profile from './views/Profile'
@@ -45,6 +46,7 @@ const App = () => {
             path='/broadcast-room/:roomId'
             render={() => <BroadcastRoom />}
           />
+          <Route exact path='/paypal' component={Paypal} />
           <Route exact path='/profile' component={Profile} />
           <Route exact path='/external-api' component={ExternalApi} />
           <Route
