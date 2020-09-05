@@ -1,7 +1,5 @@
 import React, { Fragment } from 'react'
 import EventGrid from '../components/EventList/EventList'
-import Hero from '../components/Hero'
-import Content from '../components/Content'
 import SideBar from '../components/Sidebar/Sidebar'
 import JumboCarousel from '../components/Carousel/JumboCarousel'
 import { MDBContainer, MDBRow, MDBCol } from 'mdbreact'
@@ -25,7 +23,12 @@ const Homepage = inject('eventsStores')(
     }
     return (
       <Fragment>
-        <JumboCarousel buttonNavigate={navigateToEvent} data={carouselEvents} />
+        <JumboCarousel
+          className='z-depth-2'
+          buttonNavigate={navigateToEvent}
+          data={carouselEvents}
+        />
+        <div className='spacer'>&nbsp;</div>
         <MDBContainer>
           <MDBRow>
             <MDBCol md='2'>

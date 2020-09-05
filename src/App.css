@@ -37,3 +37,11 @@
 .result-block-container .result-block {
   opacity: 1;
 }
+
+.inline {
+  display: inline;
+}
+.input-small {
+  display: inline;
+  max-width: 300px;
+}

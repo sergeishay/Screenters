@@ -11,7 +11,7 @@ const AutocompletePage = props => {
       <MDBAutocomplete
         data={props.list}
         label={props.label}
-        icon='heart'
+        icon='search'
         clear
         id='input'
         getValue={logValue}
