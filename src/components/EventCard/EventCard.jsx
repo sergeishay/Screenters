@@ -31,15 +31,15 @@ const EventCard = observer(props => {
           <MDBCardText>{props.eventDetails.description}</MDBCardText>
           {(props.isEdit && <MDBBtn onClick={handleDetailsClick}>EDIT</MDBBtn>) || (
             <>
-              <button type='button' className='btn btn-default btn-sm'>
+              {/* <button type='button' className='btn btn-default btn-sm'>
                 BOOK
-              </button>
+              </button> */}
               <button
                 type='button'
-                className='btn btn-primary btn-sm'
+                className='btn btn-default '
                 onClick={handleDetailsClick}
               >
-                DETAILS
+                BOOK SCREEN
               </button>
             </>
           )}
