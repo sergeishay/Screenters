@@ -11,14 +11,13 @@ export class Events {
         this.init()
     }
     init = async () => {
-        this.getAllEvents()
+        // this.getAllEvents()
     }
     @action async getAllEvents() {
         let getData = await axios.get("http://localhost:8080/api/events")
-        // getData = getData.event
         console.log(getData.data)
         for(let d of getData.data){
-            this.listOfEvents.push(new Event(d.event.id, d.name, d.event.description, d.event.imageURL, d.event.videoURL, d.event.coverImgURL, d.event.price, d.event.categoryID,d.event.creatorID))
+            this.listOfEvents.push(new Event(d.id, d.name, d.description, d.imageURL, d.videoURL, d.coverImgURL, d.price, d.categoryID,d.creatorID))
         }
         console.log(this.listOfEvents)
     }
