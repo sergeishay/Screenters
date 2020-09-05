@@ -38,10 +38,10 @@ const App = inject('generalStore')(
     }
     if (user) {
       console.log(user)
-      props.generalStore.checkUserInDataBase(user)
+      // props.generalStore.checkUserInDataBase(user)
 
     } else {
-      console.log('not')
+      console.log('no user')
     }
     return (
       <Router history={history}>

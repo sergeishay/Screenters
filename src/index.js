@@ -23,7 +23,7 @@ const onRedirectCallback = (appState) => {
 };
 
 const eventsStores = new Events()
-const generalStore = new GeneralStore()
+const generalStore = new GeneralStore(eventsStores)
 const userStore = new User()
 const creatorStore = new Creator()
 const stores =  {eventsStores , creatorStore , userStore ,generalStore}
