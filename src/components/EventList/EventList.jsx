@@ -25,6 +25,8 @@ const EventGrid = inject('eventsStores')(
       console.log('SORT', attr)
     }
 
+    // https://www.smashingmagazine.com/2020/03/infinite-scroll-lazy-image-loading-react/
+
     return (
       <>
         <MDBContainer>

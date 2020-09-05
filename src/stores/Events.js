@@ -15,37 +15,18 @@ export class Events {
     }
     @action async getAllEvents() {
         let getData = await axios.get("http://localhost:8080/api/events")
-        // getData = getData.event
-        console.log(getData.data)
+        // console.log(getData.data)
         for(let d of getData.data){
             this.listOfEvents.push(new Event(d.id, d.name, d.description, d.imageURL, d.videoURL, d.coverImgURL, d.price, d.categoryID,d.creatorID))
         }
-        console.log(this.listOfEvents)
+        // console.log(this.listOfEvents)
     }
  
     @computed get topEvents() {
 
     }
-
+  
 }
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
 
 // @observable products = [];
 // @observable cart = [];
@@ -74,7 +55,7 @@ export class Events {
 //     return count
 // }
 // @computed get cartTotal(){
-//     let count = 0 ; 
+//     let count = 0 ;
 //     this.cart.forEach(c => count+= c.item.price *c.quantity)
 //     return count
 // }

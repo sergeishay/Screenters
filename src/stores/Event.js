@@ -33,6 +33,7 @@ export class Event {
     }
     init = async () => {
         // this.getAllEvents()
+        // this.getComments()
     }
     @action async addShow(eventId, showId) {
         let addNewShow = await axios.post(`http://localhost:8080/api/events/${eventId}/${showId}`)
@@ -51,9 +52,10 @@ export class Event {
 
 
 
-    @action getComments() {
-
-    }
+    // @action async getComments() {
+    //     let getComments = await axios.get(`http://localhost:8080/api/reviews/`)
+    //     console.log(getComments)
+    // }
 }
 
 
