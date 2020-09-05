@@ -17,10 +17,7 @@ const FilterCategories = inject('generalStore')(
       )
       setCategories(formatedCategories)
     }, [props.generalStore.categories])
-    const handleCheck = e => {
-      console.log(e.target.name)
-      console.log('hello')
-    }
+
     return (
       <MDBRow fluid='true'>
         <MDBCol fluid='true'>
@@ -29,7 +26,7 @@ const FilterCategories = inject('generalStore')(
               selected='Select:'
               label='Categories'
               options={categories}
-              getValue={handleCheck}
+              categoryFunction={props.categoryFunction}
             />
           )}
         </MDBCol>

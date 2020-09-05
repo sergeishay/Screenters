@@ -10,55 +10,38 @@ import './EventList.css'
 
 const selectOptions = ['Date', 'Popularity', 'Screenter']
 
-const EventGrid = inject('eventsStores')(
-  observer(props => {
-    const [eventList, setEventList] = useState(props.eventsStores.listOfEvents)
-
-    const eventNames = props.eventsStores.listOfEvents.map(event => event.name)
-    const filterEvents = query => {
-      const filteredEvents = props.eventsStores.listOfEvents.filter(event =>
-        event.name.includes(query)
-      )
-      setEventList(filteredEvents)
-    }
-    const sortEvents = attr => {
-      console.log('SORT', attr)
-    }
-
-    // https://www.smashingmagazine.com/2020/03/infinite-scroll-lazy-image-loading-react/
-
-    return (
-      <>
-        <MDBContainer>
-          <MDBRow>
-            <MDBCol className='align-middle' lg='8'>
-              <AutoComplete
-                list={eventNames}
-                label={'Search event'}
-                filterFunction={filterEvents}
-              />
+const EventGrid = props => {
+  return (
+    <>
+      <MDBContainer>
+        <MDBRow>
+          <MDBCol className='align-middle' lg='8'>
+            <AutoComplete
+              list={props.eventNames}
+              label={'Search event'}
+              filterFunction={props.searchFunction}
+            />
+          </MDBCol>
+          <MDBCol className='align-middle' lg='4'>
+            <DropdownSelect
+              label='Sort by'
+              optionList={selectOptions}
+              function={props.sortEvents}
+            />
+          </MDBCol>
+        </MDBRow>
+      </MDBContainer>
+      <MDBContainer>
+        <MDBRow>
+          {props.eventList.map(event => (
+            <MDBCol lg='4' md='6'>
+              <EventCard isEdit={false} eventDetails={event} />
             </MDBCol>
-            <MDBCol className='align-middle' lg='4'>
-              <DropdownSelect
-                label='Sort by'
-                optionList={selectOptions}
-                function={sortEvents}
-              />
-            </MDBCol>
-          </MDBRow>
-        </MDBContainer>
-        <MDBContainer>
-          <MDBRow>
-            {eventList.map(event => (
-              <MDBCol lg='4' md='6'>
-                <EventCard isEdit={false} eventDetails={event} />
-              </MDBCol>
-            ))}
-          </MDBRow>
-        </MDBContainer>
-      </>
-    )
-  })
-)
+          ))}
+        </MDBRow>
+      </MDBContainer>
+    </>
+  )
+}
 
 export default EventGrid

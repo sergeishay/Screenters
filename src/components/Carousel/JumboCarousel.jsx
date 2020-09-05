@@ -56,12 +56,12 @@ const JumboCarousel = props => {
   }
 
   const slides = props.data.map(item => {
-    console.log(item)
+    // console.log(item)
     return (
       <CarouselItem
         onExiting={() => setAnimating(true)}
         onExited={() => setAnimating(false)}
-        key={item.image}
+        key={item.id}
       >
         <img src={item.image} alt={item.header} />
         <CarouselCaption
