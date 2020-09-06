@@ -11,7 +11,7 @@ import { useState } from 'react'
 import TimePickerPage from './TimePicker'
 import { inject } from 'mobx-react'
 
-const CreateShowModal = inject('eventsStores')(props => {
+const CreateShowModal = inject('generalStore')(props => {
   const [isOpen, setIsOpen] = useState(true)
   const [startTime, setStartTime] = useState(null)
   const [endTime, setEndTime] = useState(null)
@@ -37,7 +37,7 @@ const CreateShowModal = inject('eventsStores')(props => {
     if (endDate > startDate) {
       console.log('START', startDate)
       console.log('END', endDate)
-      props.eventsStores.addShow({
+      props.generalStore.addShow({
         startTime: startDate,
         endTime: endDate,
         showEventID: props.currentEvent.id,

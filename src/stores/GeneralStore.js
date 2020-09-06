@@ -56,19 +56,19 @@ export class GeneralStore {
         console.log(showData)
         let addNewShow = await axios.post(`http://localhost:8080/api/events/show`, showData)
         console.log(addNewShow)
-        this.singleEvent.shows.push(addNewShow)
+        this.singleEvent.shows.push(addNewShow.data)
     }
 
     @action async deleteShow(showId, eventId) {
         let deleteShow = await axios.delete(`http://localhost:8080/api/events?showId=${showId}`)
         console.log(deleteShow)
         if (deleteShow) {
-            const indexHolder = this.singleEvent.findIndex(event => event.id === eventId)
-            console.log(indexHolder)
-            let deleteShowFromEvent = this.listOfEvents[indexHolder].shows.findIndex(show => show.id === showId)
-            console.log(deleteShowFromEvent)
-            let deleteTheShow = this.listOfEvents[indexHolder].shows.splice(deleteShowFromEvent, 1)
-            console.log(this.listOfEvents[indexHolder].shows)
+            
+            let deleteShowIndex= this.singleEvent.shows.findIndex(show => show.id === showId)
+            
+            console.log(deleteShowIndex)
+            let deleteTheShow = this.singleEvent.shows.splice(deleteShowIndex, 1)
+            
             console.log(deleteTheShow)
         } else {
             console.log("error")

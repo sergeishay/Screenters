@@ -10,14 +10,15 @@ import {
 import { useState } from 'react'
 import { inject } from 'mobx-react'
 
-const BookModal = inject('eventsStores')(props => {
+const BookModal = inject('generalStore')(props => {
   const [isOpen, setIsOpen] = useState(true)
   const toggle = () => {
     setIsOpen(!isOpen)
     props.toggleModal()
   }
   const deleteShow = () => {
-    props.eventsStores.deleteShow(props.show.id, props.currentEvent.id)
+    props.generalStore.deleteShow(props.show.id, props.currentEvent.id)
+    setIsOpen(false)
   }
   const userEditor = props.userEditor
   console.log('isUserEditorisUserEditorisUserEditor', props.currentEvent)
