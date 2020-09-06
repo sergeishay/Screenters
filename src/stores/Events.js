@@ -57,7 +57,6 @@ export class Events {
         } else {
             console.log("error")
         }
-
     }
     @action async deleteShow(showId, eventId) {
         let deleteShow = await axios.delete(`http://localhost:8080/api/events?showId=${showId}`)
