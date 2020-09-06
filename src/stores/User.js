@@ -4,46 +4,76 @@ import { Show } from './Show'
 
 
 
-export class User{
-    @observable userID 
-    @observable firstName 
-    @observable lastName 
-    @observable imgUrl
+export class User {
+    @observable id
+    @observable firstName
+    @observable lastName
+    @observable imageURL
     @observable memberSince
     @observable isAuthorized
-    @observable role
-    @observable futureShows =[]
-    @observable pastShows =[]
+    @observable birthday
+    @observable username
+    @observable email
+    @observable phone
+    @observable gender
+    @observable userRole
+    @observable videoURL
+    @observable about
+    // @observable futureShows = []
+    // @observable pastShows = []
 
-    
-    constructor(userID , firstName ,lastName ,imgUrl ,memberSince , isAuthorized) {
-        this.userID = userID
+
+    constructor(id, firstName, lastName, username, imageURL, videoURL, email, birthday, memberSince, gender, about ,userRole ,  isAuthorized,  phone) {
+        this.id = id
         this.firstName = firstName
         this.lastName = lastName
-        this.imgUrl = imgUrl
+        this.imageURL = imageURL
         this.memberSince = memberSince
-        this.isAuthorized = isAuthorized 
-    }
-    @action makeYourSelfCreator(){
+        this.isAuthorized = isAuthorized
+        this.username = username
+        this.email = email
+        this.phone = phone
+        this.gender = gender
+        this.userRole = userRole
+        this.birthday = birthday
+        this.videoURL = videoURL
+        this.about = about
 
     }
-    @action async deleteUser(userId){
+    init = async () => {
+        // this.getCreators()
+        // this.addUser(this.eventData)
+        // this.addNewEvent(this.userData)
+    }
+
+
+
+    @action async addUser(userData) {
+
+        let addUser = await axios.post(`http://localhost:8080/api/users`)
+    }
+
+
+    @action makeYourSelfCreator() {
+
+    }
+    @action async deleteUser(userId) {
         let deleteUser = await axios.delete(`http://localhost:8080/api/users/${userId}`)
     }
-    @action async updateUser(userId){
+    @action async updateUser(userId) {
         let updateUser = await axios.put(`http://localhost:8080/api/users/${userId}`)
     }
-    @action async bookShow(eventId  , showId){
-        let book = new Show(eventId , showId)
-        let bookShow = await axios.post(`http://localhost:8080/api/users/show` , {book})
+    @action async bookShow(eventId, showId) {
+        let book = new Show(eventId, showId)
+        let bookShow = await axios.post(`http://localhost:8080/api/users/show`, { book })
         this.futureShows.push(book)
 
     }
-    
-    @action cancelShow(showId){
+
+    @action cancelShow(showId) {
         // let cancelShow = this.futureShows.find(s =>  )
     }
-    
 
-    
+
+
 }

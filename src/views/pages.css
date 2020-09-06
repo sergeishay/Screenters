@@ -2,3 +2,17 @@
   width: 100%;
   object-fit: cover;
 }
+.spacer {
+  margin-top: 50px;
+  display: block;
+}
+.md-form > label,
+.select-wrapper > label.mdb-main-label {
+  overflow: visible;
+}
+.select-wrapper span.caret {
+  right: 10px;
+}
+h2 {
+  padding-left: 0 !important;
+}

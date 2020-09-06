@@ -4,7 +4,7 @@ import axios from 'axios'
 export class Events {
     @observable listOfEvents = [];
     @observable creators = []
-    @observable hashtags =[]
+    @observable hashtags = []
     @observable categories = []
     constructor() {
 
@@ -15,37 +15,30 @@ export class Events {
     }
     @action async getAllEvents() {
         let getData = await axios.get("http://localhost:8080/api/events")
-        // getData = getData.event
-        console.log(getData.data)
-        for(let d of getData.data){
-            this.listOfEvents.push(new Event(d.event.id, d.event.name, d.event.description, d.event.imageURL, d.event.videoURL, d.event.coverImgURL, d.event.price, d.event.categoryID,d.event.creatorID))
+        // console.log(getData.data)
+        for (let d of getData.data) {
+            let counter = 0;
+            const rating = d.shows.reduce((total, item) => {
+                if (item.rating) {
+                    counter++
+                    return total + item.rating
+                } else {
+                    return total
+                }
+            }, 0)
+            const avgRating = (counter == 0) ? 5 : rating / counter
+
+            this.listOfEvents.push(new Event(d.id, d.name, d.description, d.imageURL, d.videoURL, d.coverImgURL, d.price, d.creatorID, d.categoryID,  d.shows, avgRating))
+
         }
-        console.log(this.listOfEvents)
+
     }
- 
+
     @computed get topEvents() {
 
     }
 
 }
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
 
 // @observable products = [];
 // @observable cart = [];
@@ -74,7 +67,7 @@ export class Events {
 //     return count
 // }
 // @computed get cartTotal(){
-//     let count = 0 ; 
+//     let count = 0 ;
 //     this.cart.forEach(c => count+= c.item.price *c.quantity)
 //     return count
 // }
