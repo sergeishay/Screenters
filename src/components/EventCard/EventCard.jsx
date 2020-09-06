@@ -32,6 +32,7 @@ const EventCard = observer(props => {
         <MDBCardBody>
           <Rating rating={5} />
           <MDBCardTitle>{props.eventDetails.name}</MDBCardTitle>
+          <MDBCardText>{props.eventDetails.categoryName}</MDBCardText>
           <MDBCardText>{props.eventDetails.description}</MDBCardText>
           {(props.isEdit && (
             <MDBBtn onClick={handleDetailsClick}>EDIT</MDBBtn>

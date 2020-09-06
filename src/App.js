@@ -13,8 +13,8 @@ import About from './views/About'
 import Profile from './views/Profile'
 import ExternalApi from './views/ExternalApi'
 import { useAuth0 } from '@auth0/auth0-react'
-import history from './utils/history';
-import Creator from './views/Creator';
+import history from './utils/history'
+import Creator from './views/Creator'
 import User from './views/User'
 
 // styles
@@ -39,7 +39,6 @@ const App = inject('generalStore')(
     if (user) {
       console.log(user)
       props.generalStore.checkUserInDataBase(user)
-
     } else {
       console.log('no user')
     }
@@ -49,12 +48,9 @@ const App = inject('generalStore')(
           <NavbarPage />
           <Switch>
             <Route exact path='/' exact render={() => <Homepage />} />
-            <Route exact path='/homepage-test' render={() => <Homepage />} />
-            <Route
-              exact
-              path='/broadcast-room/:roomId'
-              render={() => <BroadcastRoom />}
-            />
+
+            <Route exact path='/about' render={() => <About />} />
+
             <Route exact path='/profile' component={Profile} />
             <Route exact path='/external-api' component={ExternalApi} />
             <Route
@@ -62,8 +58,20 @@ const App = inject('generalStore')(
               path='/event/:id'
               render={({ match }) => <EventPage match={match} />}
             />
-            <Route path='/creator/:id' component={({ match }) => <Creator match={match} />} />
-            <Route path='/user/:id' component={({ match }) => <User match={match} />} />
+            
+            <Route
+              exact
+              path='/broadcast-room/:roomId'
+              render={({ match }) => <BroadcastRoom match={match} />}
+            />
+            <Route
+              path='/creator/:id'
+              render={({ match }) => <Creator match={match} />}
+            />
+            <Route
+              path='/user/:id'
+              render={({ match }) => <User match={match} />}
+            />
           </Switch>
           <Footer />
         </div>
