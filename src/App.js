@@ -47,9 +47,10 @@ const App = () => {
           <Route
             exact
             path='/broadcast-room/:roomId'
-            render={() => <BroadcastRoom />}
+            render={({match}) => <BroadcastRoom match={match}/>}
           />
           <Route exact path='/profile' component={Profile} />
+          <Route exact path='/about' component={About} />
           <Route exact path='/external-api' component={ExternalApi} />
           <Route
             exact

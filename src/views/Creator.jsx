@@ -7,20 +7,21 @@ import { useAuth0 } from '@auth0/auth0-react';
 import CreatorEventList from '../components/CreatorEventList';
 import Review from '../components/Reviews/Review'
 
-const Creator = inject('creatorStore')(
+const Creator = inject('generalStore')(
   observer(props => {
-    const { user } = useAuth0()
-    const [isOwner, setIsOwner] = useState(false)
+    const { user } = useAuth0();
+    const [isOwner, setIsOwner] = useState(false);
+    const [creator, setCreator] = useState(null)
 
     useEffect(() => {
       const getProfile = async () => {
         if (unescape(props.match.params.id) === unescape(user.sub)) {
           setIsOwner(true)
         }
-        // props.creatorStore.getCreatorById(props.match.params.id)
+        setCreator(props.generalStore.getCreatorById(props.match.params.id))
       }
       getProfile();
-    }, [])
+    }, [creator])
 
     const changeImage = newUrl => {
       props.creatorStore.updateCreator({field: "imageURL", value: newUrl})
@@ -34,9 +35,9 @@ const Creator = inject('creatorStore')(
             <ProfileImage
               isOwner={isOwner}
               changeImage={changeImage}
-              profile={props.creatorStore}
+              profile={creator}
             />
-            <CreatorBackground creator={props.creatorStore} />
+            <CreatorBackground creator={creator} />
           </MDBRow>
           <MDBRow className='mt-0'>
             <MDBTypography variant="h2" tag='h2'>Events:</MDBTypography>
