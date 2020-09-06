@@ -19,8 +19,8 @@ export class User {
     @observable userRole
     @observable videoURL
     @observable about
-    @observable futureShows = []
-    @observable pastShows = []
+    // @observable futureShows = []
+    // @observable pastShows = []
 
 
     constructor(id, firstName, lastName, username, imageURL, videoURL, email, birthday, memberSince, gender, about ,userRole ,  isAuthorized,  phone) {
@@ -38,23 +38,7 @@ export class User {
         this.birthday = birthday
         this.videoURL = videoURL
         this.about = about
-        this.userData = {
-            about: null,
-            birthday: null,
-            email: "traubenheimer5@wiley.com",
-            firstName: "Theodoric",
-            gender: "Male",
-            id: "10",
-            imageURL: "http://dummyimage.com/185x104.jpg/dddddd/000000",
-            isAuthorized: null,
-            lastName: "Raubenheimer",
-            memberSince: "2020-09-01T17:01:28.000Z",
-            phone: null,
-            userRole: "USER",
-            username: "traubenheimer5",
-            videoURL: null,
-        }
-        this.init()
+
     }
     init = async () => {
         // this.getCreators()
