@@ -8,19 +8,21 @@ import {
   MDBModalFooter,
 } from 'mdbreact'
 import { useState } from 'react'
+import { inject } from 'mobx-react'
 
-const BookModal = props => {
+const BookModal = inject('eventsStores')(props => {
   const [isOpen, setIsOpen] = useState(true)
   const toggle = () => {
     setIsOpen(!isOpen)
     props.toggleModal()
   }
-  console.log('props.currentUser.userRole', props.currentUser.userRole)
+  const deleteShow = () => {
+    props.eventsStores.deleteShow(props.show.id, props.currentEvent.id)
+  }
+  const userEditor = props.userEditor
+  console.log('isUserEditorisUserEditorisUserEditor', props.currentEvent)
   return (
     <MDBContainer>
-      <MDBBtn color='primary' onClick={toggle}>
-        MDBModal
-      </MDBBtn>
       <MDBModal isOpen={isOpen} toggle={toggle} centered>
         <MDBModalHeader toggle={toggle}>{props.show.title}</MDBModalHeader>
         <MDBModalBody>
@@ -30,14 +32,16 @@ const BookModal = props => {
           <p>user id: {props.currentUser.userID}</p>
         </MDBModalBody>
         <MDBModalFooter>
-          {(true && <MDBBtn color='primary'>BOOK NOW</MDBBtn>) || (
-            <MDBBtn color='danger'>DELETE</MDBBtn>
-          )}
+          {(userEditor && (
+            <MDBBtn onClick={deleteShow} color='danger'>
+              DELETE
+            </MDBBtn>
+          )) || <MDBBtn color='primary'>BOOK NOW</MDBBtn>}
         </MDBModalFooter>
       </MDBModal>
     </MDBContainer>
   )
-}
+})
 
 const formatDate = date => {
   const days = [

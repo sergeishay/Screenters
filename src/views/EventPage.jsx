@@ -40,17 +40,19 @@ const EventPage = inject('generalStore')(
     const [eventDescription, setEventDescription] = useState('')
     const [eventCategory, setEventCategory] = useState('')
     const [eventPrice, setEventPrice] = useState('')
+    const [creatorDetalis, setCreatorDetalis] = useState({})
 
     let theEventRating = 0
-
     let selectedCategory = null
 
     const currentUser = store.currentUser
-    console.log('currentUser', store)
-    console.log('currenteVENT', store.singleEvent)
+    console.log('EVENT CURRENT USER', currentUser)
+    console.log('EVENT CURRENT EVENT', store.singleEvent)
+
+    const userEditor =
+      currentUser.id == store.singleEvent.creatorID ? true : false
 
     const calculateRating = shows => {
-      console.log(shows)
       if (shows.length > 0) {
         let counter = 0
         const rating = shows.reduce((total, item) => {
@@ -67,7 +69,6 @@ const EventPage = inject('generalStore')(
     }
 
     const chooseCategory = value => {
-      console.log('CHOHOSE', value)
       selectedCategory = value[0]
     }
 
@@ -79,14 +80,12 @@ const EventPage = inject('generalStore')(
         })
       }
       if (field === 'description') {
-        console.log('UPDATE DATA', eventDescription)
         store.updateEvent(store.singleEvent.id, {
           field: 'description',
           value: eventDescription,
         })
       }
       if (field === 'categoryID') {
-        console.log('UPDATE DATA', selectedCategory)
         store.updateEvent(store.singleEvent.id, {
           field: 'categoryID',
           value: selectedCategory,
@@ -123,7 +122,13 @@ const EventPage = inject('generalStore')(
         setEventCategory(eventCategory)
         setEventPrice(store.singleEvent.price)
         theEventRating = calculateRating(store.singleEvent.shows)
+        const creatorDetalis = await store.getCreatorById(
+          store.singleEvent.creatorID
+        )
+        setCreatorDetalis(creatorDetalis)
+        console.log('CCCCREATOR', creatorDetalis)
       }
+
       getEvent()
     }, [])
 
@@ -132,7 +137,7 @@ const EventPage = inject('generalStore')(
         <ImageUplaod
           src={store.singleEvent.coverImgURL}
           alt={store.singleEvent.name}
-          isEdit={true}
+          isEdit={userEditor}
           updateFunction={updateEventImage}
           field='coverImgURL'
         />
@@ -163,7 +168,7 @@ const EventPage = inject('generalStore')(
                 }
                 updateFunction={saveData}
                 fieldToUpdate='title'
-                isActive={true}
+                isActive={userEditor}
               />
 
               <MDBTypography tag='h3' variant='h3-responsive'>
@@ -188,7 +193,7 @@ const EventPage = inject('generalStore')(
                 }
                 updateFunction={saveData}
                 fieldToUpdate='description'
-                isActive={true}
+                isActive={userEditor}
               />
               <hr />
               {/* EVENT CATEGORY */}
@@ -215,7 +220,7 @@ const EventPage = inject('generalStore')(
                 }
                 updateFunction={saveData}
                 fieldToUpdate='categoryID'
-                isActive={true}
+                isActive={userEditor}
               />
               <hr />
               {/*  EVENT PRICE  */}
@@ -241,7 +246,7 @@ const EventPage = inject('generalStore')(
                 }
                 updateFunction={saveData}
                 fieldToUpdate='price'
-                isActive={true}
+                isActive={userEditor}
               />
             </MDBCol>
           </MDBRow>
@@ -264,6 +269,7 @@ const EventPage = inject('generalStore')(
                 currentEvent={store.singleEvent}
                 isEventPage={true}
                 showPrice={store.singleEvent.price}
+                userEditor={userEditor}
               />
             </MDBCol>
           </MDBRow>
