@@ -4,22 +4,19 @@ import dayGridPlugin from '@fullcalendar/daygrid'
 import interactionPlugin from '@fullcalendar/interaction'
 import BookModal from './BookEventModal'
 import CreateShowModal from './CreateShowModal'
-import { useState } from 'react'
+import { useState, useEffect } from 'react'
+import { observer } from 'mobx-react'
 
-const Calendar = props => {
+const Calendar = observer(props => {
   const [bookModalOpen, setModalOpen] = useState(false)
   const [createModalOpen, setCreateModalOpen] = useState(false)
   const [selectedShow, setSelectedShow] = useState({})
   const [selectedDate, setSelectedDate] = useState({})
 
   const { currentUser, shows, currentEvent, isEventPage } = props
-  console.log('currentEvent', currentEvent)
-  console.log('currentUser', currentUser)
-  if (
-    currentUser.userRole === 'CREATOR' &&
-    currentEvent.creatorID === currentUser.id
-  ) {
-  }
+  const [allShows, setAllShows] = useState(shows)
+
+  const userEditor = props.userEditor
 
   const handleShowClick = info => {
     console.log(info.event)
@@ -33,7 +30,7 @@ const Calendar = props => {
   }
   const handleDateClick = info => {
     console.log()
-    if (currentUser.userRole === 'CREATOR') {
+    if (userEditor) {
       console.log(info)
       setSelectedDate({
         info,
@@ -49,6 +46,9 @@ const Calendar = props => {
     setCreateModalOpen(!createModalOpen)
   }
 
+  useEffect(() => {
+    setAllShows(shows)
+  })
   return (
     <>
       {bookModalOpen && (
@@ -58,6 +58,8 @@ const Calendar = props => {
           show={selectedShow}
           currentUser={currentUser}
           showPrice={props.showPrice}
+          userEditor={userEditor}
+          currentEvent={currentEvent}
         />
       )}
       {createModalOpen && (
@@ -66,17 +68,19 @@ const Calendar = props => {
           toggleModal={toggleCreateModal}
           selectedDate={selectedDate}
           currentUser={currentUser}
+          userEditor={userEditor}
+          currentEvent={currentEvent}
         />
       )}
       <FullCalendar
         plugins={[dayGridPlugin, interactionPlugin]}
         initialView='dayGridMonth'
         weekends={true}
-        events={shows}
+        events={allShows}
         eventClick={handleShowClick}
         dateClick={handleDateClick}
       />
     </>
   )
-}
+})
 export default Calendar

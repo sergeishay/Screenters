@@ -2,8 +2,6 @@ import { observable, action, computed } from 'mobx'
 import axios from 'axios'
 import { Show } from './Show'
 
-
-
 export class User {
     @observable id
     @observable firstName
@@ -38,28 +36,24 @@ export class User {
         this.birthday = birthday
         this.videoURL = videoURL
         this.about = about
+        this.init()
 
     }
     init = async () => {
         // this.getCreators()
-        // this.addUser(this.eventData)
+        // this.some()
+        this.bookShow(10 , 90)
         // this.addNewEvent(this.userData)
     }
 
 
 
     @action async addUser(userData) {
-
         let addUser = await axios.post(`http://localhost:8080/api/users`)
     }
 
 
     @action makeYourSelfCreator() {
-
-
-
-
-
 
     }
     @action async deleteUser(userId) {
@@ -75,14 +69,17 @@ export class User {
 
     }
 
-
-
-
-
-    @action async bookShow(userID , showID){
-        let deleteShow = await axios.delete(`http://localhost:8080/api/users/show` ,{userID , showID}) 
-        console.log(deleteShow)
+    @action async some(){
+        console.log("fds")
     }
+
+
+
+    // @action async bookShow(userID , showID){
+    //     console.log("FDFDf")
+    //     let bookShowToDataBase = await axios.post(`http://localhost:8080/api/users/show` ,{userID , showID}) 
+    //     console.log(bookShowToDataBase)
+    // }
 
     @action unBookShow(showId) {
         // let unBookShow = this.futureShows.find(s =>  )
