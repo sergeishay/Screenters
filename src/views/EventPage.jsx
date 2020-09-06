@@ -30,13 +30,8 @@ const EventPage = inject('generalStore')(
     const [eventTitle, setEventTitle] = useState('')
     const [eventDescription, setEventDescription] = useState('')
 
-    const currentUser = {
-      userID: 1,
-      userRole: 'USER',
-      username: 'Chikoom',
-      futureShows: [],
-      pastShows: [],
-    }
+    const currentUser = store.currentUser
+    console.log('currentUser', currentUser)
 
     const saveData = field => {
       if (field === 'title') {
@@ -73,14 +68,7 @@ const EventPage = inject('generalStore')(
         <div className='spacer'>&nbsp;</div>
         <MDBContainer>
           <MDBRow>
-            <MDBCol md='4'>
-              <img
-                src={store.singleEvent.imageURL}
-                className='img-fluid full-width'
-                alt={store.singleEvent.name}
-              />
-            </MDBCol>
-            <MDBCol md='8'>
+            <MDBCol md='6'>
               {/*  EVENT NAME  */}
               <SwitchField
                 showComponent={
@@ -145,6 +133,8 @@ const EventPage = inject('generalStore')(
               <MyCalendar
                 currentUser={currentUser}
                 shows={formatShows(store.singleEvent.shows)}
+                currentEvent={store.singleEvent}
+                isEventPage={true}
               />
             </MDBCol>
           </MDBRow>
