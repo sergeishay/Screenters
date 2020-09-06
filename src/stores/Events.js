@@ -3,50 +3,7 @@ import { observable, action, computed, get } from 'mobx'
 import { Event } from './Event'
 import { Show } from './Show'
 import axios from 'axios'
-<<<<<<< HEAD
-export class Events {
-    @observable listOfEvents = [];
-    @observable creators = []
-    @observable hashtags = []
-    @observable categories = []
-    constructor() {
-
-        this.init()
-    }
-    init = async () => {
-        await this.getAllEvents()
-        // this.addShow({id:null , startTime:"2020-11-11T21:20:06.505Z" , endTime : "2020-11-11T21:21:06.505Z" ,showEventID: 18})
-        // this.deleteShow(170 ,3)
-
-    }
-    @action async getAllEvents() {
-        let getData = await axios.get("http://localhost:8080/api/events")
-        console.log(this.listOfEvents)
-        for (let d of getData.data) {
-            let counter = 0;
-            const rating = d.shows.reduce((total, item) => {
-                if (item.rating) {
-                    counter++
-                    return total + item.rating
-                } else {
-                    return total
-                }
-            }, 0)
-            const avgRating = (counter == 0) ? 5 : rating / counter
-
-            this.listOfEvents.push(new Event(d.id, d.name, d.description, d.imageURL, d.videoURL, d.coverImgURL, d.price, d.creatorID, d.categoryID, d.shows, avgRating))
-
-        }
-
-    }
-
-
-    //////HANDLING SHOWS
-
-
-=======
 import { v4 as uuidv4 } from 'uuid'
->>>>>>> master
 
 export class Events {
   @observable listOfEvents = []
