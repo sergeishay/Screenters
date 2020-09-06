@@ -14,7 +14,7 @@ const EventGrid = inject('eventsStores')(
         <MDBContainer>
           <MDBRow>
             <MDBCol lg='8'>
-                {props.isOwner ? <MDBBtn color="primary">Create new event</MDBBtn> : null}
+                {props.isOwner ? <MDBBtn href="/new" color="primary">Create new event</MDBBtn> : null}
             </MDBCol>
           </MDBRow>
         </MDBContainer>

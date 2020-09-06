@@ -29,7 +29,7 @@ const Creator = inject('creatorStore')(
     return (
       props.creatorStore ? 
       <React.Fragment>
-        <MDBContainer className='mt-0'>
+        <MDBContainer className='mt-3'>
           <MDBRow className='mt-0'>
             <ProfileImage
               isOwner={isOwner}
