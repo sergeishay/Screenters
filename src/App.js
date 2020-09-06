@@ -38,8 +38,7 @@ const App = inject('generalStore')(
     }
     if (user) {
       console.log(user)
-      // props.generalStore.checkUserInDataBase(user)
-
+      props.generalStore.checkUserInDataBase(user)
     } else {
       console.log('no user')
     }
