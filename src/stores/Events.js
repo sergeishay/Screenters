@@ -1,3 +1,4 @@
+
 import { observable, action, computed, get } from 'mobx'
 import { Event } from './Event'
 import { Show } from './Show'
@@ -28,6 +29,7 @@ export class Events {
           return total + item.rating
         } else {
           return total
+
         }
       }, 0)
       const avgRating = counter == 0 ? 5 : rating / counter
@@ -48,6 +50,7 @@ export class Events {
       )
     }
   }
+
 
   @action async addEvent(creatorID) {
     return await axios.post(
@@ -112,4 +115,6 @@ export class Events {
       console.log('error')
     }
   }
+
 }
+

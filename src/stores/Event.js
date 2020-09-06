@@ -27,7 +27,6 @@ export class Event {
         this.price = price
         this.creatorID = creatorID
         this.categoryID = categoryID
-        this.shows = shows
         this.rating = rating
         this.init()
     }
