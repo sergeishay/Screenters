@@ -38,8 +38,8 @@ export class Events {
     }
 
     @action async addEvent(creatorID) {
-        return await axios.post("http://localhost:8080/api/events/event", new Event(null, uuidv4().toString(), null, null, null, "https://res.cloudinary.com/chikoom/image/upload/v1599403857/screentersClients/demo-image-default_g3alve.jpg", 0, creatorID, 1, null));
-
+        return await axios.post("http://localhost:8080/api/events/event", new Event(null, "Event name: " + uuidv4().toString(), "This is the description..", null, null, "https://res.cloudinary.com/chikoom/image/upload/v1599403857/screentersClients/demo-image-default_g3alve.jpg", 0, creatorID, 1, null));
+    }
     //////HANDLING SHOWS
 
 
