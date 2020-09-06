@@ -5,10 +5,11 @@ import { inject, observer } from 'mobx-react'
 import Loading from './components/Loading'
 import NavBar from './components/NavBar'
 import NavbarPage from './components/Navbar/Navbar'
-import Footer from './components/Footer'
 import Paypal from './components/Paypal/PaypalBtn'
-import EventPage from './views/EventPage'
+import Footer from './components/Footer'
+import Creators from './views/Creators'
 import Homepage from './views/Homepage'
+import EventPage from './views/EventPage'
 import About from './views/About'
 import Profile from './views/Profile'
 import ExternalApi from './views/ExternalApi'
@@ -42,6 +43,7 @@ const App = inject('generalStore')(
     } else {
       console.log('no user')
     }
+
   return (
     <Router history={history}>
       <div id='app' className='d-flex flex-column h-100'>
@@ -55,6 +57,7 @@ const App = inject('generalStore')(
             render={({match}) => <BroadcastRoom match={match}/>}
           />
           <Route exact path='/profile' component={Profile} />
+          <Route exact path='/creators' exact render={() => <Creators />} />
           <Route exact path='/about' component={About} />
           <Route exact path='/external-api' component={ExternalApi} />
           <Route

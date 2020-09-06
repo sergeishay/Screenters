@@ -13,7 +13,6 @@ import { useHistory } from 'react-router-dom'
 import Rating from '../Inputs/Rating'
 import './EventCard.css'
 import { useState } from 'react'
-import { useEffect } from 'react'
 
 const EventCard = observer(props => {
   const [eventRatings, setEventRatings] = useState(0)
@@ -38,9 +37,6 @@ const EventCard = observer(props => {
             <MDBBtn onClick={handleDetailsClick}>EDIT</MDBBtn>
           )) || (
             <>
-              {/* <button type='button' className='btn btn-default btn-sm'>
-                BOOK
-              </button> */}
               <button
                 type='button'
                 className='btn btn-default '
