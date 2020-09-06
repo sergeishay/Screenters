@@ -19,19 +19,11 @@ export class GeneralStore {
 
 
     constructor(listOfEvents) {
-        // const { user } = useAuth0()
-        // let context = Auth0Context
         this.listOfEvents = listOfEvents
         this.init()
     }
     init = async () => {
-        // this.getEventById(5)
-        // this.currentUser()
         this.gelAllCategories()
-        // this.getAllCreators()
-        // this.getCreatorById("auth0|5f4f7cb8397b7000674b08c2")
-        // this.addUser()
-        // this.updateEvent(3 , {field: "name" , value : "check232"})
     }
 
     @action async getUserById(userId) {
@@ -41,9 +33,6 @@ export class GeneralStore {
     @action async getCreatorById(creatorId) {
         let getCreatorById = await axios.get(`http://localhost:8080/api/creators/${creatorId}`)
         return getCreatorById
-    }
-    @action async createNewEvent(creatorId){
-        
     }
 
     @action async getEventById(eventId) {
@@ -63,19 +52,25 @@ export class GeneralStore {
             this.categories.push(c)
         })
     }
-    @action getCurrentUser(currentUserData) {
-        console.log(currentUserData)
-        this.currentUser = currentUserData
-        console.log(this.currentUser)
+
+    /////////////////User Auth/////////////////////
+
+    @action async checkUserInDataBase(user) {
+        const userId = user.sub
+        console.log(userId)
+        const returnedUser = await axios.get(`http://localhost:8080/api/users/${userId}`)
+        console.log(returnedUser)
+
+        if (returnedUser.data) {
+            this.currentUser = returnedUser.data
+        }
+        else{
+            this.addUser(user)
+            console.log("Adding new User")
+        }
     }
-    // id, firstName, lastName, username, imageURL, videoURL, email, birthday, memberSince, gender, about ,userRole ,  isAuthorized,  phone
-    // id, firstName, lastName, username, imgURL, videoURL, email, birthday, memberSince, gender, about ,userRole ,  isAuthorized,  phone
-
-
 
     @action async addUser(userData) {
-
-
         let insertUsesData = new User(
             userData.sub,
             userData.given_name || null,
@@ -93,23 +88,18 @@ export class GeneralStore {
             null,
         )
         console.log(insertUsesData)
-        let addUser = await axios.post(`http://localhost:8080/api/users`, insertUsesData)
-        console.log(addUser)
-        this.getCurrentUser(addUser)
-    }
-
-    @action async checkUserInDataBase(user) {
-        let stupidUser = user.sub
-        console.log(stupidUser)
-        let checkUserInDataBase = await axios.get(`http://localhost:8080/api/users/${stupidUser}`)
-        console.log(checkUserInDataBase)
-        if (checkUserInDataBase.data) {
-            this.getCurrentUser(checkUserInDataBase.data)
-        } else {
-            console.log("here some")
-            this.addUser(user)
+        let userDetails = await axios.post(`http://localhost:8080/api/users`, insertUsesData)
+        console.log(userDetails)
+        if (userDetails.data) {
+            this.currentUser = userDetails.data
+        }else{
+            console.log("problem with the current user")
         }
     }
+
+
+
+
 
 
     @action async getAllCreators() {
@@ -128,7 +118,7 @@ export class GeneralStore {
 
     @action async deleteEvent(eventId) {
         let deleteEvent = await axios.delete(`http://localhost:8080/api/events?eventId=${eventId}`)
-        console.log(deleteEvent)
+        // console.log(deleteEvent)
         let deleteEventFromList = this.listOfEvents.listOfEvents.findindex(deleteId => deleteId.id === eventId)
         this.listOfEvents.listOfEvents.splice(deleteEventFromList, 1)
     }
@@ -142,12 +132,12 @@ export class GeneralStore {
         console.log(updateEvent)
         if (updateEvent.data) {
             let key = eventData.field
-            console.log(key)
+            // console.log(key)
             let value = eventData.value
             this.singleEvent[key] = value;
             console.log(this.singleEvent)
             let toUpdate = this.listOfEvents.listOfEvents.findIndex(eventUpdate => eventUpdate.id === eventId)
-            console.log(toUpdate)
+            // console.log(toUpdate)
             this.listOfEvents.listOfEvents[toUpdate][key] = value
             console.log(this.listOfEvents.listOfEvents)
         } else {
