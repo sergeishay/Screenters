@@ -15,7 +15,7 @@ export class Events {
     }
     @action async getAllEvents() {
         let getData = await axios.get("http://localhost:8080/api/events")
-        // console.log(getData.data)
+        console.log(this.listOfEvents)
         for (let d of getData.data) {
             let counter = 0;
             const rating = d.shows.reduce((total, item) => {
