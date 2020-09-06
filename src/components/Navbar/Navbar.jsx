@@ -2,6 +2,7 @@ import React, { useState } from 'react'
 import { NavLink as RouterNavLink } from 'react-router-dom'
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
 import { useAuth0 } from '@auth0/auth0-react'
+import { inject, observer } from 'mobx-react'
 import {
   MDBNavbar,
   MDBNavbarBrand,
@@ -19,10 +20,13 @@ import {
 } from 'mdbreact'
 import './Navbar.css'
 
-const NavbarPage = () => {
+const NavbarPage = inject("generalStore")(observer(props => {
   const [isOpen, setIsOpen] = useState(false)
   const { user, isAuthenticated, loginWithRedirect, logout } = useAuth0()
   const toggle = () => setIsOpen(!isOpen)
+
+  const currentUserRole = props.generalStore.currentUser.userRole ? props.generalStore.currentUser.userRole.toLowerCase() : null;
+  console.log(props.generalStore.currentUser);
 
   const logoutWithRedirect = () =>
     logout({
@@ -86,7 +90,7 @@ const NavbarPage = () => {
               </MDBDropdownToggle>
               <MDBDropdownMenu>
                 <MDBDropdownItem header>{user.name}</MDBDropdownItem>
-                <MDBDropdownItem href={`/user/${user.sub}`}>
+                <MDBDropdownItem href={`/${currentUserRole}/${user.sub}`}>
                   <FontAwesomeIcon icon='user' className='mr-3' /> Profile
                 </MDBDropdownItem>
                 <MDBDropdownItem
@@ -102,6 +106,6 @@ const NavbarPage = () => {
       </MDBCollapse>
     </MDBNavbar>
   )
-}
+}))
 
 export default NavbarPage

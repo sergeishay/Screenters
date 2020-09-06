@@ -1,4 +1,4 @@
-import { observable, action, computed, observe } from 'mobx'
+import { observable, action, computed } from 'mobx'
 import axios from 'axios'
 import React from 'react'
 import { useAuth0 } from '@auth0/auth0-react'
@@ -7,10 +7,10 @@ import { Events } from './Events'
 import { User } from './User'
 
 export class GeneralStore {
-    @observable categories = []
-    @observable creators
-    @observable hashtags = []
-    @observable AllCreators = []
+  @observable categories = []
+  @observable creators
+  @observable hashtags = []
+
 
     @observable currentUser = {}
     @observable singleEvent = {
@@ -46,6 +46,7 @@ export class GeneralStore {
         let gelAllCategories = await axios.get(
             `http://localhost:8080/api/creators/general/details`
         )
+        console.log(gelAllCategories.data.categories)
         gelAllCategories.data.categories.forEach(c => {
             this.categories.push(c)
         })
@@ -82,6 +83,7 @@ export class GeneralStore {
         console.log(returnedUser)
 
         if (returnedUser.data) {
+            
             this.currentUser = returnedUser.data
             console.log(this.currentUser)
         }
@@ -109,6 +111,7 @@ export class GeneralStore {
             null,
         )
         console.log(insertUsesData)
+
         let userDetails = await axios.post(`http://localhost:8080/api/users`, insertUsesData)
         console.log(userDetails)
         if (userDetails.data) {
@@ -161,10 +164,10 @@ export class GeneralStore {
             // console.log(toUpdate)
             this.listOfEvents.listOfEvents[toUpdate][key] = value
             console.log(this.listOfEvents.listOfEvents)
-        } else {
+        } else { 
             console.log("error")
         }
 
     }
-
+  
 }
