@@ -1,6 +1,6 @@
 import { observable, action, computed, get } from 'mobx';
 import { Event } from './Event';
-import {Show}  from './Show'
+import { Show } from './Show'
 import axios from 'axios';
 import { v4 as uuidv4 } from 'uuid';
 
@@ -33,50 +33,47 @@ export class Events {
                 }
             }, 0)
             const avgRating = (counter == 0) ? 5 : rating / counter
-            this.listOfEvents.push(new Event(d.id, d.name, d.description, d.imageURL, d.videoURL, d.coverImgURL, d.price, d.creatorID, d.categoryID,  d.shows, avgRating))
+            this.listOfEvents.push(new Event(d.id, d.name, d.description, d.imageURL, d.videoURL, d.coverImgURL, d.price, d.creatorID, d.categoryID, d.shows, avgRating))
         }
     }
 
     @action async addEvent(creatorID) {
         return await axios.post("http://localhost:8080/api/events/event", new Event(null, uuidv4().toString(), null, null, null, "https://res.cloudinary.com/chikoom/image/upload/v1599403857/screentersClients/demo-image-default_g3alve.jpg", 0, creatorID, 1, null));
 
-    //////HANDLING SHOWS
+        //////HANDLING SHOWS
 
 
 
-
+    }
     @action async addShow(showData) {
         console.log(showData)
-        let addNewShow = await axios.post(`http://localhost:8080/api/events/show` ,  showData)
+        let addNewShow = await axios.post(`http://localhost:8080/api/events/show`, showData)
         console.log(addNewShow)
-        if(addNewShow.data){
-            const indexHolder = this.listOfEvents.findIndex(event =>event.id === addNewShow.data.showEventID)
+        if (addNewShow.data) {
+            const indexHolder = this.listOfEvents.findIndex(event => event.id === addNewShow.data.showEventID)
             console.log(indexHolder)
             let newShowToList = this.listOfEvents[indexHolder].shows.push(addNewShow.data)
             console.log(this.listOfEvents)
-        }else{
+        } else {
             console.log("error")
         }
 
     }
-    @action async deleteShow(showId ,eventId) {
-        let deleteShow = await axios.delete(`http://localhost:8080/api/events?showId=${showId}` ) 
+    @action async deleteShow(showId, eventId) {
+        let deleteShow = await axios.delete(`http://localhost:8080/api/events?showId=${showId}`)
         console.log(deleteShow)
 
-        if(deleteShow){
+        if (deleteShow) {
             const indexHolder = this.listOfEvents.findIndex(event => event.id === eventId)
             console.log(indexHolder)
             let deleteShowFromEvent = this.listOfEvents[indexHolder].shows.findIndex(show => show.id === showId)
             console.log(deleteShowFromEvent)
-            let deleteTheShow = this.listOfEvents[indexHolder].shows.splice(deleteShowFromEvent , 1)
+            let deleteTheShow = this.listOfEvents[indexHolder].shows.splice(deleteShowFromEvent, 1)
             console.log(this.listOfEvents[indexHolder].shows)
             console.log(deleteTheShow)
-        }else{
+        } else {
             console.log("error")
         }
     }
-
-    ////HANDLING BOOKSHOW
-    @computed get topEvents() {
-    }
 }
+
