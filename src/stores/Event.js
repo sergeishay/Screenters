@@ -28,13 +28,14 @@ export class Event {
         this.creatorID = creatorID
         this.categoryID = categoryID
         this.rating = rating
+        this.shows = shows
         this.init()
     }
 
     init = async () => {
         // this.getAllEvents()
         // this.getComments()
-        // this.addShow({id:null , startTime:"2020-02-22T21:20:06.505Z" , endTime : "2020-02-27T21:21:06.505Z" ,showEventID: 3})
+        // this.addShow({id:null,startTime:'2011-09-10 10:10:10',endTime:'2011-09-10 10:10:10',showEventID:3})
     }
     @action async addShow(showData) {
         let addNewShow = await axios.post(`http://localhost:8080/api/events/show` ,  showData)

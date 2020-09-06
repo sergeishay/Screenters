@@ -2,21 +2,27 @@
     padding: 8px;
     font-size: 20px;
     border-radius: 5px;
-    border: 2px solid #61dafb;
-    color: #61dafb;
+    border: 2px solid #353b50;
+    color: #353b50;
     background: none;
   }
   
   .checkout-button:hover {
-    border: 2px solid #61dafb;
-    color: #282c34;
-    background: #61dafb;
+    /* border: 2px solid 353b50; */
+    color: gold;
   }
   
   .payment-div {
+    display: flex;
+justify-content: center;
     padding-top: 20px;
     height: 300px;
     width: 300px;
-    background: rgba(0, 0, 0, 0.6);
+    background: rgb(255, 255, 255);
     border-radius: 20px;
+  }
+
+  .paymentBtn {
+display: flex;
+justify-content: center;
   }
