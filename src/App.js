@@ -12,7 +12,8 @@ import Profile from './views/Profile'
 import ExternalApi from './views/ExternalApi'
 import { useAuth0 } from '@auth0/auth0-react'
 import history from './utils/history';
-import Creator from './views/Creator'
+import Creator from './views/Creator';
+import User from './views/User'
 
 // styles
 import './App.css'
@@ -53,6 +54,7 @@ const App = () => {
             render={({ match }) => <EventPage match={match} />}
           />
            <Route path='/creator/:id' component={({match}) => <Creator match={match}/>} />
+           <Route path='/user/:id' component={({match}) => <User match={match}/>} />
         </Switch>
         <Footer />
       </div>
