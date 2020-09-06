@@ -57,7 +57,7 @@ const App = () => {
             path='/event/:id'
             render={({ match }) => <EventPage match={match} />}
           />
-           <Route path='/creator/:id' component={({match}) => <Creator match={match}/>} />
+           <Route path='/creator/:id' component={({match, history}) => <Creator match={match} history={history}/>} />
            <Route path='/user/:id' component={({match}) => <User match={match}/>} />
         </Switch>
         <Footer />

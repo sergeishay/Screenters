@@ -32,6 +32,17 @@ export class GeneralStore {
     // this.updateEvent(3 , {field: "name" , value : "check232"})
   }
 
+  @action async getUserById(userId){
+    let getUserById = await axios.get(`http://localhost:8080/api/users/${userId}`)
+    return getUserById
+}
+
+@action async getCreatorById(creatorId){
+    let getCreatorById = await axios.get(`http://localhost:8080/api/creators/${creatorId}`);
+    return  getCreatorById
+}
+
+
   @action async getEventById(eventId) {
     let getEventById = await axios.get(
       `http://localhost:8080/api/events/${eventId}`
