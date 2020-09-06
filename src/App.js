@@ -26,43 +26,49 @@ import BroadcastRoom from './views/BroadcastRoom'
 import { observe } from 'mobx'
 initFontAwesome()
 
-const App = () => {
-  const { isLoading, error } = useAuth0()
+const App = inject('generalStore')(
+  observer(props => {
+    const { isLoading, error, user } = useAuth0()
+    if (error) {
+      return <div>Oops... {error.message}</div>
+    }
 
-  if (error) {
-    return <div>Oops... {error.message}</div>
-  }
+    if (isLoading) {
+      return <Loading />
+    }
+    if (user) {
+      console.log(user)
+      props.generalStore.checkUserInDataBase(user)
 
-  if (isLoading) {
-    return <Loading />
-  }
-
-  return (
-    <Router history={history}>
-      <div id='app' className='d-flex flex-column h-100'>
-        <NavbarPage />
-        <Switch>
-          <Route exact path='/' exact render={() => <Homepage />} />
-          <Route exact path='/homepage-test' render={() => <Homepage />} />
-          <Route
-            exact
-            path='/broadcast-room/:roomId'
-            render={() => <BroadcastRoom />}
-          />
-          <Route exact path='/profile' component={Profile} />
-          <Route exact path='/external-api' component={ExternalApi} />
-          <Route
-            exact
-            path='/event/:id'
-            render={({ match }) => <EventPage match={match} />}
-          />
-           <Route path='/creator/:id' component={({match}) => <Creator match={match}/>} />
-           <Route path='/user/:id' component={({match}) => <User match={match}/>} />
-        </Switch>
-        <Footer />
-      </div>
-    </Router>
-  )
-}
-
+    } else {
+      console.log('no user')
+    }
+    return (
+      <Router history={history}>
+        <div id='app' className='d-flex flex-column h-100'>
+          <NavbarPage />
+          <Switch>
+            <Route exact path='/' exact render={() => <Homepage />} />
+            <Route exact path='/homepage-test' render={() => <Homepage />} />
+            <Route
+              exact
+              path='/broadcast-room/:roomId'
+              render={() => <BroadcastRoom />}
+            />
+            <Route exact path='/profile' component={Profile} />
+            <Route exact path='/external-api' component={ExternalApi} />
+            <Route
+              exact
+              path='/event/:id'
+              render={({ match }) => <EventPage match={match} />}
+            />
+            <Route path='/creator/:id' component={({ match }) => <Creator match={match} />} />
+            <Route path='/user/:id' component={({ match }) => <User match={match} />} />
+          </Switch>
+          <Footer />
+        </div>
+      </Router>
+    )
+  })
+)
 export default App
