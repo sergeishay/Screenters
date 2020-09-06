@@ -13,13 +13,8 @@ const Calendar = props => {
   const [selectedDate, setSelectedDate] = useState({})
 
   const { currentUser, shows, currentEvent, isEventPage } = props
-  console.log('currentEvent', currentEvent)
-  console.log('currentUser', currentUser)
-  if (
-    currentUser.userRole === 'CREATOR' &&
-    currentEvent.creatorID === currentUser.id
-  ) {
-  }
+
+  const isUserEditor = props.isUserEditor
 
   const handleShowClick = info => {
     console.log(info.event)

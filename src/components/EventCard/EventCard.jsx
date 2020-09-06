@@ -26,7 +26,7 @@ const EventCard = observer(props => {
       <MDBCard>
         <MDBCardImage
           className='img-fluid'
-          src={props.eventDetails.imageURL}
+          src={props.eventDetails.coverImgURL}
           waves
         />
         <MDBCardBody>
