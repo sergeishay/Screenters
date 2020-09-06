@@ -9,3 +9,8 @@
 .review-container div[data-test='col'] {
     margin-bottom: 0 !important;
 }
+
+.review-container img {
+    width: 100px;
+    height: 100px;
+}

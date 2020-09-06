@@ -17,7 +17,6 @@ export class GeneralStore {
         shows: [],
     }
 
-
     constructor(listOfEvents) {
         // const { user } = useAuth0()
         // let context = Auth0Context
@@ -42,10 +41,6 @@ export class GeneralStore {
         let getCreatorById = await axios.get(`http://localhost:8080/api/creators/${creatorId}`)
         return getCreatorById
     }
-    @action async createNewEvent(creatorId){
-        
-    }
-
     @action async getEventById(eventId) {
         let getEventById = await axios.get(
             `http://localhost:8080/api/events/${eventId}`
@@ -53,7 +48,6 @@ export class GeneralStore {
         getEventById = getEventById.data
         this.singleEvent = getEventById
     }
-
 
     @action async gelAllCategories() {
         let gelAllCategories = await axios.get(
