@@ -28,6 +28,7 @@ export class Event {
         this.creatorID = creatorID
         this.categoryID = categoryID
         this.rating = rating
+        this.shows = shows
         this.init()
     }
 
