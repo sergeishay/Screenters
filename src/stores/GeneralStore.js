@@ -51,14 +51,6 @@ export class GeneralStore {
             this.categories.push(c)
         })
     }
-    @action  getCurrentUser(currentUserData) {
-        console.log(currentUserData)
-        this.currentUser = currentUserData
-        console.log(this.currentUser)
-    }
-    // id, firstName, lastName, username, imageURL, videoURL, email, birthday, memberSince, gender, about ,userRole ,  isAuthorized,  phone
-    // id, firstName, lastName, username, imgURL, videoURL, email, birthday, memberSince, gender, about ,userRole ,  isAuthorized,  phone
-
 
     /////////////////User Auth/////////////////////
 
@@ -69,6 +61,7 @@ export class GeneralStore {
         console.log(returnedUser)
 
         if (returnedUser.data) {
+            
             this.currentUser = returnedUser.data
         }
         else{
@@ -95,6 +88,7 @@ export class GeneralStore {
             null,
         )
         console.log(insertUsesData)
+
         let userDetails = await axios.post(`http://localhost:8080/api/users`, insertUsesData)
         console.log(userDetails)
         if (userDetails.data) {
