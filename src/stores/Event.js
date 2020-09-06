@@ -6,50 +6,43 @@ import axios from 'axios'
 
 const show = new Show()
 export class Event {
-  @observable id
-  @observable name
-  @observable description
-  @observable imageURL
-  @observable videoURL
-  @observable coverImgURL
-  @observable price
-  @observable creatorID
-  @observable categoryID
-  @observable shows = []
-  @observable comments = []
-  @observable rating
-  constructor(
-    id,
-    name,
-    description,
-    imageURL,
-    videoURL,
-    coverImgURL,
-    price,
-    creatorID,
-    categoryID,
-    shows,
-    rating
-  ) {
-    this.id = id
-    this.name = name
-    this.description = description
-    this.imageURL = imageURL
-    this.videoURL = videoURL
-    this.coverImgURL = coverImgURL
-    this.price = price
-    this.creatorID = creatorID
-    this.categoryID = categoryID
+    @observable id
+    @observable name
+    @observable description
+    @observable imageURL
+    @observable videoURL
+    @observable coverImgURL
+    @observable price
+    @observable creatorID
+    @observable categoryID
+    @observable shows = []
+    @observable comments = []
+    @observable rating
+    constructor(id, name, description, imageURL, videoURL, coverImgURL, price, creatorID, categoryID ,  shows , rating) {
+        this.id = id
+        this.name = name
+        this.description = description
+        this.imageURL = imageURL
+        this.videoURL = videoURL
+        this.coverImgURL = coverImgURL
+        this.price = price
+        this.creatorID = creatorID
+        this.categoryID = categoryID
+        this.shows = shows
+        this.rating = rating
+        this.init()
+    }
 
-    this.shows = shows
-    this.rating = rating
-    this.init()
-  }
-  init = async () => {
-    // this.getAllEvents()
-    // this.getComments()
-    // this.addShow({id:null , startTime:"2020-02-22T21:20:06.505Z" , endTime : "2020-02-27T21:21:06.505Z" ,showEventID: 3})
-  }
+    init = async () => {
+        // this.getAllEvents()
+        // this.getComments()
+        // this.addShow({id:null , startTime:"2020-02-22T21:20:06.505Z" , endTime : "2020-02-27T21:21:06.505Z" ,showEventID: 3})
+    }
+
+
+
+
+
   @action async addShow(showData) {
     let addNewShow = await axios.post(
       `http://localhost:8080/api/events/show`,
