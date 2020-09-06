@@ -17,7 +17,6 @@ export class GeneralStore {
         shows: [],
     }
 
-
     constructor(listOfEvents) {
         this.listOfEvents = listOfEvents
         this.init()
@@ -42,7 +41,6 @@ export class GeneralStore {
         getEventById = getEventById.data
         this.singleEvent = getEventById
     }
-
 
     @action async gelAllCategories() {
         let gelAllCategories = await axios.get(

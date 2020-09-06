@@ -2,8 +2,6 @@ import { observable, action, computed } from 'mobx'
 import axios from 'axios'
 import { Show } from './Show'
 
-
-
 export class User {
     @observable id
     @observable firstName
@@ -22,7 +20,7 @@ export class User {
     @observable futureShows = []
     @observable pastShows = []
 
-    
+
     constructor(id, firstName, lastName, username, imageURL, videoURL, email, birthday, memberSince, gender, about ,userRole ,  isAuthorized,  phone) {
         this.id = id
         this.firstName = firstName

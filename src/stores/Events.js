@@ -1,7 +1,9 @@
-import { observable, action, computed, get } from 'mobx'
-import { Event } from './Event'
+import { observable, action, computed, get } from 'mobx';
+import { Event } from './Event';
 import {Show}  from './Show'
-import axios from 'axios'
+import axios from 'axios';
+import { v4 as uuidv4 } from 'uuid';
+
 export class Events {
     @observable listOfEvents = [];
     @observable creators = []
@@ -31,13 +33,12 @@ export class Events {
                 }
             }, 0)
             const avgRating = (counter == 0) ? 5 : rating / counter
-
             this.listOfEvents.push(new Event(d.id, d.name, d.description, d.imageURL, d.videoURL, d.coverImgURL, d.price, d.creatorID, d.categoryID,  d.shows, avgRating))
-
         }
-
     }
 
+    @action async addEvent(creatorID) {
+        return await axios.post("http://localhost:8080/api/events/event", new Event(null, uuidv4().toString(), null, null, null, "https://res.cloudinary.com/chikoom/image/upload/v1599403857/screentersClients/demo-image-default_g3alve.jpg", 0, creatorID, 1, null));
 
     //////HANDLING SHOWS
 
@@ -76,18 +77,6 @@ export class Events {
     }
 
     ////HANDLING BOOKSHOW
-
-
-
-
-
-
-
-
-
-
     @computed get topEvents() {
-
     }
-
 }
