@@ -10,7 +10,8 @@ import './EventList.css'
 
 const selectOptions = ['Date', 'Popularity', 'Screenter']
 
-const EventGrid = props => {
+const EventGrid = inject('generalStore')(props => {
+  const categories = props.generalStore.categories
   return (
     <>
       <MDBContainer>
@@ -33,15 +34,20 @@ const EventGrid = props => {
       </MDBContainer>
       <MDBContainer>
         <MDBRow>
-          {props.eventList.map(event => (
-            <MDBCol lg='4' md='6'>
-              <EventCard isEdit={false} eventDetails={event} />
-            </MDBCol>
-          ))}
+          {props.eventList.map(event => {
+            event.categoryName = categories.find(
+              cat => cat.id == event.categoryID
+            ).name_en
+            return (
+              <MDBCol lg='4' md='6'>
+                <EventCard isEdit={false} eventDetails={event} />
+              </MDBCol>
+            )
+          })}
         </MDBRow>
       </MDBContainer>
     </>
   )
-}
+})
 
 export default EventGrid

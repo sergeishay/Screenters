@@ -1,5 +1,13 @@
 import React, { useEffect } from 'react'
-import { MDBContainer, MDBRow, MDBCol, MDBTypography, MDBInput } from 'mdbreact'
+import {
+  MDBContainer,
+  MDBRow,
+  MDBCol,
+  MDBTypography,
+  MDBInput,
+  MDBSelect,
+} from 'mdbreact'
+import Rating from '../components/Inputs/Rating'
 import { inject, observer } from 'mobx-react'
 import MyCalendar from '../components/Calendar/Calendar'
 import SwitchField from '../components/Inputs/SwitchField'
@@ -26,12 +34,42 @@ const EventPage = inject('generalStore')(
   observer(props => {
     const store = props.generalStore
     const eventID = props.match.params.id
+    const categories = props.generalStore.categories
 
     const [eventTitle, setEventTitle] = useState('')
     const [eventDescription, setEventDescription] = useState('')
+    const [eventCategory, setEventCategory] = useState('')
+    const [eventPrice, setEventPrice] = useState('')
+
+    let theEventRating = 0
+
+    let selectedCategory = null
 
     const currentUser = store.currentUser
-    console.log('currentUser', currentUser)
+    console.log('currentUser', store)
+    console.log('currenteVENT', store.singleEvent)
+
+    const calculateRating = shows => {
+      console.log(shows)
+      if (shows.length > 0) {
+        let counter = 0
+        const rating = shows.reduce((total, item) => {
+          if (item.rating) {
+            counter++
+            return total + item.rating
+          } else {
+            return total
+          }
+        }, 0)
+        const avgRating = counter == 0 ? 5 : rating / counter
+        return avgRating
+      } else return 5
+    }
+
+    const chooseCategory = value => {
+      console.log('CHOHOSE', value)
+      selectedCategory = value[0]
+    }
 
     const saveData = field => {
       if (field === 'title') {
@@ -47,13 +85,44 @@ const EventPage = inject('generalStore')(
           value: eventDescription,
         })
       }
+      if (field === 'categoryID') {
+        console.log('UPDATE DATA', selectedCategory)
+        store.updateEvent(store.singleEvent.id, {
+          field: 'categoryID',
+          value: selectedCategory,
+        })
+        setEventCategory(getCategoryNameByID(selectedCategory, categories))
+      }
+      if (field === 'price') {
+        store.updateEvent(store.singleEvent.id, {
+          field: 'price',
+          value: eventPrice,
+        })
+      }
     }
-
+    const updateEventImage = (imageURL, field) => {
+      store.updateEvent(store.singleEvent.id, {
+        field: field,
+        value: imageURL,
+      })
+    }
+    const getCategoryIDbyName = (catName, categories, lang) => {
+      return categories.find(cat => cat.name_en == catName).id
+    }
+    const getCategoryNameByID = (catID, categories, lang) => {
+      return categories.find(cat => cat.id == catID).name_en
+    }
     useEffect(() => {
       const getEvent = async () => {
         await store.getEventById(eventID)
         setEventTitle(store.singleEvent.name)
         setEventDescription(store.singleEvent.description)
+        const eventCategory = categories.find(
+          cat => cat.id == store.singleEvent.categoryID
+        ).name_en
+        setEventCategory(eventCategory)
+        setEventPrice(store.singleEvent.price)
+        theEventRating = calculateRating(store.singleEvent.shows)
       }
       getEvent()
     }, [])
@@ -64,6 +133,8 @@ const EventPage = inject('generalStore')(
           src={store.singleEvent.coverImgURL}
           alt={store.singleEvent.name}
           isEdit={true}
+          updateFunction={updateEventImage}
+          field='coverImgURL'
         />
         <div className='spacer'>&nbsp;</div>
         <MDBContainer>
@@ -96,12 +167,16 @@ const EventPage = inject('generalStore')(
               />
 
               <MDBTypography tag='h3' variant='h3-responsive'>
-                {store.singleEvent.creatorID}
+                By {store.singleEvent.creatorID}
               </MDBTypography>
-
+              <hr />
+              <Rating rating={5} />
+              <hr />
               {/* EVENT DESCRIPTION  */}
               <SwitchField
-                showComponent={<p>{store.singleEvent.description}</p>}
+                showComponent={
+                  <p className='inline'>{store.singleEvent.description}</p>
+                }
                 editComponent={
                   <MDBInput
                     type='textarea'
@@ -113,6 +188,59 @@ const EventPage = inject('generalStore')(
                 }
                 updateFunction={saveData}
                 fieldToUpdate='description'
+                isActive={true}
+              />
+              <hr />
+              {/* EVENT CATEGORY */}
+              <SwitchField
+                showComponent={
+                  <MDBTypography
+                    className='inline'
+                    tag='h4'
+                    variant='h4-responsive'
+                  >
+                    <strong>{eventCategory}</strong>
+                  </MDBTypography>
+                }
+                editComponent={
+                  <MDBSelect
+                    options={categories.map(cat => ({
+                      text: cat.name_en,
+                      value: cat.id,
+                    }))}
+                    selected={eventCategory}
+                    label='Select category'
+                    getValue={chooseCategory}
+                  />
+                }
+                updateFunction={saveData}
+                fieldToUpdate='categoryID'
+                isActive={true}
+              />
+              <hr />
+              {/*  EVENT PRICE  */}
+              <SwitchField
+                showComponent={
+                  <MDBTypography
+                    className='inline'
+                    tag='h2'
+                    variant='h2-responsive'
+                  >
+                    Price: $<strong>{eventPrice}</strong>
+                  </MDBTypography>
+                }
+                editComponent={
+                  <MDBInput
+                    group={false}
+                    className='input-small'
+                    size='sm'
+                    label='Edit event price'
+                    getValue={value => setEventPrice(value)}
+                    value={eventPrice}
+                  />
+                }
+                updateFunction={saveData}
+                fieldToUpdate='price'
                 isActive={true}
               />
             </MDBCol>
@@ -135,6 +263,7 @@ const EventPage = inject('generalStore')(
                 shows={formatShows(store.singleEvent.shows)}
                 currentEvent={store.singleEvent}
                 isEventPage={true}
+                showPrice={store.singleEvent.price}
               />
             </MDBCol>
           </MDBRow>

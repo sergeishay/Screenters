@@ -13,8 +13,8 @@ import About from './views/About'
 import Profile from './views/Profile'
 import ExternalApi from './views/ExternalApi'
 import { useAuth0 } from '@auth0/auth0-react'
-import history from './utils/history';
-import Creator from './views/Creator';
+import history from './utils/history'
+import Creator from './views/Creator'
 import User from './views/User'
 
 // styles
@@ -26,17 +26,22 @@ import BroadcastRoom from './views/BroadcastRoom'
 import { observe } from 'mobx'
 initFontAwesome()
 
-const App = () => {
-  const { isLoading, error } = useAuth0()
+const App = inject('generalStore')(
+  observer(props => {
+    const { isLoading, error, user } = useAuth0()
+    if (error) {
+      return <div>Oops... {error.message}</div>
+    }
 
-  if (error) {
-    return <div>Oops... {error.message}</div>
-  }
-
-  if (isLoading) {
-    return <Loading />
-  }
-
+    if (isLoading) {
+      return <Loading />
+    }
+    if (user) {
+      console.log(user)
+      props.generalStore.checkUserInDataBase(user)
+    } else {
+      console.log('no user')
+    }
   return (
     <Router history={history}>
       <div id='app' className='d-flex flex-column h-100'>
@@ -64,6 +69,5 @@ const App = () => {
       </div>
     </Router>
   )
-}
-
+}))
 export default App

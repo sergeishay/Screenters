@@ -17,8 +17,8 @@ export class User {
     @observable userRole
     @observable videoURL
     @observable about
-    // @observable futureShows = []
-    // @observable pastShows = []
+    @observable futureShows = []
+    @observable pastShows = []
 
     constructor(id, firstName, lastName, username, imageURL, videoURL, email, birthday, memberSince, gender, about ,userRole ,  isAuthorized,  phone) {
         this.id = id
@@ -53,6 +53,11 @@ export class User {
 
     @action makeYourSelfCreator() {
 
+
+
+
+
+
     }
     @action async deleteUser(userId) {
         let deleteUser = await axios.delete(`http://localhost:8080/api/users/${userId}`)
@@ -65,6 +70,15 @@ export class User {
         let bookShow = await axios.post(`http://localhost:8080/api/users/show`, { book })
         this.futureShows.push(book)
 
+    }
+
+
+
+
+
+    @action async bookShow(userID , showID){
+        let deleteShow = await axios.delete(`http://localhost:8080/api/users/show` ,{userID , showID}) 
+        console.log(deleteShow)
     }
 
     @action unBookShow(showId) {
