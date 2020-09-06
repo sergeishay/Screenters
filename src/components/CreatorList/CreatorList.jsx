@@ -10,7 +10,7 @@ const CreatorGrid = props => {
         <MDBRow>
           {props.creatorList.map(creator => (
             <MDBCol lg='4' md='6'>
-              <CreatorCard isEdit={false} eventDetails={creator} />
+              <CreatorCard isEdit={false} creatorDetails={creator} />
             </MDBCol>
           ))}
         </MDBRow>
