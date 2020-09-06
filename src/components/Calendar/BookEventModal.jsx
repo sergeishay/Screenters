@@ -15,7 +15,7 @@ const BookModal = props => {
     setIsOpen(!isOpen)
     props.toggleModal()
   }
-  console.log(props.show)
+  console.log('props.currentUser.userRole', props.currentUser.userRole)
   return (
     <MDBContainer>
       <MDBBtn color='primary' onClick={toggle}>
@@ -26,12 +26,13 @@ const BookModal = props => {
         <MDBModalBody>
           <p>Start: {formatDate(props.show.start)}</p>
           <p>End: {formatDate(props.show.end)}</p>
+          <p>Price: ${props.showPrice}</p>
           <p>user id: {props.currentUser.userID}</p>
         </MDBModalBody>
         <MDBModalFooter>
-          {(props.currentUser.userRole === 'USER' && (
-            <MDBBtn color='primary'>BOOK NOW</MDBBtn>
-          )) || <MDBBtn color='danger'>DELETE</MDBBtn>}
+          {(true && <MDBBtn color='primary'>BOOK NOW</MDBBtn>) || (
+            <MDBBtn color='danger'>DELETE</MDBBtn>
+          )}
         </MDBModalFooter>
       </MDBModal>
     </MDBContainer>
