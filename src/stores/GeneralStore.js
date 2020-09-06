@@ -57,6 +57,7 @@ export class GeneralStore {
         let addNewShow = await axios.post(`http://localhost:8080/api/events/show`, showData)
         console.log(addNewShow)
         this.singleEvent.shows.push(addNewShow)
+        console.log(this.singleEvent)
     }
 
     @action async deleteShow(showId, eventId) {
