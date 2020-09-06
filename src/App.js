@@ -13,8 +13,8 @@ import About from './views/About'
 import Profile from './views/Profile'
 import ExternalApi from './views/ExternalApi'
 import { useAuth0 } from '@auth0/auth0-react'
-import history from './utils/history';
-import Creator from './views/Creator';
+import history from './utils/history'
+import Creator from './views/Creator'
 import User from './views/User'
 
 // styles
@@ -44,11 +44,8 @@ const App = () => {
         <Switch>
           <Route exact path='/' exact render={() => <Homepage />} />
           <Route exact path='/homepage-test' render={() => <Homepage />} />
-          <Route
-            exact
-            path='/broadcast-room/:roomId'
-            render={() => <BroadcastRoom />}
-          />
+          <Route exact path='/about' render={() => <About />} />
+
           <Route exact path='/profile' component={Profile} />
           <Route exact path='/external-api' component={ExternalApi} />
           <Route
@@ -56,8 +53,19 @@ const App = () => {
             path='/event/:id'
             render={({ match }) => <EventPage match={match} />}
           />
-           <Route path='/creator/:id' component={({match}) => <Creator match={match}/>} />
-           <Route path='/user/:id' component={({match}) => <User match={match}/>} />
+          <Route
+            exact
+            path='/broadcast-room/:roomId'
+            render={({ match }) => <BroadcastRoom match={match} />}
+          />
+          <Route
+            path='/creator/:id'
+            component={({ match }) => <Creator match={match} />}
+          />
+          <Route
+            path='/user/:id'
+            component={({ match }) => <User match={match} />}
+          />
         </Switch>
         <Footer />
       </div>

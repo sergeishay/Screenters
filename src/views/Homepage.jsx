@@ -7,7 +7,10 @@ import { inject, observer } from 'mobx-react'
 import { useHistory } from 'react-router-dom'
 import { useState } from 'react'
 
-const Homepage = inject('eventsStores')(
+const Homepage = inject(
+  'eventsStores',
+  'generalStore'
+)(
   observer(props => {
     const history = useHistory()
 
@@ -26,6 +29,7 @@ const Homepage = inject('eventsStores')(
 
     const [eventList, setEventList] = useState(props.eventsStores.listOfEvents)
     const eventNames = props.eventsStores.listOfEvents.map(event => event.name)
+
     const filterEvents = query => {
       const filteredEvents = props.eventsStores.listOfEvents.filter(event =>
         event.name.includes(query)
@@ -33,17 +37,16 @@ const Homepage = inject('eventsStores')(
       setEventList(filteredEvents)
     }
     const filterByCategory = categories => {
-      console.log('categories', categories)
-      console.log('events', props.eventsStores.listOfEvents)
       const filteredEvents = props.eventsStores.listOfEvents.filter(function (
         event
       ) {
-        console.log('event.categoryID', event.categoryID)
-        console.log('this', this)
-        return this.indexOf(event.categoryID.toString()) < 0
+        if (this.length > 0) {
+          return this.indexOf(event.categoryID.toString()) >= 0
+        } else {
+          return true
+        }
       },
       categories)
-      console.log(filteredEvents)
       setEventList(filteredEvents)
     }
     const sortEvents = attr => {

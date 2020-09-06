@@ -23,8 +23,8 @@ const ImageUplaod = props => {
     cloud.open()
   }
   const setImageAfterUpload = src => {
-    console.log(src)
     setImageSrc(src)
+    props.updateFunction(src, props.field)
   }
   useEffect(() => {
     if (!imageSrc) {

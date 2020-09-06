@@ -1,5 +1,12 @@
 import React, { useEffect } from 'react'
-import { MDBContainer, MDBRow, MDBCol, MDBTypography, MDBInput } from 'mdbreact'
+import {
+  MDBContainer,
+  MDBRow,
+  MDBCol,
+  MDBTypography,
+  MDBInput,
+  MDBSelect,
+} from 'mdbreact'
 import { inject, observer } from 'mobx-react'
 import MyCalendar from '../components/Calendar/Calendar'
 import SwitchField from '../components/Inputs/SwitchField'
@@ -26,12 +33,21 @@ const EventPage = inject('generalStore')(
   observer(props => {
     const store = props.generalStore
     const eventID = props.match.params.id
+    const categories = props.generalStore.categories
 
     const [eventTitle, setEventTitle] = useState('')
     const [eventDescription, setEventDescription] = useState('')
+    const [eventCategory, setEventCategory] = useState('')
+
+    let selectedCategory = null
 
     const currentUser = store.currentUser
     console.log('currentUser', currentUser)
+
+    const chooseCategory = value => {
+      console.log('CHOHOSE', value)
+      selectedCategory = value[0]
+    }
 
     const saveData = field => {
       if (field === 'title') {
@@ -47,13 +63,43 @@ const EventPage = inject('generalStore')(
           value: eventDescription,
         })
       }
+      if (field === 'categoryID') {
+        console.log('UPDATE DATA', selectedCategory)
+        store.updateEvent(store.singleEvent.id, {
+          field: 'categoryID',
+          value: selectedCategory,
+        })
+        setEventCategory(getCategoryNameByID(selectedCategory, categories))
+      }
+      if (field === 'coverImgURL') {
+        store.updateEvent(store.singleEvent.id, {
+          field: 'categoryID',
+          value: selectedCategory,
+        })
+        setEventCategory(getCategoryNameByID(selectedCategory, categories))
+      }
     }
-
+    const updateEventImage = (imageURL, field) => {
+      store.updateEvent(store.singleEvent.id, {
+        field: field,
+        value: imageURL,
+      })
+    }
+    const getCategoryIDbyName = (catName, categories, lang) => {
+      return categories.find(cat => cat.name_en == catName).id
+    }
+    const getCategoryNameByID = (catID, categories, lang) => {
+      return categories.find(cat => cat.id == catID).name_en
+    }
     useEffect(() => {
       const getEvent = async () => {
         await store.getEventById(eventID)
         setEventTitle(store.singleEvent.name)
         setEventDescription(store.singleEvent.description)
+        const eventCategory = categories.find(
+          cat => cat.id == store.singleEvent.categoryID
+        ).name_en
+        setEventCategory(eventCategory)
       }
       getEvent()
     }, [])
@@ -64,6 +110,8 @@ const EventPage = inject('generalStore')(
           src={store.singleEvent.coverImgURL}
           alt={store.singleEvent.name}
           isEdit={true}
+          updateFunction={updateEventImage}
+          field='coverImgURL'
         />
         <div className='spacer'>&nbsp;</div>
         <MDBContainer>
@@ -96,12 +144,14 @@ const EventPage = inject('generalStore')(
               />
 
               <MDBTypography tag='h3' variant='h3-responsive'>
-                {store.singleEvent.creatorID}
+                By {store.singleEvent.creatorID}
               </MDBTypography>
-
+              <hr />
               {/* EVENT DESCRIPTION  */}
               <SwitchField
-                showComponent={<p>{store.singleEvent.description}</p>}
+                showComponent={
+                  <p className='inline'>{store.singleEvent.description}</p>
+                }
                 editComponent={
                   <MDBInput
                     type='textarea'
@@ -113,6 +163,33 @@ const EventPage = inject('generalStore')(
                 }
                 updateFunction={saveData}
                 fieldToUpdate='description'
+                isActive={true}
+              />
+              <hr />
+              {/* EVENT CATEGORY */}
+              <SwitchField
+                showComponent={
+                  <MDBTypography
+                    className='inline'
+                    tag='h4'
+                    variant='h4-responsive'
+                  >
+                    <strong>{eventCategory}</strong>
+                  </MDBTypography>
+                }
+                editComponent={
+                  <MDBSelect
+                    options={categories.map(cat => ({
+                      text: cat.name_en,
+                      value: cat.id,
+                    }))}
+                    selected={eventCategory}
+                    label='Select category'
+                    getValue={chooseCategory}
+                  />
+                }
+                updateFunction={saveData}
+                fieldToUpdate='categoryID'
                 isActive={true}
               />
             </MDBCol>
