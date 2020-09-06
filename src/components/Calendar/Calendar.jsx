@@ -9,13 +9,18 @@ import { useState } from 'react'
 const Calendar = props => {
   const [bookModalOpen, setModalOpen] = useState(false)
   const [createModalOpen, setCreateModalOpen] = useState(false)
-
   const [selectedShow, setSelectedShow] = useState({})
   const [selectedDate, setSelectedDate] = useState({})
 
-  const currentUser = props.currentUser
+  const { currentUser, shows, currentEvent, isEventPage } = props
+  console.log('currentEvent', currentEvent)
+  console.log('currentUser', currentUser)
+  if (
+    currentUser.userRole === 'CREATOR' &&
+    currentEvent.creatorID === currentUser.id
+  ) {
+  }
 
-  const shows = props.shows
   const handleShowClick = info => {
     console.log(info.event)
     setSelectedShow({

@@ -7,37 +7,40 @@ import { Events } from './Events'
 import { User } from './User'
 
 export class GeneralStore {
-    @observable categories = []
-    @observable creators
-    @observable hashtags = []
+  @observable categories = []
+  @observable creators
+  @observable hashtags = []
+
 
     @observable currentUser = {}
     @observable singleEvent = {
         shows: [],
     }
 
-    constructor(listOfEvents) {
-        // const { user } = useAuth0()
-        // let context = Auth0Context
-        this.listOfEvents = listOfEvents
-        this.init()
-    }
-    init = async () => {
-        // this.getEventById(5)
-        // this.currentUser()
-        this.gelAllCategories()
-        // this.addUser()
-        // this.updateEvent(3 , {field: "name" , value : "check232"})
-    }
 
-    @action async getEventById(eventId) {
-        let getEventById = await axios.get(
-            `http://localhost:8080/api/events/${eventId}`
-        )
-        console.log(getEventById)
-        getEventById = getEventById.data
-        this.singleEvent = getEventById
-    }
+  constructor(listOfEvents) {
+    // const { user } = useAuth0()
+    // let context = Auth0Context
+    this.listOfEvents = listOfEvents
+    this.init()
+  }
+  init = async () => {
+    // this.getEventById(5)
+    // this.currentUser()
+    this.gelAllCategories()
+    // this.addUser()
+    // this.updateEvent(3 , {field: "name" , value : "check232"})
+  }
+
+  @action async getEventById(eventId) {
+    let getEventById = await axios.get(
+      `http://localhost:8080/api/events/${eventId}`
+    )
+    console.log(getEventById)
+    getEventById = getEventById.data
+    this.singleEvent = getEventById
+  }
+
 
     @action async gelAllCategories() {
         let gelAllCategories = await axios.get(
@@ -95,17 +98,7 @@ export class GeneralStore {
             this.addUser(user)
         }
     }
-
-
-
-
-
-
-
-
-
-
-
+  
 
 
     @action async deleteEvent(eventId) {
@@ -134,5 +127,7 @@ export class GeneralStore {
         } else { 
             console.log("error")
         }
+
     }
+  
 }

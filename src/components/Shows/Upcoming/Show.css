@@ -1,0 +1,21 @@
+.show-container {
+    border: 1px solid #ccc;
+    border-radius: 5px;
+    box-shadow: 1px 2px 5px #ccc;
+    margin: 15px;
+    padding: 10px;
+}
+
+.show-container div[data-test='col'] {
+    margin-bottom: 0 !important;
+}
+
+.show-container a[data-test='button'] {
+    width: 80%;
+}
+
+.show-container img {
+    height: 200px;
+    width: 200px;
+}
+

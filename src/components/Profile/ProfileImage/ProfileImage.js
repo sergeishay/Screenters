@@ -19,7 +19,7 @@ const ProfileImage = props => {
     }
     
     
-    return props.isOwner ? (
+    return props.isOwner || props.isUser ? (
         <React.Fragment>
             <MDBCol md="5">
                 <MDBView hover zoom >

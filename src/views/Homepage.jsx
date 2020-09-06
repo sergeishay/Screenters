@@ -38,7 +38,9 @@ const Homepage = inject('eventsStores')(
       const filteredEvents = props.eventsStores.listOfEvents.filter(function (
         event
       ) {
-        return this.indexOf(event.categoryID) < 0
+        console.log('event.categoryID', event.categoryID)
+        console.log('this', this)
+        return this.indexOf(event.categoryID.toString()) < 0
       },
       categories)
       console.log(filteredEvents)

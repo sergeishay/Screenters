@@ -70,8 +70,8 @@ export class User {
 
     }
 
-    @action cancelShow(showId) {
-        // let cancelShow = this.futureShows.find(s =>  )
+    @action unBookShow(showId) {
+        // let unBookShow = this.futureShows.find(s =>  )
     }
 
 

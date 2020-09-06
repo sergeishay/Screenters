@@ -8,7 +8,7 @@ import { useLocation } from 'react-router-dom'
 import './BroadcastRoom.css'
 import axios from 'axios'
 const queryString = require('query-string')
-const ENDPOINT = 'https://2edea80c20a6.ngrok.io/:8181'
+const ENDPOINT = 'http://localhost:8181'
 const ID = 321
 
 const Homepage = inject('eventsStores')(
