@@ -31,9 +31,11 @@ const Homepage = inject(
     const eventNames = props.eventsStores.listOfEvents.map(event => event.name)
 
     const filterEvents = query => {
-      const filteredEvents = props.eventsStores.listOfEvents.filter(event =>
-        event.name.includes(query)
-      )
+      const filteredEvents = props.eventsStores.listOfEvents.filter(event => {
+        const lowerQuery = query.toLowerCase()
+        const lowerName = event.name.toLowerCase()
+        return lowerName.includes(lowerQuery)
+      })
       setEventList(filteredEvents)
     }
     const filterByCategory = categories => {

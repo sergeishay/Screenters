@@ -57,6 +57,7 @@ const Calendar = props => {
           toggleModal={toggleBookModal}
           show={selectedShow}
           currentUser={currentUser}
+          showPrice={props.showPrice}
         />
       )}
       {createModalOpen && (

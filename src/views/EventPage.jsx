@@ -7,6 +7,7 @@ import {
   MDBInput,
   MDBSelect,
 } from 'mdbreact'
+import Rating from '../components/Inputs/Rating'
 import { inject, observer } from 'mobx-react'
 import MyCalendar from '../components/Calendar/Calendar'
 import SwitchField from '../components/Inputs/SwitchField'
@@ -38,11 +39,32 @@ const EventPage = inject('generalStore')(
     const [eventTitle, setEventTitle] = useState('')
     const [eventDescription, setEventDescription] = useState('')
     const [eventCategory, setEventCategory] = useState('')
+    const [eventPrice, setEventPrice] = useState('')
+
+    let theEventRating = 0
 
     let selectedCategory = null
 
     const currentUser = store.currentUser
-    console.log('currentUser', currentUser)
+    console.log('currentUser', store)
+    console.log('currenteVENT', store.singleEvent)
+
+    const calculateRating = shows => {
+      console.log(shows)
+      if (shows.length > 0) {
+        let counter = 0
+        const rating = shows.reduce((total, item) => {
+          if (item.rating) {
+            counter++
+            return total + item.rating
+          } else {
+            return total
+          }
+        }, 0)
+        const avgRating = counter == 0 ? 5 : rating / counter
+        return avgRating
+      } else return 5
+    }
 
     const chooseCategory = value => {
       console.log('CHOHOSE', value)
@@ -71,12 +93,11 @@ const EventPage = inject('generalStore')(
         })
         setEventCategory(getCategoryNameByID(selectedCategory, categories))
       }
-      if (field === 'coverImgURL') {
+      if (field === 'price') {
         store.updateEvent(store.singleEvent.id, {
-          field: 'categoryID',
-          value: selectedCategory,
+          field: 'price',
+          value: eventPrice,
         })
-        setEventCategory(getCategoryNameByID(selectedCategory, categories))
       }
     }
     const updateEventImage = (imageURL, field) => {
@@ -100,6 +121,8 @@ const EventPage = inject('generalStore')(
           cat => cat.id == store.singleEvent.categoryID
         ).name_en
         setEventCategory(eventCategory)
+        setEventPrice(store.singleEvent.price)
+        theEventRating = calculateRating(store.singleEvent.shows)
       }
       getEvent()
     }, [])
@@ -147,6 +170,8 @@ const EventPage = inject('generalStore')(
                 By {store.singleEvent.creatorID}
               </MDBTypography>
               <hr />
+              <Rating rating={5} />
+              <hr />
               {/* EVENT DESCRIPTION  */}
               <SwitchField
                 showComponent={
@@ -192,6 +217,32 @@ const EventPage = inject('generalStore')(
                 fieldToUpdate='categoryID'
                 isActive={true}
               />
+              <hr />
+              {/*  EVENT PRICE  */}
+              <SwitchField
+                showComponent={
+                  <MDBTypography
+                    className='inline'
+                    tag='h2'
+                    variant='h2-responsive'
+                  >
+                    Price: $<strong>{eventPrice}</strong>
+                  </MDBTypography>
+                }
+                editComponent={
+                  <MDBInput
+                    group={false}
+                    className='input-small'
+                    size='sm'
+                    label='Edit event price'
+                    getValue={value => setEventPrice(value)}
+                    value={eventPrice}
+                  />
+                }
+                updateFunction={saveData}
+                fieldToUpdate='price'
+                isActive={true}
+              />
             </MDBCol>
           </MDBRow>
         </MDBContainer>
@@ -212,6 +263,7 @@ const EventPage = inject('generalStore')(
                 shows={formatShows(store.singleEvent.shows)}
                 currentEvent={store.singleEvent}
                 isEventPage={true}
+                showPrice={store.singleEvent.price}
               />
             </MDBCol>
           </MDBRow>
