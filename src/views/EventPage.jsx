@@ -40,6 +40,7 @@ const EventPage = inject('generalStore')(
     const [eventDescription, setEventDescription] = useState('')
     const [eventCategory, setEventCategory] = useState('')
     const [eventPrice, setEventPrice] = useState('')
+    const [creatorDetalis, setCreatorDetalis] = useState({})
 
     let theEventRating = 0
     let selectedCategory = null
@@ -121,7 +122,13 @@ const EventPage = inject('generalStore')(
         setEventCategory(eventCategory)
         setEventPrice(store.singleEvent.price)
         theEventRating = calculateRating(store.singleEvent.shows)
+        const creatorDetalis = await store.getCreatorById(
+          store.singleEvent.creatorID
+        )
+        setCreatorDetalis(creatorDetalis)
+        console.log('CCCCREATOR', creatorDetalis)
       }
+
       getEvent()
     }, [])
 
@@ -262,7 +269,7 @@ const EventPage = inject('generalStore')(
                 currentEvent={store.singleEvent}
                 isEventPage={true}
                 showPrice={store.singleEvent.price}
-                isUserEditor={userEditor}
+                userEditor={userEditor}
               />
             </MDBCol>
           </MDBRow>
