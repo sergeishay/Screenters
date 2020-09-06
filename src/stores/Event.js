@@ -28,7 +28,6 @@ export class Event {
         this.price = price
         this.creatorID = creatorID
         this.categoryID = categoryID
-
         this.shows = shows
         this.rating = rating
         this.init()
@@ -36,9 +35,12 @@ export class Event {
     init = async () => {
         // this.getAllEvents()
         // this.getComments()
+        this.addShow({id:null,startTime:'2011-09-10 10:10:10',endTime:'2011-09-10 10:10:10',showEventID:3})
     }
     @action async addShow(showData) {
-        let addNewShow = await axios.post(`http://localhost:8080/api/events/` ,  showData)
+        console.log(showData)
+        let addNewShow = await axios.post(`http://localhost:8080/api/events/` , showData)
+        console.log(addNewShow)
     }
     @action async removeShow(eventId , showId) {
         let deleteShow = await axios.post(`http://localhost:8080/api/events/${eventId}/${showId}`)
