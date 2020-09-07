@@ -68,7 +68,7 @@ export class User {
         const userID = this.id
         let resultShowFromDB = await axios.delete(`http://localhost:8080/api/users/show/${userID}/${showID}`)
         console.log(resultShowFromDB)
-        const showIndex = this.futureShows.findIndex(show => parseInt(show.id) = parseInt(showID))
+        const showIndex = this.futureShows.findIndex(show => parseInt(show.id) === parseInt(showID))
         this.futureShows.splice(showIndex ,1 )
     }
 
