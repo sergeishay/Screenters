@@ -1,4 +1,3 @@
-
 import { observable, action, computed, get } from 'mobx'
 import { Event } from './Event'
 import { Show } from './Show'
@@ -29,7 +28,6 @@ export class Events {
           return total + item.rating
         } else {
           return total
-
         }
       }, 0)
       const avgRating = counter == 0 ? 5 : rating / counter
@@ -44,13 +42,12 @@ export class Events {
           d.price,
           d.creatorID,
           d.categoryID,
-          d.shows,
-          avgRating
+          avgRating,
+          d.shows
         )
       )
     }
   }
-
 
   @action async addEvent(creatorID) {
     const result = await axios.post(
@@ -69,9 +66,21 @@ export class Events {
         null
       )
     )
-    const event = result.data;
-    const newEvent = new Event(event.id, event.name, event.description, event.imageURL, event.videoURL, event.coverImgURL, event.price, event.creatorID, event.categoryID, event.rating , []);
-    this.listOfEvents.push(newEvent);
+    const event = result.data
+    const newEvent = new Event(
+      event.id,
+      event.name,
+      event.description,
+      event.imageURL,
+      event.videoURL,
+      event.coverImgURL,
+      event.price,
+      event.creatorID,
+      event.categoryID,
+      event.rating,
+      []
+    )
+    this.listOfEvents.push(newEvent)
     return result
   }
 
@@ -83,9 +92,11 @@ export class Events {
     )
     console.log(addNewShow)
     if (addNewShow.data) {
-        console.log(this.listOfEvents);
-        
-      const indexHolder = this.listOfEvents.findIndex(event => event.id === addNewShow.data.showEventID)
+      console.log(this.listOfEvents)
+
+      const indexHolder = this.listOfEvents.findIndex(
+        event => event.id === addNewShow.data.showEventID
+      )
       console.log(indexHolder)
       this.listOfEvents[indexHolder].shows.push(addNewShow.data)
       console.log(this.listOfEvents)
@@ -118,6 +129,4 @@ export class Events {
       console.log('error')
     }
   }
-
 }
-

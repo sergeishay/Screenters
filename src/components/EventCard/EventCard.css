@@ -1,3 +1,7 @@
+div [data-test='col'] {
+  padding-right: 3px;
+  padding-left: 3px;
+}
 .view img,
 .view video {
   position: relative;
@@ -10,4 +14,33 @@
 }
 .star-ratings {
   margin-bottom: 10px;
+}
+.card-text {
+  margin-bottom: 10px;
+}
+.card-body {
+  padding-top: 10px;
+}
+.card-title {
+  min-height: 60px;
+  margin-bottom: 0px;
+}
+.card-description {
+  min-height: 60px;
+}
+.view {
+  height: 200px;
+}
+.view .Ripple-parent {
+  height: 100%;
+  border-top-left-radius: 10px;
+  border-top-right-radius: 10px;
+  overflow: hidden;
+}
+.view img {
+  object-fit: cover;
+  height: 100%;
+}
+.small-text {
+  font-size: 13px;
 }

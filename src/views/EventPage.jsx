@@ -12,10 +12,11 @@ import { inject, observer } from 'mobx-react'
 import MyCalendar from '../components/Calendar/Calendar'
 import SwitchField from '../components/Inputs/SwitchField'
 import ImageUplaod from '../components/Inputs/ImageUpload'
-
+import CreatorCard from '../components/CreatorCard/CreatorCard'
 import './pages.css'
 import { useRef } from 'react'
 import { useState } from 'react'
+import { shortenText, getClosestShow, formatDate } from '../utils/functions'
 
 const formatShows = shows => {
   return shows.map(show => ({
@@ -51,6 +52,10 @@ const EventPage = inject('generalStore')(
 
     const userEditor =
       currentUser.id == store.singleEvent.creatorID ? true : false
+
+    const eventShows = store.singleEvent.shows
+    const closestShow = getClosestShow(eventShows)
+    const closestShowText = closestShow ? formatDate(closestShow) : null
 
     const calculateRating = shows => {
       if (shows.length > 0) {
@@ -125,7 +130,7 @@ const EventPage = inject('generalStore')(
         const creatorDetalis = await store.getCreatorById(
           store.singleEvent.creatorID
         )
-        setCreatorDetalis(creatorDetalis)
+        setCreatorDetalis(creatorDetalis.data.Data)
         console.log('CCCCREATOR', creatorDetalis)
       }
 
@@ -172,7 +177,7 @@ const EventPage = inject('generalStore')(
               />
 
               <MDBTypography tag='h3' variant='h3-responsive'>
-                By {store.singleEvent.creatorID}
+                By {creatorDetalis.username}
               </MDBTypography>
               <hr />
               <Rating rating={5} />
@@ -248,6 +253,29 @@ const EventPage = inject('generalStore')(
                 fieldToUpdate='price'
                 isActive={userEditor}
               />
+              <br />
+              <br />
+              <MDBTypography
+                className='inline'
+                tag='h4'
+                variant='h4-responsive'
+              >
+                Next Screen On: {closestShowText}
+              </MDBTypography>
+            </MDBCol>
+
+            <MDBCol className='make-all-center' md='6'>
+              <MDBTypography
+                className='inline'
+                tag='h2'
+                variant='h2-responsive'
+                className='text-center'
+              >
+                About The Screenter
+                <br />
+                <br />
+              </MDBTypography>
+              <CreatorCard creatorDetails={creatorDetalis} />
             </MDBCol>
           </MDBRow>
         </MDBContainer>
@@ -256,8 +284,8 @@ const EventPage = inject('generalStore')(
         <MDBContainer>
           <MDBRow>
             <MDBCol>
-              <MDBTypography tag='h3' variant='h3-responsive'>
-                UPCOMING SCREENINGS:
+              <MDBTypography tag='h2' variant='h3-responsive'>
+                <strong>BOOK A LIVE SHOW:</strong>
               </MDBTypography>
             </MDBCol>
           </MDBRow>
@@ -279,7 +307,7 @@ const EventPage = inject('generalStore')(
           <MDBRow>
             <MDBCol>
               <MDBTypography tag='h3' variant='h3-responsive'>
-                MORE EVENTS BY :
+                MORE EVENTS YOU'LL LOVE :
               </MDBTypography>
             </MDBCol>
           </MDBRow>

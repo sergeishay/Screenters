@@ -13,6 +13,7 @@ import { useHistory } from 'react-router-dom'
 import Rating from '../Inputs/Rating'
 import './EventCard.css'
 import { useState } from 'react'
+import { shortenText, getClosestShow, formatDate } from '../../utils/functions'
 
 const EventCard = observer(props => {
   const [eventRatings, setEventRatings] = useState(0)
@@ -20,6 +21,11 @@ const EventCard = observer(props => {
   const handleDetailsClick = () => {
     history.push(`/event/${props.eventDetails.id}`)
   }
+  const eventShows = props.eventDetails.shows
+  const closestShow = getClosestShow(eventShows)
+  const closestShowText = closestShow ? formatDate(closestShow) : null
+
+  console.log('EVENT DETAILS IN CARD', props.eventDetails)
   return (
     <MDBCol style={{ maxWidth: '22rem' }}>
       <MDBCard>
@@ -30,9 +36,18 @@ const EventCard = observer(props => {
         />
         <MDBCardBody>
           <Rating rating={5} />
-          <MDBCardTitle>{props.eventDetails.name}</MDBCardTitle>
+          <MDBCardTitle>
+            {shortenText(props.eventDetails.name, 25)}
+          </MDBCardTitle>
           <MDBCardText>{props.eventDetails.categoryName}</MDBCardText>
-          <MDBCardText>{props.eventDetails.description}</MDBCardText>
+          <MDBCardText className='card-description'>
+            {shortenText(props.eventDetails.description, 20)}
+          </MDBCardText>
+          <div className='small-text'>
+            Next Screen:
+            <br />
+            {closestShowText}
+          </div>
           {(props.isEdit && (
             <MDBBtn onClick={handleDetailsClick}>EDIT</MDBBtn>
           )) || (

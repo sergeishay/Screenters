@@ -1,6 +1,6 @@
 import React from 'react'
 import { MDBContainer, MDBAutocomplete } from 'mdbreact'
-
+import './AutoComplete.css'
 const AutocompletePage = props => {
   const logValue = value => {
     props.filterFunction(value)

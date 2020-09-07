@@ -9,6 +9,7 @@ import {
 } from 'mdbreact'
 import { useState } from 'react'
 import { inject } from 'mobx-react'
+import { formatDate } from '../../utils/functions'
 
 const BookModal = inject('generalStore')(props => {
   const [isOpen, setIsOpen] = useState(true)
@@ -44,22 +45,22 @@ const BookModal = inject('generalStore')(props => {
   )
 })
 
-const formatDate = date => {
-  const days = [
-    'Sunday',
-    'Monday',
-    'Tuesday',
-    'Wednesday',
-    'Thursday',
-    'Friday',
-    'Saturday',
-  ]
-  const dayString = days[date.getDay()]
-  const dateString = `${date.getDate()}/${
-    date.getMonth() + 1
-  }/${date.getFullYear()}`
-  const hour = date.getHours()
-  const minutes = date.getMinutes()
-  return `${dayString} | ${dateString} | ${hour}:${minutes} `
-}
+// const formatDate = date => {
+//   const days = [
+//     'Sunday',
+//     'Monday',
+//     'Tuesday',
+//     'Wednesday',
+//     'Thursday',
+//     'Friday',
+//     'Saturday',
+//   ]
+//   const dayString = days[date.getDay()]
+//   const dateString = `${date.getDate()}/${
+//     date.getMonth() + 1
+//   }/${date.getFullYear()}`
+//   const hour = date.getHours()
+//   const minutes = date.getMinutes()
+//   return `${dayString} | ${dateString} | ${hour}:${minutes} `
+// }
 export default BookModal
