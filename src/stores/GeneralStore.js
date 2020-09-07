@@ -143,8 +143,7 @@ export class GeneralStore {
             null,
             null,
             null,
-            null,
-            null
+
         )
         console.log(insertUsesData)
 
