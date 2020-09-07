@@ -55,19 +55,21 @@ export class User {
 
 
     ////////////////BOOK SHOW///////////////////
-    @action async bookShow(userID, showID) {
-        let resultShowFromDB = await axios.post(`http://localhost:8080/api/users/show`, { userID, showID })
+    @action async bookShow(showID) {
+        const userID = this.id
+        let resultShowFromDB = await axios.post(`http://localhost:8080/api/users/show`, {userID, showID})
         console.log(resultShowFromDB)
         this.futureShows.push(resultShowFromDB.data)
         console.log(this.futureShows)
-        //send the body with the show details push to futured shows.
-        //toggle button
-        //route to mongoose particepent array
+
     }
 
-    @action async unBookShow(userID , showID) {
+    @action async unBookShow(showID) {
+        const userID = this.id
         let resultShowFromDB = await axios.delete(`http://localhost:8080/api/users/show/${userID}/${showID}`)
         console.log(resultShowFromDB)
+        const showIndex = this.futureShows.findIndex(show => parseInt(show.id) = parseInt(showID))
+        this.futureShows.splice(showIndex ,1 )
     }
 
 
