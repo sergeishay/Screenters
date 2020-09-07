@@ -48,6 +48,8 @@ export class GeneralStore {
 
 
     ////////////////SHOWS///////////////////////////
+
+
     @action async addShow(showData) {
         console.log(showData)
         let addNewShow = await axios.post(`http://localhost:8080/api/events/show`, showData)
@@ -61,9 +63,12 @@ export class GeneralStore {
             endTime : addNewShow.daata.endTime,
             participants : []
         }
-        let addUserToMongoose = await axios.post(`http://localhost:8080/broadCast/${currentShowId}` , dataAboutTheShow)
-
+        let addUserToMongoose = await axios.post(`http://localhost:8181/broadCast/${currentShowId}` , dataAboutTheShow)
+        console.log(addUserToMongoose)
     }
+
+
+
 
     @action async deleteShow(showId, eventId) {
         let deleteShow = await axios.delete(`http://localhost:8080/api/events?showId=${showId}`)
@@ -79,6 +84,12 @@ export class GeneralStore {
         }
     }
     /////////////////User Auth/////////////////////
+
+
+
+
+
+
 
     @action async checkUserInDataBase(user) {
         const userId = user.sub
@@ -147,6 +158,9 @@ export class GeneralStore {
 
     //////////CREATORS ///////////////////
 
+
+
+
     @action async getAllCreators() {
         let getAllCreators = await axios.get(`http://localhost:8080/api/creators?isEvents=1&isShows=1`)
         this.AllCreators = [...getAllCreators.data]
@@ -159,6 +173,12 @@ export class GeneralStore {
 
 
     /////////////////////EVENTS///////////////////
+
+
+
+
+
+
     @action async getEventById(eventId) {
         let getEventById = await axios.get(
             `http://localhost:8080/api/events/${eventId}`
@@ -194,6 +214,31 @@ export class GeneralStore {
             console.log("error")
         }
 
+    }
+
+
+    /////////COMMENT REVIEW SECTION /////
+
+    @action async postReviewShows(showId, showReview) {
+        let result = await axios.post(`http://localhost:8080/api/reviews/show`)
+        console.log(result)
+    }
+
+    @action async getReviewShows(reviewId) {
+        let result = await axios.get(`http://localhost:8080/api/reviews/${reviewId}`)
+        console.log(result)
+    }
+
+
+    @action async getReviewCreator(reviewId) {
+        let result = await axios.get(`http://localhost:8080/api/reviews/${reviewId}`)
+        console.log(result)
+    }
+
+    @action async postReviewCreator(creatorId, creatorReview) {
+        //userId , showId , review data to save in this store 
+        let result = await axios.post(`http://localhost:8080/api/reviews/creator`)
+        console.log(result)
     }
 
 }
