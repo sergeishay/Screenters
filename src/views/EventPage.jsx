@@ -17,6 +17,7 @@ import './pages.css'
 import { useRef } from 'react'
 import { useState } from 'react'
 import { shortenText, getClosestShow, formatDate } from '../utils/functions'
+import CreatorEventList from '../components/CreatorEventList'
 
 const formatShows = shows => {
   return shows.map(show => ({
@@ -31,7 +32,10 @@ const isEventCreator = (user, eventID) => {
   if (!user.userRole === 'CREATOR') return false
 }
 
-const EventPage = inject('generalStore')(
+const EventPage = inject(
+  'generalStore',
+  'eventsStores'
+)(
   observer(props => {
     const store = props.generalStore
     const eventID = props.match.params.id
@@ -47,8 +51,8 @@ const EventPage = inject('generalStore')(
     let selectedCategory = null
 
     const currentUser = store.currentUser
-    console.log('EVENT CURRENT USER', currentUser)
-    console.log('EVENT CURRENT EVENT', store.singleEvent)
+    // console.log('EVENT CURRENT USER', currentUser)
+    // console.log('EVENT CURRENT EVENT', store.singleEvent)
 
     const userEditor =
       currentUser.id == store.singleEvent.creatorID ? true : false
@@ -312,7 +316,12 @@ const EventPage = inject('generalStore')(
             </MDBCol>
           </MDBRow>
           <MDBRow>
-            <MDBCol></MDBCol>
+            <MDBCol>
+              <CreatorEventList
+                isOwner={false}
+                events={props.eventsStores.listOfEvents.slice(0, 3)}
+              />
+            </MDBCol>
           </MDBRow>
         </MDBContainer>
       </>

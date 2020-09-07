@@ -18,7 +18,7 @@ import history from './utils/history'
 import Creator from './views/Creator'
 import User from './views/User'
 
-// styles
+// stylesconst { isLoading, error, user } = useAuth0()
 import './App.css'
 
 // fontawesome

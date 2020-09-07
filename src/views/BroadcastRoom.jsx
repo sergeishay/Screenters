@@ -21,13 +21,9 @@ const minutesToStart = room => {
 }
 
 const checkUserRole = (room, userID) => {
-  if (parseInt(userID) === parseInt(room.creator)) return 'CREATOR'
-  if (
-    room.participants.find(
-      user => parseInt(userID) === parseInt(user.userID)
-    ) !== -1
-  )
-    return 'USER'
+  if (userID === room.creator) return 'CREATOR'
+  console.log(room.participants.find(user => userID === user.userID))
+  if (room.participants.find(user => userID === user.userID)) return 'USER'
 
   return null
 }
@@ -44,7 +40,7 @@ const Homepage = inject(
     const currentUser = props.generalStore.currentUser
     const allVideoStreams = []
     let roomInfo = {}
-    let currentUserID = null
+    let currentUserID = escape(user.sub)
     let creatorID = null
 
     let location = useLocation()
@@ -89,16 +85,16 @@ const Homepage = inject(
         console.log('STREAM RECIEVED FROM USER', userVideoStream)
 
         const element =
-          parseInt(creatorID) === parseInt(peerUserID)
-            ? 'main-video'
-            : 'participants-videos'
+          creatorID === peerUserID ? 'main-video' : 'participants-videos'
         addVideoStream(video, userVideoStream, element)
       })
     }
 
     useEffect(() => {
       const queryParams = queryString.parse(location.search)
-      currentUserID = queryParams.user
+      // currentUserID = queryParams.user
+      currentUserID = escape(user.sub)
+      console.log(currentUserID)
 
       async function getData() {
         const response = await axios.get(
@@ -110,8 +106,8 @@ const Homepage = inject(
         if (!response.data.error) {
           roomInfo = response.data
           const userRole = checkUserRole(roomInfo, currentUserID)
-          setCurrentUserRole(userRole)
           console.log('userRolevuserRoleuserRole', userRole)
+          setCurrentUserRole(userRole)
           minutesToStart(roomInfo)
 
           if (userRole) {
@@ -125,7 +121,7 @@ const Homepage = inject(
                 creatorID = response.data.creator
                 socket.emit('update-streams', currentUserID, stream.id)
                 const element =
-                  parseInt(queryParams.user) === parseInt(response.data.creator)
+                  currentUserID === response.data.creator
                     ? 'main-video'
                     : 'participants-videos'
 
@@ -193,7 +189,7 @@ const Homepage = inject(
                         console.log('parseInt(creatorID)', parseInt(creatorID))
                         console.log('parseInt(call.peer)', parseInt(call.peer))
                         const element =
-                          parseInt(creatorID) === parseInt(call.peer)
+                          creatorID === call.peer
                             ? 'main-video'
                             : 'participants-videos'
                         addVideoStream(newVideoObject, remoteStream, element)
