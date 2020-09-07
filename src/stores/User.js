@@ -53,7 +53,12 @@ export class User {
         let addUser = await axios.post(`http://localhost:8080/api/users`)
     }
 
-
+    @action async deleteUser(userId) {
+        let deleteUser = await axios.delete(`http://localhost:8080/api/users/${userId}`)
+    }
+    @action async updateUser(userId, data) {
+        let updateUser = await axios.put(`http://localhost:8080/api/users/${userId}`, data)
+    }
     ////////////////BOOK SHOW///////////////////
     @action async bookShow(showID) {
         const userID = this.id
