@@ -8,5 +8,5 @@ deploy:
     env: 'screentersdockerfinal-env'
     bucket_name: 'elasticbeanstalk-eu-central-1-284271987787'
     bucket_path: 'docker'
-    access_key_id: "AKIAUEL7OJRFTJX3DXQ4"
-    secret_access_key: "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"
+    access_key_id: $AWS_ACCESS_KEY
+    secret_access_key: $AWS_SECRET_KEY

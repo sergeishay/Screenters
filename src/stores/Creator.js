@@ -11,6 +11,9 @@ export class Creator extends User {
   @observable oldEvents = []
   @observable comments = []
   @observable statistics
+  @observable singleCreator = {
+    reviews: []
+  }
   constructor(
     id,
     firstName,
@@ -122,13 +125,18 @@ export class Creator extends User {
     console.log(Users.data)
   }
 
+  @action async setCreatorReviews(creatorId) {
+    const { data } = await axios.get(`http://localhost:8080/api/creators/${creatorId}`)
+    this.singleCreator.reviews = data.Reviews;
+}
+
   @action async addReviewToCreator(
     header,
     text,
     reviewCreatorID,
     reviewUserID
   ) {
-    await axios.post(`http://localhost:8080/api/reviews/creator`, {
+    this.singleCreator.reviews.push(await axios.post(`http://localhost:8080/api/reviews/creator`, {
       id: null,
       header,
       text,
@@ -136,6 +144,6 @@ export class Creator extends User {
       reviewCreatorID,
       time: Date.now(),
       parentReview: null,
-    })
+    }))
   }
 }

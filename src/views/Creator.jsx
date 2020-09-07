@@ -15,6 +15,7 @@ const Creator = inject('generalStore', 'creatorStore')(
     const { user, getAccessTokenSilently } = useAuth0();
     const [isOwner, setIsOwner] = useState(false);
     const [creator, setCreator] = useState({});
+    const [assosiatedReviwes, setAssosiatedReviews] = useState([])
     const [reviewHeaderInput, setReviewHeaderInput] = useState("")
     const [reviewContentInput, setReviewContentInput] = useState("")
 
@@ -28,7 +29,8 @@ const Creator = inject('generalStore', 'creatorStore')(
           setIsOwner(true)
         }
         setCreator(await props.generalStore.getCreatorById(props.match.params.id))
-        props.generalStore.checkUserInDataBase(user)
+        await props.generalStore.checkUserInDataBase(user);
+        await props.creatorStore.setCreatorReviews(props.match.params.id);
       }
       getProfile();
     }, [])
@@ -70,11 +72,13 @@ const Creator = inject('generalStore', 'creatorStore')(
       setReviewContentInput(target.value)
     }
 
-    const addReview = () => {
-      props.creatorStore.addReviewToCreator(reviewHeaderInput, reviewContentInput, creator.data.Data.id, escape(user.sub))
+    const addReview = async() => {
+      props.creatorStore.addReviewToCreator(reviewHeaderInput, reviewContentInput, creator.data.Data.id, escape(user.sub));
       setReviewContentInput("");
       setReviewHeaderInput("");
     }
+
+    console.log(props.generalStore.singleCreator.reviews)
 
     return (
       creator.data ? (
@@ -107,10 +111,10 @@ const Creator = inject('generalStore', 'creatorStore')(
             )}
           </MDBRow>
           <MDBRow className='mt-0'>
-            {creator.data.Reviews.length ? (
+            {props.creatorStore.singleCreator.reviews.length ? (
               <>
                 <MDBTypography variant="h2" tag='h2'>Reviews:</MDBTypography>
-                <Reviews reviews={creator.data.Reviews}/>
+                <Reviews reviews={props.creatorStore.singleCreator.reviews}/>
               </>
             ):(
               <>
