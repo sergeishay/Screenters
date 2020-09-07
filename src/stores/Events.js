@@ -9,8 +9,10 @@ export class Events {
   @observable creators = []
   @observable hashtags = []
   @observable categories = []
+  
   constructor() {
     this.init()
+    this.newArray =[]
   }
   init = async () => {
     await this.getAllEvents()
@@ -31,6 +33,7 @@ export class Events {
         }
       }, 0)
       const avgRating = counter == 0 ? 5 : rating / counter
+
       this.listOfEvents.push(
         new Event(
           d.id,
@@ -47,7 +50,8 @@ export class Events {
         )
       )
     }
-  }
+    
+}
 
   @action async addEvent(creatorID) {
     const result = await axios.post(
