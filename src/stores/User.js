@@ -52,15 +52,11 @@ export class User {
         let addUser = await axios.post(`http://localhost:8080/api/users`)
     }
 
-
-    @action makeYourSelfCreator() {
-
-    }
     @action async deleteUser(userId) {
         let deleteUser = await axios.delete(`http://localhost:8080/api/users/${userId}`)
     }
-    @action async updateUser(userId) {
-        let updateUser = await axios.put(`http://localhost:8080/api/users/${userId}`)
+    @action async updateUser(userId, data) {
+        let updateUser = await axios.put(`http://localhost:8080/api/users/${userId}`, data)
     }
     @action async bookShow(eventId, showId) {
         let book = new Show(eventId, showId)

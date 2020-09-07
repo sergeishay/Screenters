@@ -12,12 +12,14 @@ const CreatorBackground = inject("creatorStore")(observer(props => {
     const [email, setEmail] = useState(creatorData.email)
     const [birthday, setBirthday] = useState(creatorData.birthday)
     const [phone, setPhone] = useState(creatorData.phone)
+    const [username, setUsername] = useState(creatorData.username)
 
     useEffect(() => {
           setAbout(creatorData.about)
           setEmail(creatorData.email)
           setBirthday(creatorData.birthday)
-          setPhone(creatorData.phone)         
+          setPhone(creatorData.phone)
+          setUsername(creatorData.username)         
       }, [creatorData])
       
     const saveData = field => {
@@ -45,15 +47,40 @@ const CreatorBackground = inject("creatorStore")(observer(props => {
               value: phone,
             })
           }
+          if (field === 'username') {
+            props.creatorStore.updateCreator(creatorData.id, {
+              field: 'username',
+              value: username,
+            })
+          }
       }
   
 
     return (
         <React.Fragment>
             <MDBCol md="7">
-                <MDBTypography variant="h1" tag='h1'>{creatorData.firstName} {creatorData.lastName}</MDBTypography>
-                {/* <Rating rating={creatorData.rating}/> */}
-                <Rating rating={4.5}/>
+                <SwithField
+                    showComponent={
+                    <MDBBox tag='h1' className='lead inline'>
+                        <MDBTypography className="inline" variant="h1" tag='h1'>{username}</MDBTypography>
+                    </MDBBox>
+                    }
+                    editComponent={
+                        <MDBInput
+                        group={false}
+                        className='input-small'
+                        size='sm'
+                        label='Edit Username'
+                        getValue={value => setUsername(value)}
+                        value={username}
+                        />                        
+                    }
+                    updateFunction={saveData}
+                    fieldToUpdate='username'
+                    isActive={props.isEdit}
+                />
+                <br/>
+                <Rating rating={props.creator.data.rating}/>
                 <div>
                     <SwithField
                         showComponent={

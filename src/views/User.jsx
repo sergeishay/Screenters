@@ -1,55 +1,99 @@
-import React, { useEffect } from 'react'
+import React, { useState, useEffect } from 'react';
+import { useHistory } from 'react-router-dom'
 import { observer, inject } from 'mobx-react'
-import ProfileImage from '../components/Profile/ProfileImage/ProfileImage'
-import { MDBContainer, MDBRow, MDBTypography } from 'mdbreact'
+import ImageUplaod from '../components/Inputs/ImageUpload'
+import { MDBContainer, MDBRow, MDBTypography, MDBCol, MDBBtn } from 'mdbreact'
 import CreatorEventList from '../components/CreatorEventList';
 import Show from '../components/Shows/Upcoming/Show';
 import PastShow from '../components/Shows/Past/PastShow'
+import Shows from '../components/Shows/Upcoming/Shows'
+import { useAuth0 } from '@auth0/auth0-react';
 
-const User = inject('userStore')(
+const User = inject('generalStore', 'userStore')(
   observer(props => {
+    const { user } = useAuth0();
+    const [isOwner, setIsOwner] = useState(false);
+    const [userData, setUserData] = useState({});
+    const history = useHistory()
 
+    console.log(userData);
+    
     useEffect(() => {
       const getProfile = async () => {
-        // props.userStore.getUserById(props.match.params.id)
+        if(unescape(props.match.params.id) === unescape(user.sub)) {
+          setIsOwner(true);
+        }
+        setUserData(await props.generalStore.getUserById(props.match.params.id));
       }
       getProfile();
     }, [])
 
-    const changeImage = newUrl => {
-      props.userStore.updateUser({field: "imageURL", value: newUrl})
+    const becomeCreator = () => {
+      props.userStore.updateUser(userData.data.id, {
+        field: "userRole",
+        value: "CREATOR"
+      });
+      history.push(`/creator/${userData.data.id}`)
+    }
+
+    const saveImage = (source, field) => {
+      props.userStore.updateUser(userData.data.id, {
+        field: "imageURL",
+        value: source
+      });
     }
 
     return (
+      userData.data ? (
       <React.Fragment>
         <MDBContainer className='mt-3'>
           <MDBRow className='mt-0'>
-            <ProfileImage
-              isUser={true}
-              changeImage={changeImage}
-              profile={props.creatorStore}
-            />
-            {/* <MDBTypography variant="h2" tag='h2'>{props.userStore.firstName} {props.userStore.lastName}</MDBTypography> */}
-            <MDBTypography variant="h2" tag='h2'>Matan Fried</MDBTypography>
+            <MDBCol md="4">
+              <ImageUplaod
+                src={userData.data.imageURL}
+                alt={userData.data.username}
+                isEdit={isOwner}
+                updateFunction={saveImage}
+              />
+            </MDBCol>
+            <MDBCol className="center" md="8">
+              <MDBTypography variant="h2" tag='h2'>{userData.data.username}</MDBTypography>
+              <MDBBtn onClick={becomeCreator} color="primary">Beacome a Creator!</MDBBtn>
+            </MDBCol>
           </MDBRow>
           <MDBRow className='mt-0'>
-            <MDBTypography variant="h2" tag='h2'>Upcoming Shows:</MDBTypography>
-            <Show />
-            <Show />
-            <Show />
+            {userData.data.futureShows.length ? (
+              <>
+                <MDBTypography variant="h2" tag='h2'>Upcoming Shows:</MDBTypography>
+                <Shows kind="upcoming" shows={userData.data.pastShows}/>
+              </>
+            ):(
+              <>
+                <MDBTypography variant="h2" tag='h2'>Upcoming shows will appear below..</MDBTypography>
+                <div className="spacer">&nbsp;</div>
+              </>
+            )}
           </MDBRow>
           <MDBRow className='mt-0'>
-            <MDBTypography variant="h2" tag='h2'>Past Shows:</MDBTypography>
-            <PastShow />
-            <PastShow />
-            <PastShow />
+            {userData.data.pastShows.length ? (
+              <>
+                <MDBTypography variant="h2" tag='h2'>Past Shows:</MDBTypography>
+                <Shows kind="past" shows={userData.data.pastShows}/>
+              </>
+            ):(
+              <>
+                <MDBTypography variant="h2" tag='h2'>Past attended shows will appear below..</MDBTypography>
+                <div className="spacer">&nbsp;</div>
+              </>
+            )}
           </MDBRow>
           <MDBRow>
             <MDBTypography variant="h2" tag='h2'>Shows you'll love:</MDBTypography>
-            <CreatorEventList />
+            {/* <CreatorEventList /> */}
           </MDBRow>
         </MDBContainer>
       </React.Fragment>
+      ) : null
     )
   })
 )

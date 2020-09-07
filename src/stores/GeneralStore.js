@@ -122,6 +122,7 @@ export class GeneralStore {
         console.log(userDetails)
         if (userDetails.data) {
             this.currentUser = userDetails.data
+            console.log(this.currentUser);
         }else{
             console.log("problem with the current user")
         }
