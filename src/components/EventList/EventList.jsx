@@ -1,4 +1,4 @@
-import React from 'react'
+import React, { useEffect } from 'react'
 import { MDBContainer, MDBRow, MDBCol } from 'mdbreact'
 import EventCard from '../EventCard/EventCard'
 import SelectBox from '../Inputs/SelectBox'
@@ -11,7 +11,15 @@ import './EventList.css'
 const selectOptions = ['Date', 'Popularity', 'Screenter']
 
 const EventGrid = inject('generalStore')(props => {
-  const categories = props.generalStore.categories
+  // const categories = props.generalStore.categories
+  const [categories, setCategories] = useState([])
+  const [eventList, setEventList] = useState([])
+
+  useEffect(() => {
+    setCategories(props.generalStore.categories)
+    setEventList(props.eventList)
+    console.log(props.eventList)
+  }, [props.generalStore.categories, props.eventList])
   return (
     <>
       <MDBContainer>
@@ -34,7 +42,7 @@ const EventGrid = inject('generalStore')(props => {
       </MDBContainer>
       <MDBContainer>
         <MDBRow className='masonry-with-columns-2'>
-          {props.eventList.map(event => {
+          {eventList.map(event => {
             event.categoryName = categories.find(
               cat => cat.id == event.categoryID
             ).name_en

@@ -1,4 +1,4 @@
-import React, { Fragment } from 'react'
+import React, { Fragment, useEffect } from 'react'
 import EventGrid from '../components/EventList/EventList'
 import SideBar from '../components/Sidebar/Sidebar'
 import JumboCarousel from '../components/Carousel/JumboCarousel'
@@ -29,6 +29,10 @@ const Homepage = inject(
 
     const [eventList, setEventList] = useState(props.eventsStores.listOfEvents)
     const eventNames = props.eventsStores.listOfEvents.map(event => event.name)
+
+    useEffect(() => {
+      setEventList(props.eventsStores.listOfEvents)
+    }, [props.eventsStores.listOfEvents])
 
     const filterEvents = query => {
       const filteredEvents = props.eventsStores.listOfEvents.filter(event => {
