@@ -148,20 +148,16 @@ export class GeneralStore {
             null,
             null
         )
-        let newUser = await axios.post(`http://localhost:8080/api/users`, insertUsesData)
-        if (newUser) {
-            this.currentUser = insertUsesData
-        } else {
+        console.log(insertUsesData)
+
+        let userDetails = await axios.post(`http://localhost:8080/api/users`, insertUsesData)
+        console.log(userDetails)
+        if (userDetails.data) {
+            this.currentUser = userDetails.data
+        }else{
             console.log("problem with the current user")
         }
     }
-
-
-
-    //////////CREATORS ///////////////////
-
-
-
 
     @action async getAllCreators() {
         let getAllCreators = await axios.get(`http://localhost:8080/api/creators?isEvents=1&isShows=1`)
@@ -193,7 +189,6 @@ export class GeneralStore {
 
     @action async deleteEvent(eventId) {
         let deleteEvent = await axios.delete(`http://localhost:8080/api/events?eventId=${eventId}`)
-
         let deleteEventFromList = this.listOfEvents.listOfEvents.findindex(deleteId => deleteId.id === eventId)
         this.listOfEvents.listOfEvents.splice(deleteEventFromList, 1)
     }
@@ -216,8 +211,8 @@ export class GeneralStore {
         } else {
             console.log("error")
         }
-
     }
+
 
 
     /////////COMMENT REVIEW SECTION /////
