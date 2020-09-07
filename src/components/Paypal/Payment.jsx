@@ -23,22 +23,22 @@ export default function ReactPayPal() {
             ],
           });
         },
-        
+
         onApprove: async (data, actions) => {
           const order = await actions.order.capture();
           setPaid(true);
           console.log(order);
         },
         onError: (err) => {
-        //   setError(err),
+          //   setError(err),
           console.error(err);
         },
-          style: {
-    layout:  'vertical',
-    color:   'blue',
-    shape:   'rect',
-    label:   'paypal'
-  }
+        style: {
+          layout: 'vertical',
+          color: 'blue',
+          shape: 'rect',
+          label: 'paypal'
+        }
       }).render(paypalRef.current);
   }, []);
 

@@ -60,7 +60,7 @@ export class GeneralStore {
         let dataAboutTheShow = {
             creator : userID,
             startTime : addNewShow.data.startTime,
-            endTime : addNewShow.daata.endTime,
+            endTime : addNewShow.data.endTime,
             participants : []
         }
         let addUserToMongoose = await axios.post(`http://localhost:8181/broadCast/${currentShowId}` , dataAboutTheShow)

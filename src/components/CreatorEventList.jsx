@@ -19,6 +19,8 @@ const EventGrid = inject('eventsStores')(
       history.push(`/event/${newEvent.data.id}`)
     }
 
+    console.log(props.isOwner);
+
     return (
       <>
         <MDBContainer>
