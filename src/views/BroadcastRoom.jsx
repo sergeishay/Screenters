@@ -1,4 +1,5 @@
 import React, { Fragment, useEffect, useState } from 'react'
+import { MDBBtn, MDBTypography, MDBIcon } from 'mdbreact'
 import Peer from 'peerjs'
 import socketIOClient from 'socket.io-client'
 import MainVideo from '../components/Broadcast/MainVideo'
@@ -7,33 +8,38 @@ import { inject, observer, PropTypes } from 'mobx-react'
 import { useLocation } from 'react-router-dom'
 import './BroadcastRoom.css'
 import axios from 'axios'
+import { useAuth0 } from '@auth0/auth0-react'
+
 const queryString = require('query-string')
 const ENDPOINT = 'http://localhost:8181'
 const ID = 321
 
-const Homepage = inject('eventsStores')(
+const Homepage = inject(
+  'eventsStores',
+  'generalStore'
+)(
   observer(props => {
+    const { user, isAuthenticated, loginWithRedirect, logout } = useAuth0()
     const requestedRoomID = props.match.params.roomId
+    const currentUser = props.generalStore.currentUser
     const allVideoStreams = []
-
-    console.log('requestedRoomID', requestedRoomID)
-    const socket = socketIOClient(ENDPOINT)
     let roomInfo = {}
     let currentUserID = null
     let creatorID = null
-
     let location = useLocation()
+
+    const socket = socketIOClient(ENDPOINT)
+
     const myVideoObject = document.createElement('video')
     myVideoObject.muted = true
     const getUserMedia =
       navigator.getUserMedia ||
       navigator.webkitGetUserMedia ||
       navigator.mozGetUserMedia
-
     let myVideoStream = null
 
     const addVideoStream = (video, stream, element) => {
-      console.log('STREAM STREAM', stream)
+      console.log('ADDING VIDEO STREAM', stream)
 
       if (!allVideoStreams.includes(stream.id)) {
         allVideoStreams.push(stream.id)
@@ -46,8 +52,8 @@ const Homepage = inject('eventsStores')(
     }
 
     const connectToNewUser = (peerUserID, stream, peer, connectedUserID) => {
-      console.log('user-connected with id:', connectedUserID)
-      console.log('PEER USER ID:', peerUserID)
+      console.log('CONNECTING TO A NEW USER (ID):', connectedUserID)
+      console.log('NEW USER PEER ID:', peerUserID)
 
       const streamData = { userID: currentUserID, userStream: stream.id }
       const conn = peer.connect(peerUserID)
@@ -57,8 +63,10 @@ const Homepage = inject('eventsStores')(
 
       const call = peer.call(peerUserID, stream)
       const video = document.createElement('video')
+
       call.on('stream', userVideoStream => {
-        console.log('STREEEEEEEEE', userVideoStream)
+        console.log('STREAM RECIEVED FROM USER', userVideoStream)
+
         const element =
           parseInt(creatorID) === parseInt(peerUserID)
             ? 'main-video'
@@ -70,13 +78,13 @@ const Homepage = inject('eventsStores')(
     useEffect(() => {
       const queryParams = queryString.parse(location.search)
       currentUserID = queryParams.user
-
       async function getData() {
         const response = await axios.get(
           `http://localhost:8181/broadcast/${requestedRoomID}`,
           { params: { ID } }
         )
-        console.log(response.data)
+        console.log('ROOM DATA RECIEVED FROM SERVER:', response.data)
+
         if (!response.data.error) {
           roomInfo = response.data
 
@@ -170,24 +178,69 @@ const Homepage = inject('eventsStores')(
                 )
               })
             })
-
-          // socket.on('FromAPI', data => {
-          //   setResponse(data)
-          // })
         } else {
           console.log(response.data.error)
         }
       }
-      getData()
+      if (isAuthenticated) {
+        getData()
+      }
     }, [])
 
     return (
-      <>
-        <div className='main-video-wrapper'>
-          <div id='main-video'></div>
-        </div>
-        <div id='participants-videos'></div>
-      </>
+      <div className='broadcast-page-wrapper'>
+        {(!isAuthenticated && (
+          <div className='center-container'>
+            <div className='centered-inner'>
+              <MDBTypography
+                className='inline text-center white-text'
+                tag='h2'
+                variant='h2-responsive'
+              >
+                PLEASE LOG IN TO WATCH STREAM
+                <br />
+                <br />
+              </MDBTypography>
+              <MDBBtn
+                id='qsLoginBtn'
+                color='primary'
+                className='btn-margin'
+                onClick={() => loginWithRedirect()}
+              >
+                Log in
+              </MDBBtn>
+            </div>
+          </div>
+        )) || (
+          <>
+            <div className='main-video-wrapper'>
+              <div id='main-video'></div>
+              <div id='secondary-video'></div>
+              <div id='main-video-controls'>
+                <div id='video-button-group'>
+                  <MDBBtn
+                    id='qsLoginBtn'
+                    color='primary'
+                    className='btn-margin small-button'
+                    onClick={() => null}
+                  >
+                    <MDBIcon icon='volume-mute' size='sm' />
+                  </MDBBtn>
+                  <MDBBtn
+                    id='qsLoginBtn'
+                    color='primary'
+                    className='btn-margin small-button'
+                    onClick={() => null}
+                  >
+                    <MDBIcon icon='desktop' size='sm' />
+                  </MDBBtn>
+                </div>
+              </div>
+            </div>
+            <div id='participants-videos'></div>
+          </>
+        )}
+      </div>
     )
   })
 )

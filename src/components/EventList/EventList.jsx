@@ -33,7 +33,7 @@ const EventGrid = inject('generalStore')(props => {
         </MDBRow>
       </MDBContainer>
       <MDBContainer>
-        <MDBRow>
+        <MDBRow className='masonry-with-columns-2'>
           {props.eventList.map(event => {
             event.categoryName = categories.find(
               cat => cat.id == event.categoryID
