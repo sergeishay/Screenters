@@ -1,6 +1,7 @@
 import { observable, action, computed } from 'mobx'
 import axios from 'axios'
 import { Show } from './Show'
+import { Comment } from './Comment'
 
 export class User {
     @observable id
@@ -20,8 +21,8 @@ export class User {
     @observable futureShows = []
     @observable pastShows = []
 
-
-    constructor(id, firstName, lastName, username, imageURL, videoURL, email, birthday, memberSince, gender, about ,userRole ,  isAuthorized,  phone) {
+    
+    constructor(id, firstName, lastName, username, imageURL, videoURL, email, birthday, memberSince, gender, about, userRole, isAuthorized, phone) {
         this.id = id
         this.firstName = firstName
         this.lastName = lastName
@@ -36,13 +37,13 @@ export class User {
         this.birthday = birthday
         this.videoURL = videoURL
         this.about = about
+        
         this.init()
-
     }
     init = async () => {
         // this.getCreators()
         // this.some()
-        this.bookShow(10 , 90)
+        // this.unBookShow("21" , 171)
         // this.addNewEvent(this.userData)
     }
 
@@ -53,38 +54,43 @@ export class User {
     }
 
 
-    @action makeYourSelfCreator() {
-
-    }
-    @action async deleteUser(userId) {
-        let deleteUser = await axios.delete(`http://localhost:8080/api/users/${userId}`)
-    }
-    @action async updateUser(userId) {
-        let updateUser = await axios.put(`http://localhost:8080/api/users/${userId}`)
-    }
-    @action async bookShow(eventId, showId) {
-        let book = new Show(eventId, showId)
-        let bookShow = await axios.post(`http://localhost:8080/api/users/show`, { book })
-        this.futureShows.push(book)
-
+    ////////////////BOOK SHOW///////////////////
+    @action async bookShow(userID, showID) {
+        let resultShowFromDB = await axios.post(`http://localhost:8080/api/users/show`, { userID, showID })
+        console.log(resultShowFromDB)
+        this.futureShows.push(resultShowFromDB.data)
+        console.log(this.futureShows)
+        //send the body with the show details push to futured shows.
+        //toggle button
+        //route to mongoose particepent array
     }
 
-    @action async some(){
-        console.log("fds")
+    @action async unBookShow(userID , showID) {
+        let resultShowFromDB = await axios.delete(`http://localhost:8080/api/users/show/${userID}/${showID}`)
+        console.log(resultShowFromDB)
     }
 
 
-
-    // @action async bookShow(userID , showID){
-    //     console.log("FDFDf")
-    //     let bookShowToDataBase = await axios.post(`http://localhost:8080/api/users/show` ,{userID , showID}) 
-    //     console.log(bookShowToDataBase)
-    // }
-
-    @action unBookShow(showId) {
-        // let unBookShow = this.futureShows.find(s =>  )
+    /////////COMMENT REVIEW SECTION /////
+    @action async getReviewShows(reviewId) {
+        let result = await axios.get(`http://localhost:8080/api/reviews/${reviewId}`)
+        console.log(result)
     }
 
+    @action async postReviewShows(creatorId, showReview) {
+        //userId , showId , review data to save in this store 
+        let result = await axios.post(`http://localhost:8080/api/reviews/show`) 
+        console.log(result)
+    }
 
+    @action async getReviewCreator(reviewId) {
+        let result = await axios.get(`http://localhost:8080/api/reviews/${reviewId}`)
+        console.log(result)
+    }
 
+    @action async postReviewCreator(creatorId, creatorReview) {
+        //userId , showId , review data to save in this store 
+        let result = await axios.post(`http://localhost:8080/api/reviews/creator`) 
+        console.log(result)
+    }
 }
