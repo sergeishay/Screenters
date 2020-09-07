@@ -16,3 +16,8 @@
 h2 {
   padding-left: 0 !important;
 }
+.make-all-center,
+.make-all-center div,
+.make-all-center .col {
+  margin: 0 auto;
+}

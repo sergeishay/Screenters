@@ -1,0 +1,43 @@
+.center-container {
+  display: grid;
+  justify-content: center;
+  align-content: center;
+  height: 100%;
+}
+.centered-inner {
+  text-align: center;
+}
+.broadcast-page-wrapper {
+  background-color: #000;
+  min-height: 80vh;
+}
+.main-video-wrapper {
+  height: 50vh;
+  background-color: #000;
+}
+#main-video {
+  height: 100%;
+  display: block;
+  position: relative;
+}
+#main-video video {
+  height: 100%;
+  margin: 0 auto;
+  display: block;
+}
+#participants-videos {
+  display: flex;
+  height: 30vh;
+  background-color: rgb(19, 19, 19);
+}
+
+#participants-videos video {
+  width: 200px;
+  height: 150px;
+}
+.small-button {
+  padding: 7px 10px;
+}
+#main-video-controls {
+  background-color: #555;
+}

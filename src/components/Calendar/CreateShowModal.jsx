@@ -55,9 +55,6 @@ const CreateShowModal = inject('generalStore')(props => {
 
   return (
     <MDBContainer>
-      <MDBBtn color='primary' onClick={toggle}>
-        MDBModal
-      </MDBBtn>
       <MDBModal isOpen={isOpen} toggle={toggle} centered>
         <MDBModalHeader toggle={toggle}>ADD NEW SHOW</MDBModalHeader>
         <MDBModalBody>
