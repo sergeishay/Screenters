@@ -22,6 +22,7 @@ const BookModal = inject('generalStore')(props => {
     setIsOpen(false)
   }
   const handleBook = () => {
+    console.log(props.generalStore.currentUser)
     const result = props.generalStore.currentUser.bookShow(props.show.id)
     console.log('handleBook RESULT', result)
   }
