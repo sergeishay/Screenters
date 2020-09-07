@@ -22,10 +22,11 @@ const minutesToStart = room => {
 
 const checkUserRole = (room, userID) => {
   if (parseInt(userID) === parseInt(room.creator)) return 'CREATOR'
+  console.log(
+    room.participants.find(user => parseInt(userID) === parseInt(user.userID))
+  )
   if (
-    room.participants.find(
-      user => parseInt(userID) === parseInt(user.userID)
-    ) !== -1
+    room.participants.find(user => parseInt(userID) === parseInt(user.userID))
   )
     return 'USER'
 

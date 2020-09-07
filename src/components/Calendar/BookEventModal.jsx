@@ -10,6 +10,7 @@ import {
 import { useState } from 'react'
 import { inject } from 'mobx-react'
 import { formatDate } from '../../utils/functions'
+import Paypal from '../Paypal/PaypalBtn'
 
 const BookModal = inject('generalStore')(props => {
   const [isOpen, setIsOpen] = useState(true)
@@ -44,9 +45,12 @@ const BookModal = inject('generalStore')(props => {
               DELETE
             </MDBBtn>
           )) || (
-            <MDBBtn onClick={handleBook} color='primary'>
-              BOOK NOW
-            </MDBBtn>
+            <>
+              <MDBBtn onClick={handleBook} color='primary'>
+                BOOK NOW
+              </MDBBtn>
+              <Paypal />
+            </>
           )}
         </MDBModalFooter>
       </MDBModal>
