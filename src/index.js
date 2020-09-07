@@ -21,6 +21,7 @@ const onRedirectCallback = appState => {
 
 const eventsStores = new Events()
 const generalStore = new GeneralStore(eventsStores)
+
 const creatorStore = new Creator()
 const stores = { eventsStores, creatorStore, generalStore }
 ReactDOM.render(

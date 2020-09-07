@@ -53,6 +53,13 @@ export class User {
         let updateUser = await axios.put(`http://localhost:8080/api/users/${userId}`, data)
     }
     ////////////////BOOK SHOW///////////////////
+
+
+
+
+
+
+
     @action async bookShow(showID) {
         const userID = this.id
         console.log({ userID, showID })
@@ -63,12 +70,20 @@ export class User {
             const pushToFutureShowArray = this.futureShows.push(
                 {
                     id: resultShowFromDB.data.id,
-                    startTime: resultShowFromDB.data.id,
+                    startTime: resultShowFromDB.data.startTime,
                     endTime: resultShowFromDB.data.endTime,
                     showEventID: resultShowFromDB.data.showEventID
                 }
             )
-                
+            let addUserToShowImMongoose = {
+                userID: userID,
+                isBook: true
+            }
+            let addUserToMongoose = await axios.put(`http://localhost:8181/broadCast/${showID}`, addUserToShowImMongoose)
+            console.log(addUserToMongoose)
+            if(addUserToMongoose){
+                alert("thank you for you booking , we will remind you half hour before the show start")
+            }
         } else {
             alert("you all ready book to this show")
         }
@@ -86,13 +101,17 @@ export class User {
 
 
     /////////COMMENT REVIEW SECTION /////
+
+
+
+
+
     @action async getReviewShows(reviewId) {
         let result = await axios.get(`http://localhost:8080/api/reviews/${reviewId}`)
         console.log(result)
     }
 
     @action async postReviewShows(creatorId, showReview) {
-        //userId , showId , review data to save in this store 
         let result = await axios.post(`http://localhost:8080/api/reviews/show`)
         console.log(result)
     }
