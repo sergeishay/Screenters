@@ -29,7 +29,6 @@ const NavbarPage = inject('generalStore')(
     const currentUserRole = props.generalStore.currentUser.userRole
       ? props.generalStore.currentUser.userRole.toLowerCase()
       : null
-    console.log(props.generalStore.currentUser)
 
     const logoutWithRedirect = () =>
       logout({

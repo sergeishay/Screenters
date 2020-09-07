@@ -28,6 +28,7 @@ const Creator = inject('generalStore', 'creatorStore')(
           setIsOwner(true)
         }
         setCreator(await props.generalStore.getCreatorById(props.match.params.id))
+        props.generalStore.checkUserInDataBase(user)
       }
       getProfile();
     }, [])
