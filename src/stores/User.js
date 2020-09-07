@@ -21,8 +21,8 @@ export class User {
     @observable futureShows = []
     @observable pastShows = []
 
-    
-    constructor(id, firstName, lastName, username, imageURL, videoURL, email, birthday, memberSince, gender, about, userRole, isAuthorized, phone) {
+
+    constructor(id, firstName, lastName, username, imageURL, videoURL, email, birthday, memberSince, gender, about, userRole, isAuthorized, phone, futureShows, pastShows) {
         this.id = id
         this.firstName = firstName
         this.lastName = lastName
@@ -37,21 +37,14 @@ export class User {
         this.birthday = birthday
         this.videoURL = videoURL
         this.about = about
-        
-        this.init()
-    }
-    init = async () => {
-        // this.getCreators()
-        // this.some()
-        // this.unBookShow("21" , 171)
-        // this.addNewEvent(this.userData)
+        this.futureShows = futureShows || []
+        this.pastShows = pastShows || []
+        // this.init()
     }
 
 
 
-    @action async addUser(userData) {
-        let addUser = await axios.post(`http://localhost:8080/api/users`)
-    }
+
 
     @action async deleteUser(userId) {
         let deleteUser = await axios.delete(`http://localhost:8080/api/users/${userId}`)
@@ -62,19 +55,33 @@ export class User {
     ////////////////BOOK SHOW///////////////////
     @action async bookShow(showID) {
         const userID = this.id
-        let resultShowFromDB = await axios.post(`http://localhost:8080/api/users/show`, {userID, showID})
-        console.log(resultShowFromDB)
-        this.futureShows.push(resultShowFromDB.data)
-        console.log(this.futureShows)
+        console.log({ userID, showID })
+        let resultShowFromDB = await axios.post(`http://localhost:8080/api/users/show`, { userID, showID })
+        console.log(resultShowFromDB.data)
+
+        if (resultShowFromDB.data !== "saving error") {
+            const pushToFutureShowArray = this.futureShows.push(
+                {
+                    id: resultShowFromDB.data.id,
+                    startTime: resultShowFromDB.data.id,
+                    endTime: resultShowFromDB.data.endTime,
+                    showEventID: resultShowFromDB.data.showEventID
+                }
+            )
+                
+        } else {
+            alert("you all ready book to this show")
+        }
+
 
     }
 
     @action async unBookShow(showID) {
         const userID = this.id
         let resultShowFromDB = await axios.delete(`http://localhost:8080/api/users/show/${userID}/${showID}`)
-        console.log(resultShowFromDB)
+        console.log(resultShowFromDB.data)
         const showIndex = this.futureShows.findIndex(show => parseInt(show.id) === parseInt(showID))
-        this.futureShows.splice(showIndex ,1 )
+        this.futureShows.splice(showIndex, 1)
     }
 
 
@@ -86,7 +93,7 @@ export class User {
 
     @action async postReviewShows(creatorId, showReview) {
         //userId , showId , review data to save in this store 
-        let result = await axios.post(`http://localhost:8080/api/reviews/show`) 
+        let result = await axios.post(`http://localhost:8080/api/reviews/show`)
         console.log(result)
     }
 
@@ -97,7 +104,7 @@ export class User {
 
     @action async postReviewCreator(creatorId, creatorReview) {
         //userId , showId , review data to save in this store 
-        let result = await axios.post(`http://localhost:8080/api/reviews/creator`) 
+        let result = await axios.post(`http://localhost:8080/api/reviews/creator`)
         console.log(result)
     }
 }
