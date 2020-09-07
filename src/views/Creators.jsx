@@ -8,7 +8,6 @@ const Creators = inject('generalStore')(
     observer(props => {
 
         const [creatorsList, setCreatorsList] = useState(props.generalStore.AllCreators)
-        console.log(props.generalStore.AllCreators)
         const creatorsNames = props.generalStore.AllCreators.map(creator => creator.username)
         return (
             <Fragment>

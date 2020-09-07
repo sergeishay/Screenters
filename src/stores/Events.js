@@ -53,7 +53,7 @@ export class Events {
 
 
   @action async addEvent(creatorID) {
-    return await axios.post(
+    const result = await axios.post(
       'http://localhost:8080/api/events/event',
       new Event(
         null,
@@ -65,9 +65,14 @@ export class Events {
         0,
         creatorID,
         1,
+        null,
         null
       )
     )
+    const event = result.data;
+    const newEvent = new Event(event.id, event.name, event.description, event.imageURL, event.videoURL, event.coverImgURL, event.price, event.creatorID, event.categoryID, event.rating , []);
+    this.listOfEvents.push(newEvent);
+    return result
   }
 
   @action async addShow(showData) {
@@ -78,13 +83,11 @@ export class Events {
     )
     console.log(addNewShow)
     if (addNewShow.data) {
-      const indexHolder = this.listOfEvents.findIndex(
-        event => event.id === addNewShow.data.showEventID
-      )
+        console.log(this.listOfEvents);
+        
+      const indexHolder = this.listOfEvents.findIndex(event => event.id === addNewShow.data.showEventID)
       console.log(indexHolder)
-      let newShowToList = this.listOfEvents[indexHolder].shows.push(
-        addNewShow.data
-      )
+      this.listOfEvents[indexHolder].shows.push(addNewShow.data)
       console.log(this.listOfEvents)
     } else {
       console.log('error')

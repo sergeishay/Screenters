@@ -49,12 +49,12 @@ const App = inject('generalStore')(
         <NavbarPage />
         <Switch>
           <Route exact path='/' exact render={() => <Homepage />} />
-          <Route exact path='/homepage-test' render={() => <Homepage />} />
           <Route
             exact
             path='/broadcast-room/:roomId'
             render={({match}) => <BroadcastRoom match={match}/>}
           />
+          <Route exact path='/paypal' component={Paypal} />
           <Route exact path='/profile' component={Profile} />
           <Route exact path='/creators' exact render={() => <Creators />} />
           <Route exact path='/about' component={About} />

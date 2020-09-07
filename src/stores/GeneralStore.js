@@ -7,11 +7,11 @@ import { Events } from './Events'
 import { User } from './User'
 
 export class GeneralStore {
+
   @observable categories = []
   @observable creators
   @observable hashtags = []
-  @observable AllCreators = []
-
+    @observable AllCreators = []
     @observable currentUser = {}
     @observable singleEvent = {
         shows: [],
@@ -24,6 +24,10 @@ export class GeneralStore {
     init = async () => {
         this.gelAllCategories()
         this.getAllCreators()
+        // this.getCreatorById("auth0|5f4f7cb8397b7000674b08c2")
+        // this.addUser()
+        // this.updateEvent(3 , {field: "name" , value : "check232"})
+
     }
 
     @action async getUserById(userId) {
@@ -57,19 +61,19 @@ export class GeneralStore {
         console.log(showData)
         let addNewShow = await axios.post(`http://localhost:8080/api/events/show`, showData)
         console.log(addNewShow)
-        this.singleEvent.shows.push(addNewShow)
+        this.singleEvent.shows.push(addNewShow.data)
     }
 
     @action async deleteShow(showId, eventId) {
         let deleteShow = await axios.delete(`http://localhost:8080/api/events?showId=${showId}`)
         console.log(deleteShow)
         if (deleteShow) {
-            const indexHolder = this.singleEvent.findIndex(event => event.id === eventId)
-            console.log(indexHolder)
-            let deleteShowFromEvent = this.listOfEvents[indexHolder].shows.findIndex(show => show.id === showId)
-            console.log(deleteShowFromEvent)
-            let deleteTheShow = this.listOfEvents[indexHolder].shows.splice(deleteShowFromEvent, 1)
-            console.log(this.listOfEvents[indexHolder].shows)
+            
+            let deleteShowIndex= this.singleEvent.shows.findIndex(show => show.id === showId)
+            
+            console.log(deleteShowIndex)
+            let deleteTheShow = this.singleEvent.shows.splice(deleteShowIndex, 1)
+            
             console.log(deleteTheShow)
         } else {
             console.log("error")
@@ -121,7 +125,6 @@ export class GeneralStore {
             console.log("problem with the current user")
         }
     }
-    
     @action async getAllCreators() {
         let getAllCreators = await axios.get(`http://localhost:8080/api/creators?isEvents=1&isShows=1`)
         this.AllCreators = [...getAllCreators.data]
@@ -130,7 +133,6 @@ export class GeneralStore {
 
     @action async deleteEvent(eventId) {
         let deleteEvent = await axios.delete(`http://localhost:8080/api/events?eventId=${eventId}`)
-        // console.log(deleteEvent)
         let deleteEventFromList = this.listOfEvents.listOfEvents.findindex(deleteId => deleteId.id === eventId)
         this.listOfEvents.listOfEvents.splice(deleteEventFromList, 1)
     }
@@ -142,10 +144,11 @@ export class GeneralStore {
         let updateEvent = await axios.put(`http://localhost:8080/api/events/${eventId}`, eventData)
         if (updateEvent.data) {
             let key = eventData.field
-            // console.log(key)
+
             let value = eventData.value
             this.singleEvent[key] = value;
             let toUpdate = this.listOfEvents.listOfEvents.findIndex(eventUpdate => eventUpdate.id === eventId)
+
             // console.log(toUpdate)
             this.listOfEvents.listOfEvents[toUpdate][key] = value
             console.log(this.listOfEvents.listOfEvents)

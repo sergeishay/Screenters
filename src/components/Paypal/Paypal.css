@@ -14,15 +14,15 @@
   
   .payment-div {
     display: flex;
-justify-content: center;
+    justify-content: center;
     padding-top: 20px;
     height: 300px;
-    width: 300px;
+    width: 400px;
     background: rgb(255, 255, 255);
     border-radius: 20px;
   }
 
   .paymentBtn {
-display: flex;
-justify-content: center;
+  display: flex;
+  justify-content: center;
   }

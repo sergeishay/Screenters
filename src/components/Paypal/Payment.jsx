@@ -23,6 +23,7 @@ export default function ReactPayPal() {
             ],
           });
         },
+        
         onApprove: async (data, actions) => {
           const order = await actions.order.capture();
           setPaid(true);
@@ -32,8 +33,13 @@ export default function ReactPayPal() {
         //   setError(err),
           console.error(err);
         },
-      })
-      .render(paypalRef.current);
+          style: {
+    layout:  'vertical',
+    color:   'blue',
+    shape:   'rect',
+    label:   'paypal'
+  }
+      }).render(paypalRef.current);
   }, []);
 
   // If the payment has been made

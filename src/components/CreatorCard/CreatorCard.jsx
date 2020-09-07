@@ -26,7 +26,7 @@ const CreatorCard = observer(props => {
                     waves
                 />
                 <MDBCardBody>
-                    <Rating rating={parseFloat(props.creatorDetails.rating)} />
+                    <Rating rating={parseFloat(props.creatorDetails.rating)||0} />
                     <MDBCardTitle>{props.creatorDetails.firstName+' '+props.creatorDetails.lastName}</MDBCardTitle>
                     <MDBCardText>{props.creatorDetails.about}</MDBCardText>
                     <>
