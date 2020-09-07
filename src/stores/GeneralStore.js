@@ -19,6 +19,8 @@ export class GeneralStore {
 
     constructor(listOfEvents) {
         this.listOfEvents = listOfEvents
+        console.log(this.listOfEvents);
+        
         this.init()
     }
     init = async () => {
@@ -138,6 +140,7 @@ export class GeneralStore {
         )
         getEventById = getEventById.data
         this.singleEvent = getEventById
+        return getEventById;
     }
 
 

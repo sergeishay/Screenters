@@ -37,7 +37,7 @@ const EventGrid = inject('eventsStores')(
             {events &&
               events.map(event => (
                 <MDBCol lg='4' md='6'>
-                  <EventCard isEdit={true} eventDetails={event} />
+                  <EventCard isEdit={props.isOwner} eventDetails={event} />
                 </MDBCol>
               ))}
           </MDBRow>

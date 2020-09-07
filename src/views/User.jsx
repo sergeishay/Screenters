@@ -9,14 +9,12 @@ import PastShow from '../components/Shows/Past/PastShow'
 import Shows from '../components/Shows/Upcoming/Shows'
 import { useAuth0 } from '@auth0/auth0-react';
 
-const User = inject('generalStore', 'userStore')(
+const User = inject('generalStore', 'eventsStores')(
   observer(props => {
     const { user } = useAuth0();
     const [isOwner, setIsOwner] = useState(false);
     const [userData, setUserData] = useState({});
     const history = useHistory()
-
-    console.log(userData);
     
     useEffect(() => {
       const getProfile = async () => {
@@ -29,7 +27,7 @@ const User = inject('generalStore', 'userStore')(
     }, [])
 
     const becomeCreator = () => {
-      props.userStore.updateUser(userData.data.id, {
+      props.generalStore.currentUser.updateUser(userData.data.id, {
         field: "userRole",
         value: "CREATOR"
       });
@@ -89,7 +87,7 @@ const User = inject('generalStore', 'userStore')(
           </MDBRow>
           <MDBRow>
             <MDBTypography variant="h2" tag='h2'>Shows you'll love:</MDBTypography>
-            {/* <CreatorEventList /> */}
+            <CreatorEventList isOwner={false} events={props.eventsStores.listOfEvents.slice(0, 3)}/>
           </MDBRow>
         </MDBContainer>
       </React.Fragment>

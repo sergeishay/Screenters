@@ -118,4 +118,10 @@ export class Creator extends User {
         let Users = await axios.get(`http://localhost:8080/api/users`)
         console.log(Users.data)
     }
+
+    @action async addReviewToCreator(header, text, reviewCreatorID, reviewUserID) {
+        await axios.post(`http://localhost:8080/api/reviews/creator`, {
+            id: null, header, text, reviewUserID, reviewCreatorID, time: Date.now(), parentReview: null
+        });
+    }
 }

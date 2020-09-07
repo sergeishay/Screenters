@@ -35,7 +35,7 @@ const Creator = inject('generalStore', 'creatorStore')(
         field: "imageURL",
         value: source
       });
-      changeImageOnAuth0(source);
+      // changeImageOnAuth0(source);
     }
 
     const changeImageOnAuth0 = async source => {
@@ -68,7 +68,9 @@ const Creator = inject('generalStore', 'creatorStore')(
     }
 
     const addReview = () => {
-      
+      props.creatorStore.addReviewToCreator(reviewHeaderInput, reviewContentInput, creator.data.Data.id, escape(user.sub))
+      setReviewContentInput("");
+      setReviewHeaderInput("");
     }
 
     return (
