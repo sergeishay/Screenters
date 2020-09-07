@@ -26,9 +26,7 @@ export class GeneralStore {
     init = async () => {
         this.gelAllCategories()
         this.getAllCreators()
-        // this.getCreatorById("auth0|5f4f7cb8397b7000674b08c2")
-        // this.addUser()
-        // this.updateEvent(3 , {field: "name" , value : "check232"})
+
 
     }
     @action async gelAllCategories() {
