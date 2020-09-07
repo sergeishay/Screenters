@@ -18,10 +18,12 @@ const Creator = inject('generalStore', 'creatorStore')(
     const [reviewHeaderInput, setReviewHeaderInput] = useState("")
     const [reviewContentInput, setReviewContentInput] = useState("")
 
-    console.log(user);
+    console.log(props.generalStore.currentUser);
     
     useEffect(() => {
       const getProfile = async () => {
+        console.log(unescape(props.match.params.id));
+        console.log(unescape(user.sub));
         if (unescape(props.match.params.id) === unescape(user.sub)) {
           setIsOwner(true)
         }
@@ -91,7 +93,7 @@ const Creator = inject('generalStore', 'creatorStore')(
           </MDBCol>
           </MDBRow>
           <MDBRow className='mt-0'>
-            {creator.data.Events.length ? (
+            {creator.data.Events.length > -1 ? (
               <>
                 <MDBTypography variant="h2" tag='h2'>Events:</MDBTypography>
                 <CreatorEventList history={props.history} creator={creator} events={creator.data.Events} isOwner={isOwner}/>
