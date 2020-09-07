@@ -11,6 +11,7 @@ import { useState } from 'react'
 import { inject } from 'mobx-react'
 import { formatDate } from '../../utils/functions'
 import Paypal from '../Paypal/PaypalBtn'
+import './BookEventModal.css'
 
 const BookModal = inject('generalStore')(props => {
   const [isOpen, setIsOpen] = useState(true)
