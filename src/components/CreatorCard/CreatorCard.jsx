@@ -14,7 +14,6 @@ import './CreatorCard.css'
 import { useState } from 'react'
 
 const CreatorCard = observer(props => {
-    const [CreatorRatings, setCreatorRatings] = useState(0)
     const watchScreenter = () => {
         /*******redirect to creator page********/
     }
@@ -27,7 +26,7 @@ const CreatorCard = observer(props => {
                     waves
                 />
                 <MDBCardBody>
-                    <Rating rating={5} />
+                    <Rating rating={parseFloat(props.creatorDetails.rating)} />
                     <MDBCardTitle>{props.creatorDetails.firstName+' '+props.creatorDetails.lastName}</MDBCardTitle>
                     <MDBCardText>{props.creatorDetails.about}</MDBCardText>
                     <>
