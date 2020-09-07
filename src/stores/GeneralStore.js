@@ -8,9 +8,9 @@ import { User } from './User'
 
 export class GeneralStore {
 
-  @observable categories = []
-  @observable creators
-  @observable hashtags = []
+    @observable categories = []
+    @observable creators
+    @observable hashtags = []
     @observable AllCreators = []
     @observable currentUser = {}
     @observable singleEvent = {
@@ -29,24 +29,6 @@ export class GeneralStore {
         // this.updateEvent(3 , {field: "name" , value : "check232"})
 
     }
-
-    @action async getUserById(userId) {
-        let getUserById = await axios.get(`http://localhost:8080/api/users/${userId}`)
-        return getUserById
-    }
-    @action async getCreatorById(creatorId) {
-        let getCreatorById = await axios.get(`http://localhost:8080/api/creators/${creatorId}`)
-        return getCreatorById
-    }
-
-    @action async getEventById(eventId) {
-        let getEventById = await axios.get(
-            `http://localhost:8080/api/events/${eventId}`
-        )
-        getEventById = getEventById.data
-        this.singleEvent = getEventById
-    }
-
     @action async gelAllCategories() {
         let gelAllCategories = await axios.get(
             `http://localhost:8080/api/creators/general/details`
@@ -56,7 +38,16 @@ export class GeneralStore {
             this.categories.push(c)
         })
     }
-    ////////////////shows///////////////////////////
+
+    @action async getUserById(userId) {
+        let getUserById = await axios.get(`http://localhost:8080/api/users/${userId}`)
+        return getUserById
+    }
+
+
+
+
+    ////////////////SHOWS///////////////////////////
     @action async addShow(showData) {
         console.log(showData)
         let addNewShow = await axios.post(`http://localhost:8080/api/events/show`, showData)
@@ -67,13 +58,11 @@ export class GeneralStore {
     @action async deleteShow(showId, eventId) {
         let deleteShow = await axios.delete(`http://localhost:8080/api/events?showId=${showId}`)
         console.log(deleteShow)
-        if (deleteShow) {
-            
-            let deleteShowIndex= this.singleEvent.shows.findIndex(show => show.id === showId)
-            
+        if (deleteShow){
+            let deleteShowIndex = this.singleEvent.shows.findIndex(show => parseInt(show.id) === parseInt(showId))
             console.log(deleteShowIndex)
             let deleteTheShow = this.singleEvent.shows.splice(deleteShowIndex, 1)
-            
+
             console.log(deleteTheShow)
         } else {
             console.log("error")
@@ -88,11 +77,11 @@ export class GeneralStore {
         console.log(returnedUser)
 
         if (returnedUser.data) {
-            
+
             this.currentUser = returnedUser.data
             console.log(this.currentUser)
         }
-        else{
+        else {
             this.addUser(user)
             console.log("Adding new User")
         }
@@ -122,15 +111,33 @@ export class GeneralStore {
         console.log(userDetails)
         if (userDetails.data) {
             this.currentUser = userDetails.data
-            console.log(this.currentUser);
-        }else{
+        } else {
             console.log("problem with the current user")
         }
     }
 
+
+
+    //////////CREATORS ///////////////////
+
     @action async getAllCreators() {
         let getAllCreators = await axios.get(`http://localhost:8080/api/creators?isEvents=1&isShows=1`)
         this.AllCreators = [...getAllCreators.data]
+    }
+
+    @action async getCreatorById(creatorId) {
+        let getCreatorById = await axios.get(`http://localhost:8080/api/creators/${creatorId}`)
+        return getCreatorById
+    }
+
+
+    /////////////////////EVENTS///////////////////
+    @action async getEventById(eventId) {
+        let getEventById = await axios.get(
+            `http://localhost:8080/api/events/${eventId}`
+        )
+        getEventById = getEventById.data
+        this.singleEvent = getEventById
     }
 
 
@@ -156,10 +163,10 @@ export class GeneralStore {
             // console.log(toUpdate)
             this.listOfEvents.listOfEvents[toUpdate][key] = value
             console.log(this.listOfEvents.listOfEvents)
-        } else { 
+        } else {
             console.log("error")
         }
 
     }
-  
+
 }

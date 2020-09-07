@@ -6,3 +6,6 @@
 .scr-logo {
   width: 150px;
 }
+.nav-link.active {
+  border-bottom: 2px solid #eee;
+}
