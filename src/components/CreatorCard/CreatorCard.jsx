@@ -1,12 +1,12 @@
 import React from 'react'
 import {
-    MDBBtn,
-    MDBCard,
-    MDBCardBody,
-    MDBCardImage,
-    MDBCardTitle,
-    MDBCardText,
-    MDBCol,
+  MDBBtn,
+  MDBCard,
+  MDBCardBody,
+  MDBCardImage,
+  MDBCardTitle,
+  MDBCardText,
+  MDBCol,
 } from 'mdbreact'
 import { observer } from 'mobx-react'
 import Rating from '../Inputs/Rating'
@@ -42,6 +42,7 @@ const CreatorCard = observer(props => {
             </MDBCard>
         </MDBCol>
     )
+
 })
 
 export default CreatorCard

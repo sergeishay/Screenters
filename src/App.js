@@ -18,7 +18,7 @@ import history from './utils/history'
 import Creator from './views/Creator'
 import User from './views/User'
 
-// styles
+// stylesconst { isLoading, error, user } = useAuth0()
 import './App.css'
 
 // fontawesome
@@ -43,33 +43,44 @@ const App = inject('generalStore')(
     } else {
       console.log('no user')
     }
-  return (
-    <Router history={history}>
-      <div id='app' className='d-flex flex-column h-100'>
-        <NavbarPage />
-        <Switch>
-          <Route exact path='/' exact render={() => <Homepage />} />
-          <Route
-            exact
-            path='/broadcast-room/:roomId'
-            render={({match}) => <BroadcastRoom match={match}/>}
-          />
-          <Route exact path='/paypal' component={Paypal} />
-          <Route exact path='/profile' component={Profile} />
-          <Route exact path='/creators' exact render={() => <Creators />} />
-          <Route exact path='/about' component={About} />
-          <Route exact path='/external-api' component={ExternalApi} />
-          <Route
-            exact
-            path='/event/:id'
-            render={({ match }) => <EventPage match={match} />}
-          />
-           <Route path='/creator/:id' component={({match, history}) => <Creator match={match} history={history}/>} />
-           <Route path='/user/:id' component={({match}) => <User match={match}/>} />
-        </Switch>
-        <Footer />
-      </div>
-    </Router>
-  )
-}))
+
+    return (
+      <Router history={history}>
+        <div id='app' className='d-flex flex-column h-100'>
+          <NavbarPage />
+          <Switch>
+            <Route exact path='/' exact render={() => <Homepage />} />
+            <Route exact path='/homepage-test' render={() => <Homepage />} />
+            <Route
+              exact
+              path='/broadcast-room/:roomId'
+              render={({ match }) => <BroadcastRoom match={match} />}
+            />
+            <Route exact path='/profile' component={Profile} />
+            <Route exact path='/creators' exact render={() => <Creators />} />
+            <Route exact path='/about' component={About} />
+            <Route exact path='/external-api' component={ExternalApi} />
+            <Route
+              exact
+              path='/event/:id'
+              render={({ match }) => <EventPage match={match} />}
+            />
+            <Route
+              path='/creator/:id'
+              component={({ match, history }) => (
+                <Creator match={match} history={history} />
+              )}
+            />
+            <Route
+              path='/user/:id'
+              component={({ match }) => <User match={match} />}
+            />
+            <Route path='/paypal' render={() => <Paypal />} />
+          </Switch>
+          <Footer />
+        </div>
+      </Router>
+    )
+  })
+)
 export default App

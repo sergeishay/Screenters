@@ -11,8 +11,6 @@ export class Creator extends User {
     @observable oldEvents = []
     @observable comments = []
     @observable statistics
-    // @observable creatorData = {about: "gfdgdfg",birthday: "0000-00-00",email: "helloWorld@dailymotion.com", firstName: "sergei", id: "17", imageURL: "http://dummyimage.com/114x207.jpg/5fa2dd/ffffff", isAuthorized: 0,  lastName: "shay",memberSince: null,    phone: "0528228640", userRole: "CREATOR", username: "condrich0",  videoURL: "DLIv5F-dLrY"}
-    // @observable eventData = {categoryID: 1, coverImgURL: "https://img.wcdn.co.il/f_auto,w_1200,t_54/9/0/0/8/900829-46.jpg", creatorID: "facebook%7C3768160376546114",  description: "ajsdhasd", hashtags: [], id: 3,   imageURL: "http://dummyimage.com/206x164.jpg/dddddd/000000", name: "AssiCohenShauliShow", price: 180, shows :[], videoURL: "http://dummyimage.com/206x164.jpg/dddddd/000000" }
     constructor(
         id,
         firstName,
@@ -45,8 +43,6 @@ export class Creator extends User {
             isAuthorized,
             phone
         )
-        // this.creatorID = creatorID
-        // this.rating = rating
 
         this.eventData = {
             categoryID: 1,
@@ -117,5 +113,11 @@ export class Creator extends User {
     @action async getUser() {
         let Users = await axios.get(`http://localhost:8080/api/users`)
         console.log(Users.data)
+    }
+
+    @action async addReviewToCreator(header, text, reviewCreatorID, reviewUserID) {
+        await axios.post(`http://localhost:8080/api/reviews/creator`, {
+            id: null, header, text, reviewUserID, reviewCreatorID, time: Date.now(), parentReview: null
+        });
     }
 }

@@ -1,6 +1,7 @@
 import { observable, action, computed } from 'mobx'
 import axios from 'axios'
 import { Show } from './Show'
+import { Comment } from './Comment'
 
 export class User {
     @observable id
@@ -21,7 +22,7 @@ export class User {
     @observable pastShows = []
 
 
-    constructor(id, firstName, lastName, username, imageURL, videoURL, email, birthday, memberSince, gender, about ,userRole ,  isAuthorized,  phone) {
+    constructor(id, firstName, lastName, username, imageURL, videoURL, email, birthday, memberSince, gender, about, userRole, isAuthorized, phone, futureShows, pastShows) {
         this.id = id
         this.firstName = firstName
         this.lastName = lastName
@@ -36,55 +37,93 @@ export class User {
         this.birthday = birthday
         this.videoURL = videoURL
         this.about = about
-        this.init()
-
-    }
-    init = async () => {
-        // this.getCreators()
-        // this.some()
-        this.bookShow(10 , 90)
-        // this.addNewEvent(this.userData)
+        this.futureShows = futureShows || []
+        this.pastShows = pastShows || []
+        // this.init()
     }
 
 
 
-    @action async addUser(userData) {
-        let addUser = await axios.post(`http://localhost:8080/api/users`)
-    }
 
 
-    @action makeYourSelfCreator() {
-
-    }
     @action async deleteUser(userId) {
         let deleteUser = await axios.delete(`http://localhost:8080/api/users/${userId}`)
     }
-    @action async updateUser(userId) {
-        let updateUser = await axios.put(`http://localhost:8080/api/users/${userId}`)
+    @action async updateUser(userId, data) {
+        let updateUser = await axios.put(`http://localhost:8080/api/users/${userId}`, data)
     }
-    @action async bookShow(eventId, showId) {
-        let book = new Show(eventId, showId)
-        let bookShow = await axios.post(`http://localhost:8080/api/users/show`, { book })
-        this.futureShows.push(book)
+    ////////////////BOOK SHOW///////////////////
+
+
+
+
+
+
+
+    @action async bookShow(showID) {
+        const userID = this.id
+        console.log({ userID, showID })
+        let resultShowFromDB = await axios.post(`http://localhost:8080/api/users/show`, { userID, showID })
+        console.log(resultShowFromDB.data)
+
+        if (resultShowFromDB.data !== "saving error") {
+            const pushToFutureShowArray = this.futureShows.push(
+                {
+                    id: resultShowFromDB.data.id,
+                    startTime: resultShowFromDB.data.startTime,
+                    endTime: resultShowFromDB.data.endTime,
+                    showEventID: resultShowFromDB.data.showEventID
+                }
+            )
+            let addUserToShowImMongoose = {
+                userID: userID,
+                isBook: true
+            }
+            let addUserToMongoose = await axios.put(`http://localhost:8181/broadCast/${showID}`, addUserToShowImMongoose)
+            console.log(addUserToMongoose)
+            if(addUserToMongoose){
+                alert("thank you for you booking , we will remind you half hour before the show start")
+            }
+        } else {
+            alert("you all ready book to this show")
+        }
+
 
     }
 
-    @action async some(){
-        console.log("fds")
+    @action async unBookShow(showID) {
+        const userID = this.id
+        let resultShowFromDB = await axios.delete(`http://localhost:8080/api/users/show/${userID}/${showID}`)
+        console.log(resultShowFromDB.data)
+        const showIndex = this.futureShows.findIndex(show => parseInt(show.id) === parseInt(showID))
+        this.futureShows.splice(showIndex, 1)
     }
 
 
+    /////////COMMENT REVIEW SECTION /////
 
-    // @action async bookShow(userID , showID){
-    //     console.log("FDFDf")
-    //     let bookShowToDataBase = await axios.post(`http://localhost:8080/api/users/show` ,{userID , showID}) 
-    //     console.log(bookShowToDataBase)
-    // }
 
-    @action unBookShow(showId) {
-        // let unBookShow = this.futureShows.find(s =>  )
+
+
+
+    @action async getReviewShows(reviewId) {
+        let result = await axios.get(`http://localhost:8080/api/reviews/${reviewId}`)
+        console.log(result)
     }
 
+    @action async postReviewShows(creatorId, showReview) {
+        let result = await axios.post(`http://localhost:8080/api/reviews/show`)
+        console.log(result)
+    }
 
+    @action async getReviewCreator(reviewId) {
+        let result = await axios.get(`http://localhost:8080/api/reviews/${reviewId}`)
+        console.log(result)
+    }
 
+    @action async postReviewCreator(creatorId, creatorReview) {
+        //userId , showId , review data to save in this store 
+        let result = await axios.post(`http://localhost:8080/api/reviews/creator`)
+        console.log(result)
+    }
 }

@@ -9,6 +9,9 @@ import {
 } from 'mdbreact'
 import { useState } from 'react'
 import { inject } from 'mobx-react'
+import { formatDate } from '../../utils/functions'
+import Paypal from '../Paypal/PaypalBtn'
+import './BookEventModal.css'
 
 const BookModal = inject('generalStore')(props => {
   const [isOpen, setIsOpen] = useState(true)
@@ -19,6 +22,11 @@ const BookModal = inject('generalStore')(props => {
   const deleteShow = () => {
     props.generalStore.deleteShow(props.show.id, props.currentEvent.id)
     setIsOpen(false)
+  }
+  const handleBook = () => {
+    console.log(props.generalStore.currentUser)
+    const result = props.generalStore.currentUser.bookShow(props.show.id)
+    console.log('handleBook RESULT', result)
   }
   const userEditor = props.userEditor
   console.log('isUserEditorisUserEditorisUserEditor', props.currentEvent)
@@ -37,29 +45,36 @@ const BookModal = inject('generalStore')(props => {
             <MDBBtn onClick={deleteShow} color='danger'>
               DELETE
             </MDBBtn>
-          )) || <MDBBtn color='primary'>BOOK NOW</MDBBtn>}
+          )) || (
+            <>
+              <MDBBtn onClick={handleBook} color='primary'>
+                BOOK NOW
+              </MDBBtn>
+              <Paypal />
+            </>
+          )}
         </MDBModalFooter>
       </MDBModal>
     </MDBContainer>
   )
 })
 
-const formatDate = date => {
-  const days = [
-    'Sunday',
-    'Monday',
-    'Tuesday',
-    'Wednesday',
-    'Thursday',
-    'Friday',
-    'Saturday',
-  ]
-  const dayString = days[date.getDay()]
-  const dateString = `${date.getDate()}/${
-    date.getMonth() + 1
-  }/${date.getFullYear()}`
-  const hour = date.getHours()
-  const minutes = date.getMinutes()
-  return `${dayString} | ${dateString} | ${hour}:${minutes} `
-}
+// const formatDate = date => {
+//   const days = [
+//     'Sunday',
+//     'Monday',
+//     'Tuesday',
+//     'Wednesday',
+//     'Thursday',
+//     'Friday',
+//     'Saturday',
+//   ]
+//   const dayString = days[date.getDay()]
+//   const dateString = `${date.getDate()}/${
+//     date.getMonth() + 1
+//   }/${date.getFullYear()}`
+//   const hour = date.getHours()
+//   const minutes = date.getMinutes()
+//   return `${dayString} | ${dateString} | ${hour}:${minutes} `
+// }
 export default BookModal

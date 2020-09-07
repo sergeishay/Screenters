@@ -8,9 +8,9 @@ import { User } from './User'
 
 export class GeneralStore {
 
-  @observable categories = []
-  @observable creators
-  @observable hashtags = []
+    @observable categories = []
+    @observable creators
+    @observable hashtags = []
     @observable AllCreators = []
     @observable currentUser = {}
     @observable singleEvent = {
@@ -19,6 +19,8 @@ export class GeneralStore {
 
     constructor(listOfEvents) {
         this.listOfEvents = listOfEvents
+        console.log(this.listOfEvents);
+        
         this.init()
     }
     init = async () => {
@@ -29,24 +31,6 @@ export class GeneralStore {
         // this.updateEvent(3 , {field: "name" , value : "check232"})
 
     }
-
-    @action async getUserById(userId) {
-        let getUserById = await axios.get(`http://localhost:8080/api/users/${userId}`)
-        return getUserById
-    }
-    @action async getCreatorById(creatorId) {
-        let getCreatorById = await axios.get(`http://localhost:8080/api/creators/${creatorId}`)
-        return getCreatorById
-    }
-
-    @action async getEventById(eventId) {
-        let getEventById = await axios.get(
-            `http://localhost:8080/api/events/${eventId}`
-        )
-        getEventById = getEventById.data
-        this.singleEvent = getEventById
-    }
-
     @action async gelAllCategories() {
         let gelAllCategories = await axios.get(
             `http://localhost:8080/api/creators/general/details`
@@ -56,24 +40,46 @@ export class GeneralStore {
             this.categories.push(c)
         })
     }
-    ////////////////shows///////////////////////////
+
+    @action async getUserById(userId) {
+        let getUserById = await axios.get(`http://localhost:8080/api/users/${userId}`)
+        return getUserById
+    }
+
+
+
+
+    ////////////////SHOWS///////////////////////////
+
+
     @action async addShow(showData) {
         console.log(showData)
         let addNewShow = await axios.post(`http://localhost:8080/api/events/show`, showData)
         console.log(addNewShow)
         this.singleEvent.shows.push(addNewShow.data)
+        let currentShowId = addNewShow.data.id
+        const userID = this.currentUser.id
+        let dataAboutTheShow = {
+            creator : userID,
+            startTime : addNewShow.data.startTime,
+            endTime : addNewShow.daata.endTime,
+            participants : []
+        }
+        let addUserToMongoose = await axios.post(`http://localhost:8181/broadCast/${currentShowId}` , dataAboutTheShow)
+        console.log(addUserToMongoose)
     }
+
+
+
 
     @action async deleteShow(showId, eventId) {
         let deleteShow = await axios.delete(`http://localhost:8080/api/events?showId=${showId}`)
         console.log(deleteShow)
-        if (deleteShow) {
-            
-            let deleteShowIndex= this.singleEvent.shows.findIndex(show => show.id === showId)
-            
+        if (deleteShow){
+            let deleteShowIndex = this.singleEvent.shows.findIndex(show => parseInt(show.id) === parseInt(showId))
             console.log(deleteShowIndex)
             let deleteTheShow = this.singleEvent.shows.splice(deleteShowIndex, 1)
-            
+
             console.log(deleteTheShow)
         } else {
             console.log("error")
@@ -81,18 +87,41 @@ export class GeneralStore {
     }
     /////////////////User Auth/////////////////////
 
+
+
+
+
+
+
     @action async checkUserInDataBase(user) {
         const userId = user.sub
         console.log(userId)
         const returnedUser = await axios.get(`http://localhost:8080/api/users/${userId}`)
         console.log(returnedUser)
-
         if (returnedUser.data) {
-            
-            this.currentUser = returnedUser.data
+            // id, firstName, lastName, username, imageURL, videoURL, email,
+            //  birthday, memberSince, gender, about, userRole, isAuthorized, phone
+            this.currentUser = new User(
+                returnedUser.data.id , 
+                returnedUser.data.firstName || null ,
+                returnedUser.data.lastName || null ,
+                returnedUser.data.username || null  ,
+                returnedUser.data.imageURL || null ,
+                returnedUser.data.videoURL || null ,
+                returnedUser.data.email || null  ,
+                returnedUser.data.birthday || null ,
+                returnedUser.data.memberSince || null ,
+                returnedUser.data.gender || null ,
+                returnedUser.data.about || null ,
+                returnedUser.data.userRole || null ,
+                returnedUser.data.isAuthorized || null ,
+                returnedUser.data.phone || null ,
+                returnedUser.data.futureShows || null ,
+                returnedUser.data.pastShows || null 
+                )
             console.log(this.currentUser)
         }
-        else{
+        else {
             this.addUser(user)
             console.log("Adding new User")
         }
@@ -114,6 +143,10 @@ export class GeneralStore {
             'USER',
             null,
             null,
+            null,
+            null,
+            null,
+            null
         )
         console.log(insertUsesData)
 
@@ -125,9 +158,32 @@ export class GeneralStore {
             console.log("problem with the current user")
         }
     }
+
     @action async getAllCreators() {
         let getAllCreators = await axios.get(`http://localhost:8080/api/creators?isEvents=1&isShows=1`)
         this.AllCreators = [...getAllCreators.data]
+    }
+
+    @action async getCreatorById(creatorId) {
+        let getCreatorById = await axios.get(`http://localhost:8080/api/creators/${creatorId}`)
+        return getCreatorById
+    }
+
+
+    /////////////////////EVENTS///////////////////
+
+
+
+
+
+
+    @action async getEventById(eventId) {
+        let getEventById = await axios.get(
+            `http://localhost:8080/api/events/${eventId}`
+        )
+        getEventById = getEventById.data
+        this.singleEvent = getEventById
+        return getEventById;
     }
 
 
@@ -152,9 +208,35 @@ export class GeneralStore {
             // console.log(toUpdate)
             this.listOfEvents.listOfEvents[toUpdate][key] = value
             console.log(this.listOfEvents.listOfEvents)
-        } else { 
+        } else {
             console.log("error")
         }
+    }
+
+
+
+    /////////COMMENT REVIEW SECTION /////
+
+    @action async postReviewShows(showId, showReview) {
+        let result = await axios.post(`http://localhost:8080/api/reviews/show`)
+        console.log(result)
+    }
+
+    @action async getReviewShows(reviewId) {
+        let result = await axios.get(`http://localhost:8080/api/reviews/${reviewId}`)
+        console.log(result)
+    }
+
+
+    @action async getReviewCreator(reviewId) {
+        let result = await axios.get(`http://localhost:8080/api/reviews/${reviewId}`)
+        console.log(result)
+    }
+
+    @action async postReviewCreator(creatorId, creatorReview) {
+        //userId , showId , review data to save in this store 
+        let result = await axios.post(`http://localhost:8080/api/reviews/creator`)
+        console.log(result)
     }
 
 }
