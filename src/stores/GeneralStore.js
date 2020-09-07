@@ -53,6 +53,16 @@ export class GeneralStore {
         let addNewShow = await axios.post(`http://localhost:8080/api/events/show`, showData)
         console.log(addNewShow)
         this.singleEvent.shows.push(addNewShow.data)
+        let currentShowId = addNewShow.data.id
+        const userID = this.currentUser.id
+        let dataAboutTheShow = {
+            creator : userID,
+            startTime : addNewShow.data.startTime,
+            endTime : addNewShow.daata.endTime,
+            participants : []
+        }
+        let addUserToMongoose = await axios.post(`http://localhost:8080/broadCast/${currentShowId}` , dataAboutTheShow)
+
     }
 
     @action async deleteShow(showId, eventId) {
@@ -75,10 +85,27 @@ export class GeneralStore {
         console.log(userId)
         const returnedUser = await axios.get(`http://localhost:8080/api/users/${userId}`)
         console.log(returnedUser)
-
         if (returnedUser.data) {
-
-            this.currentUser = returnedUser.data
+            // id, firstName, lastName, username, imageURL, videoURL, email,
+            //  birthday, memberSince, gender, about, userRole, isAuthorized, phone
+            this.currentUser = new User(
+                returnedUser.data.id , 
+                returnedUser.data.firstName || null ,
+                returnedUser.data.lastName || null ,
+                returnedUser.data.username || null  ,
+                returnedUser.data.imageURL || null ,
+                returnedUser.data.videoURL || null ,
+                returnedUser.data.email || null  ,
+                returnedUser.data.birthday || null ,
+                returnedUser.data.memberSince || null ,
+                returnedUser.data.gender || null ,
+                returnedUser.data.about || null ,
+                returnedUser.data.userRole || null ,
+                returnedUser.data.isAuthorized || null ,
+                returnedUser.data.phone || null ,
+                returnedUser.data.futureShows || null ,
+                returnedUser.data.pastShows || null 
+                )
             console.log(this.currentUser)
         }
         else {
@@ -103,14 +130,14 @@ export class GeneralStore {
             'USER',
             null,
             null,
+            null,
+            null,
+            null,
+            null
         )
-
-        console.log(insertUsesData)
-
-        let userDetails = await axios.post(`http://localhost:8080/api/users`, insertUsesData)
-        console.log(userDetails)
-        if (userDetails.data) {
-            this.currentUser = userDetails.data
+        let newUser = await axios.post(`http://localhost:8080/api/users`, insertUsesData)
+        if (newUser) {
+            this.currentUser = insertUsesData
         } else {
             console.log("problem with the current user")
         }
