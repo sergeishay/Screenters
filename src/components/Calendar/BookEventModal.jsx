@@ -21,6 +21,10 @@ const BookModal = inject('generalStore')(props => {
     props.generalStore.deleteShow(props.show.id, props.currentEvent.id)
     setIsOpen(false)
   }
+  const handleBook = () => {
+    const result = props.generalStore.currentUser.bookShow(props.show.id)
+    console.log('handleBook RESULT', result)
+  }
   const userEditor = props.userEditor
   console.log('isUserEditorisUserEditorisUserEditor', props.currentEvent)
   return (
@@ -38,7 +42,11 @@ const BookModal = inject('generalStore')(props => {
             <MDBBtn onClick={deleteShow} color='danger'>
               DELETE
             </MDBBtn>
-          )) || <MDBBtn color='primary'>BOOK NOW</MDBBtn>}
+          )) || (
+            <MDBBtn onClick={handleBook} color='primary'>
+              BOOK NOW
+            </MDBBtn>
+          )}
         </MDBModalFooter>
       </MDBModal>
     </MDBContainer>

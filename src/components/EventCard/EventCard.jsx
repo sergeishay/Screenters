@@ -25,7 +25,7 @@ const EventCard = observer(props => {
   const closestShow = getClosestShow(eventShows)
   const closestShowText = closestShow ? formatDate(closestShow) : null
 
-  console.log('EVENT DETAILS IN CARD', props.eventDetails)
+  // console.log('EVENT DETAILS IN CARD', props.eventDetails)
   return (
     <MDBCol style={{ maxWidth: '22rem' }}>
       <MDBCard>
