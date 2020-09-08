@@ -18,7 +18,7 @@ export class Events {
     }
     @action async getAllEvents() {
         const newEvents = []
-            let getData = await axios.get('http://localhost:8080/api/events')
+            let getData = await axios.get('http://localhost:8080/api/events?offset=0&limit=10')
         console.log(this.listOfEvents)
         for (let d of getData.data) {
             let counter = 0

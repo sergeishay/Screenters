@@ -11,7 +11,7 @@ import axios from 'axios'
 import { useAuth0 } from '@auth0/auth0-react'
 
 const queryString = require('query-string')
-const ENDPOINT = 'http://localhost:8181'
+const ENDPOINT = 'https://e0e7c5da3af8.ngrok.io'
 // const ID = 321
 
 const minutesToStart = room => {
@@ -57,6 +57,9 @@ const Homepage = inject(
   'generalStore'
 )(
   observer(props => {
+    const [myVideo, setMyVideo] = useState(null)
+    const [myCreatorVideo, setMyCreatorVideo] = useState(null)
+
     const { user, isAuthenticated, loginWithRedirect, logout } = useAuth0()
 
     // const [currentUserRole, setCurrentUserRole] = useState(null)
@@ -138,7 +141,7 @@ const Homepage = inject(
         //   { params: { ID } }
         // )
         const response = await axios.get(
-          `http://localhost:8181/broadcast/${requestedRoomID}`
+          `https://e0e7c5da3af8.ngrok.io/broadcast/${requestedRoomID}`
         )
         console.log('ROOM DATA RECIEVED FROM SERVER:', response.data)
 
@@ -160,10 +163,25 @@ const Homepage = inject(
                 creatorID = response.data.creator
                 socket.emit('update-streams', currentUserID, stream.id)
                 const element =
-                  userRole === 'CREATOR' ? 'main-video' : 'participants-videos'
+                  userRole === 'CREATOR' ? 'main-video' : 'my-video'
                 // currentUserID === response.data.creator
 
-                addVideoStream(myVideoObject, stream, element)
+                console.log({
+                  videoObject: myVideoObject,
+                  videoStream: stream,
+                })
+                if (userRole === 'USER') {
+                  setMyVideo({
+                    videoObject: myVideoObject,
+                    videoStream: stream,
+                  })
+                } else if (userRole === 'CREATOR') {
+                  setMyCreatorVideo({
+                    videoObject: myVideoObject,
+                    videoStream: stream,
+                  })
+                  // addVideoStream(myVideoObject, stream, element)
+                }
 
                 socket.on('FromAPI', msg => {
                   console.log('SOCKET SERVER', msg)
@@ -306,38 +324,50 @@ const Homepage = inject(
           (screenState === 'live' && (
             <>
               <div className='main-video-wrapper'>
-                <div id='main-video'></div>
+                <div id='main-video'>
+                  {myCreatorVideo && (
+                    <VideoBox
+                      // videoObject={myVideo.videoObject}
+                      videoStream={myCreatorVideo.videoStream}
+                      username={currentUserID}
+                    />
+                  )}
+                </div>
                 <div id='secondary-video'></div>
-                <div id='main-video-controls'>
-                  <div id='video-button-group'>
-                    <MDBBtn
-                      id='qsLoginBtn'
-                      color='primary'
-                      className='btn-margin small-button'
-                      onClick={() => null}
-                    >
-                      <MDBIcon icon='volume-mute' size='sm' />
-                    </MDBBtn>
-                    <MDBBtn
-                      id='qsLoginBtn'
-                      color='primary'
-                      className='btn-margin small-button'
-                      onClick={() => null}
-                    >
-                      <MDBIcon icon='video-slash' size='sm' />
-                    </MDBBtn>
-                    <MDBBtn
-                      id='qsLoginBtn'
-                      color='primary'
-                      className='btn-margin small-button'
-                      onClick={() => null}
-                    >
-                      <MDBIcon icon='desktop' size='sm' />
-                    </MDBBtn>
-                  </div>
+              </div>
+              <div id='participants-videos'>
+                <div id='my-video'>
+                  {myVideo && (
+                    <VideoBox
+                      // videoObject={myVideo.videoObject}
+                      videoStream={myVideo.videoStream}
+                      username={currentUserID}
+                    />
+                  )}
+                </div>
+                <div className='vertical-spacer'></div>
+                <div id='others-videos'></div>
+              </div>
+              <div id='my-video-controls'>
+                <div id='video-button-group'>
+                  <MDBBtn
+                    id='qsLoginBtn'
+                    color='primary'
+                    className='btn-margin small-button'
+                    onClick={() => {}}
+                  >
+                    <MDBIcon icon='volume-mute' size='sm' />
+                  </MDBBtn>
+                  <MDBBtn
+                    id='qsLoginBtn'
+                    color='primary'
+                    className='btn-margin small-button'
+                    onClick={() => {}}
+                  >
+                    <MDBIcon icon='video-slash' size='sm' />
+                  </MDBBtn>
                 </div>
               </div>
-              <div id='participants-videos'></div>
             </>
           ))}
       </div>
@@ -346,3 +376,83 @@ const Homepage = inject(
 )
 
 export default Homepage
+
+const VideoBox = props => {
+  // let thisVideoStream = ''
+  const thisVideoObject = document.createElement('video')
+  const [isMuted, setIsMuted] = useState(false)
+  const [isBlank, setIsBlank] = useState(false)
+  const [thisVideoStream, setThisVideoStream] = useState('')
+
+  useEffect(() => {
+    // thisVideoStream = props.videoStream
+    setThisVideoStream(props.videoStream)
+    thisVideoObject.srcObject = props.videoStream
+    thisVideoObject.addEventListener('loadedmetadata', () => {
+      thisVideoObject.play()
+    })
+    document.getElementById(`video-${props.username}`).append(thisVideoObject)
+  }, [])
+
+  const muteVideo = () => {
+    console.log('mute main video')
+    const enabled = thisVideoStream.getAudioTracks()[0].enabled
+    if (enabled) {
+      thisVideoStream.getAudioTracks()[0].enabled = false
+      setIsMuted(true)
+    } else {
+      thisVideoStream.getAudioTracks()[0].enabled = true
+      setIsMuted(false)
+    }
+  }
+  const darkVideo = () => {
+    console.log('dark video')
+    const enabled = thisVideoStream.getVideoTracks()[0].enabled
+    if (enabled) {
+      setIsBlank(true)
+      thisVideoStream.getVideoTracks()[0].enabled = false
+    } else {
+      setIsBlank(false)
+      thisVideoStream.getVideoTracks()[0].enabled = true
+    }
+  }
+
+  const fullscreenVideo = () => {
+    console.log('fullscreen main video')
+  }
+  return (
+    <div className='video-conatiner'>
+      <div className='video-object' id={`video-${props.username}`}></div>
+      <div className='my-video-controls'>
+        <MDBBtn
+          color='secondary'
+          className='btn-margin small-button'
+          onClick={muteVideo}
+        >
+          <MDBIcon
+            icon={isMuted ? 'microphone-alt' : 'microphone-alt-slash'}
+            size='sm'
+          />
+        </MDBBtn>
+        <MDBBtn
+          color='secondary'
+          className='btn-margin small-button'
+          onClick={darkVideo}
+        >
+          {isBlank ? (
+            <MDBIcon icon='video-slash' size='sm' />
+          ) : (
+            <MDBIcon icon='video' size='sm' />
+          )}
+        </MDBBtn>
+        <MDBBtn
+          color='secondary'
+          className='btn-margin small-button'
+          onClick={fullscreenVideo}
+        >
+          <MDBIcon icon='desktop' size='sm' />
+        </MDBBtn>
+      </div>
+    </div>
+  )
+}
