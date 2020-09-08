@@ -74,7 +74,7 @@ export class User {
                     showEventID: resultShowFromDB.data.showEventID
                 }
             )
-            console.log( this.futureShows)
+
             let addUserToShowImMongoose = {
                 userID: userID,
                 isBook: true
@@ -85,9 +85,12 @@ export class User {
             console.log(addUserToMongoose)
             if (addUserToMongoose) {
                 alert("thank you for you booking , we will remind you half hour before the show start")
-                console.log("")
+                console.log("lol")
             }
+
         } else {
+            console.log(this.futureShows)
+
             alert("you all ready book to this show")
         }
     }
@@ -103,11 +106,11 @@ export class User {
         this.futureShows.splice(showIndex, 1)
         console.log(showIndex, "index")
 
-        let addUserToShowImMongooseData = {
+        let removeUserFromMongooseData = {
             userID: userID,
             isBook: false
         }
-        let deleteUserFromMongoose = await axios.put(`http://localhost:8181/broadCast/${showID}`, addUserToShowImMongooseData)
+        let deleteUserFromMongoose = await axios.put(`http://localhost:8181/broadCast/${showID}`, removeUserFromMongooseData)
         console.log(deleteUserFromMongoose)
         if (deleteUserFromMongoose) {
             alert("your booking is canceled , forget about the money")
