@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from 'react';
 import { inject, observer } from 'mobx-react'
-import { MDBContainer, MDBRow, MDBCol } from 'mdbreact';
+import { MDBContainer, MDBRow, MDBCol, MDBTypography } from 'mdbreact';
 import './Review.css';
 
 const Review = inject("generalStore")(observer(props => {
@@ -24,9 +24,8 @@ const Review = inject("generalStore")(observer(props => {
                 <img src={reviewOwner.data.imageURL} className="img-fluid z-depth-1 rounded-circle" alt="" />
             </MDBCol>
             <MDBCol xl="10" md="8" middle className="mb-3 text-left">
-                <div>
-                    {props.review.text}
-                </div>
+                <MDBTypography variant="h4" tag='h4'>{props.review.header}</MDBTypography>
+                <MDBTypography variant="p" tag='p'>{props.review.text}</MDBTypography>
             </MDBCol>
             </MDBRow>
         </MDBContainer>

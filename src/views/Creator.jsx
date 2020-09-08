@@ -1,8 +1,9 @@
 import React, { useState, useEffect } from 'react'
 import { observer, inject } from 'mobx-react'
+import { useHistory } from 'react-router-dom'
 import ImageUplaod from '../components/Inputs/ImageUpload'
 import CreatorBackground from '../components/Profile/Creator/CreatorBackground/CreatorBackground'
-import { MDBContainer, MDBRow, MDBCol, MDBTypography, MDBInput, MDBBtn } from 'mdbreact'
+import { MDBContainer, MDBRow, MDBCol, MDBTypography, MDBInput, MDBBtn, MDBNotification } from 'mdbreact'
 import { useAuth0 } from '@auth0/auth0-react';
 import CreatorEventList from '../components/CreatorEventList';
 import Reviews from '../components/Reviews/Reviews';
@@ -17,7 +18,8 @@ const Creator = inject('generalStore', 'creatorStore')(
     const [creator, setCreator] = useState({});
     const [assosiatedReviwes, setAssosiatedReviews] = useState([])
     const [reviewHeaderInput, setReviewHeaderInput] = useState("")
-    const [reviewContentInput, setReviewContentInput] = useState("")
+    const [reviewContentInput, setReviewContentInput] = useState("");
+    const history = useHistory()
 
     console.log(props.generalStore.currentUser);
     
@@ -78,7 +80,9 @@ const Creator = inject('generalStore', 'creatorStore')(
       setReviewHeaderInput("");
     }
 
-    console.log(props.generalStore.singleCreator.reviews)
+    const backToUser = () => {
+      history.push(`/user/${user.sub}`)
+    }
 
     return (
       creator.data ? (
@@ -95,6 +99,9 @@ const Creator = inject('generalStore', 'creatorStore')(
           </MDBCol>
           <MDBCol md="8">
             <CreatorBackground isEdit={isOwner} creator={creator} />
+            {isOwner ? (
+              <MDBBtn onClick={backToUser} color="primary">Back to watcher's mode</MDBBtn>
+            ) : null}
           </MDBCol>
           </MDBRow>
           <MDBRow className='mt-0'>

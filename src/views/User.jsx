@@ -15,6 +15,7 @@ const User = inject('generalStore', 'eventsStores', 'creatorStore')(
     const [isOwner, setIsOwner] = useState(false);
     const [userData, setUserData] = useState({});
     const history = useHistory()
+    console.log(userData.data || null);
     
     useEffect(() => {
       const getProfile = async () => {
@@ -34,12 +35,24 @@ const User = inject('generalStore', 'eventsStores', 'creatorStore')(
       history.push(`/creator/${userData.data.id}`)
     }
 
+    const backToCreator = () => {
+      history.push(`/creator/${user.sub}`)
+    }
+
     const saveImage = (source, field) => {
-      props.userStore.updateUser(userData.data.id, {
+      props.creatorStore.updateUser(userData.data.id, {
         field: "imageURL",
         value: source
       });
     }
+
+    let role = ""
+    if(userData.userRole === "USER") {
+      role = true
+    } else role = false;
+
+    console.log(role);
+    
 
     return (
       userData.data ? (
@@ -56,7 +69,11 @@ const User = inject('generalStore', 'eventsStores', 'creatorStore')(
             </MDBCol>
             <MDBCol className="center" md="8">
               <MDBTypography variant="h2" tag='h2'>{userData.data.username}</MDBTypography>
-              <MDBBtn onClick={becomeCreator} color="primary">Beacome a Creator!</MDBBtn>
+              {userData.userRole === "USER" ? (
+                <MDBBtn onClick={becomeCreator} color="primary">Beacome a Creator!</MDBBtn>
+              ):(
+                <MDBBtn onClick={backToCreator} color="primary">Back to your Screenter page</MDBBtn>
+              )}
             </MDBCol>
           </MDBRow>
           <MDBRow className='mt-0'>
