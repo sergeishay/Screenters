@@ -1,4 +1,5 @@
 import React from 'react'
+import { useHistory } from 'react-router-dom'
 import { Link } from 'react-router-dom'
 import {
   MDBBtn,
@@ -15,42 +16,9 @@ import './CreatorCard.css'
 import { useState } from 'react'
 
 const CreatorCard = observer(props => {
-<<<<<<< HEAD
 
-    const history = useHistory();
-    const watchScreenter = () => {
-        history.push(`/creator/${props.creatorDetails.id}`)
-    }
-    return (
-        <MDBCol style={{ maxWidth: '22rem' }}>
-            <MDBCard>
-                <MDBCardImage
-                    className='img-fluid'
-                    src={props.creatorDetails.imageURL}
-                    waves
-                />
-                <MDBCardBody>
-                    <Rating rating={parseFloat(props.creatorDetails.rating) || 0} />
-                    <MDBCardTitle>{props.creatorDetails.firstName + ' ' + props.creatorDetails.lastName}</MDBCardTitle>
-                    <MDBCardText>{props.creatorDetails.about}</MDBCardText>
-                    <>
-                        <button
-                            type='button'
-                            className='btn btn-default '
-                            onClick={()=>watchScreenter(props.creatorDetails.id)}
-                        >
-                            Watch Screenter
-                        </button>
-                    </>
-                </MDBCardBody>
-            </MDBCard>
-        </MDBCol>
-    )
-
-=======
-  const history = useHistory()
+  const history = useHistory();
   const watchScreenter = () => {
-    /*******redirect to creator page********/
     history.push(`/creator/${props.creatorDetails.id}`)
   }
   return (
@@ -63,11 +31,7 @@ const CreatorCard = observer(props => {
         />
         <MDBCardBody>
           <Rating rating={parseFloat(props.creatorDetails.rating) || 0} />
-          <MDBCardTitle>
-            {props.creatorDetails.firstName +
-              ' ' +
-              props.creatorDetails.lastName}
-          </MDBCardTitle>
+          <MDBCardTitle>{props.creatorDetails.firstName + ' ' + props.creatorDetails.lastName}</MDBCardTitle>
           <MDBCardText>{props.creatorDetails.about}</MDBCardText>
           <>
             <button
@@ -76,13 +40,13 @@ const CreatorCard = observer(props => {
               onClick={() => watchScreenter(props.creatorDetails.id)}
             >
               Watch Screenter
-            </button>
+                        </button>
           </>
         </MDBCardBody>
       </MDBCard>
     </MDBCol>
   )
->>>>>>> a1dcd26fe7c0f1b5c84e58fe1ef2bc98a195ec0b
+
 })
 
 export default CreatorCard
