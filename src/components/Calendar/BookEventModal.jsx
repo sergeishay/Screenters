@@ -38,7 +38,6 @@ const BookModal = inject('generalStore')(props => {
           <p>Start: {formatDate(props.show.start)}</p>
           <p>End: {formatDate(props.show.end)}</p>
           <p>Price: ${props.showPrice}</p>
-          <p>user id: {props.currentUser.userID}</p>
         </MDBModalBody>
         <MDBModalFooter>
           {(userEditor && (
