@@ -1,4 +1,5 @@
 import React from 'react'
+import { useHistory } from 'react-router-dom'
 import { Link } from 'react-router-dom'
 import {
   MDBBtn,
@@ -15,9 +16,10 @@ import './CreatorCard.css'
 import { useState } from 'react'
 
 const CreatorCard = observer(props => {
-  const history = useHistory()
+
+  const history = useHistory();
   const watchScreenter = () => {
-    /*******redirect to creator page********/
+
     history.push(`/creator/${props.creatorDetails.id}`)
   }
   return (
@@ -43,12 +45,14 @@ const CreatorCard = observer(props => {
               onClick={() => watchScreenter(props.creatorDetails.id)}
             >
               Watch Screenter
+
             </button>
           </>
         </MDBCardBody>
       </MDBCard>
     </MDBCol>
   )
+
 })
 
 export default CreatorCard
