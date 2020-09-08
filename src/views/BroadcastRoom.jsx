@@ -192,7 +192,7 @@ const Homepage = inject(
 
                 const peer = new Peer(peerUserID, {
                   path: '/peerjs',
-                  host: '/',
+                  host: 'https://e0e7c5da3af8.ngrok.io',
                   port: '8181',
                 })
 

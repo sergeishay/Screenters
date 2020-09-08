@@ -7,13 +7,12 @@ RUN mkdir /app
 
 WORKDIR /app
 
-COPY package.json .
+COPY . .
 
+RUN npm install --save mdbreact
 RUN npm install
 
-RUN yarn install
-
-COPY . .
+# RUN yarn install
 
 RUN npm run build
 

@@ -76,17 +76,19 @@ const User = inject('generalStore', 'eventsStores', 'creatorStore')(
             </MDBCol>
           </MDBRow>
           <MDBRow className='mt-0'>
-            {userData.data.futureShows.length ? (
-              <>
-                <MDBTypography variant="h2" tag='h2'>Upcoming Shows:</MDBTypography>
-                <Shows kind="upcoming" shows={userData.data.futureShows}/>
-              </>
-            ):(
-              <>
-                <MDBTypography variant="h2" tag='h2'>Upcoming shows will appear below..</MDBTypography>
-                <div className="spacer">&nbsp;</div>
-              </>
-            )}
+            <MDBCol middle className="center" md="12">
+              {userData.data.futureShows.length ? (
+                <>
+                  <MDBTypography variant="h2" tag='h2'>Upcoming Shows:</MDBTypography>
+                  <Shows kind="upcoming" shows={userData.data.futureShows}/>
+                </>
+              ):(
+                <>
+                  <MDBTypography variant="h2" tag='h2'>Upcoming shows will appear below..</MDBTypography>
+                  <div className="spacer">&nbsp;</div>
+                </>
+              )}
+            </MDBCol>
           </MDBRow>
           <MDBRow className='mt-0'>
             {userData.data.pastShows.length ? (
@@ -102,8 +104,10 @@ const User = inject('generalStore', 'eventsStores', 'creatorStore')(
             )}
           </MDBRow>
           <MDBRow>
+          <MDBCol middle className="center" md="12">
             <MDBTypography variant="h2" tag='h2'>Shows you'll love:</MDBTypography>
             <CreatorEventList isOwner={false} events={props.eventsStores.listOfEvents.slice(0, 3)}/>
+          </MDBCol>
           </MDBRow>
         </MDBContainer>
       </React.Fragment>
