@@ -57,6 +57,7 @@ export class GeneralStore {
         this.singleEvent.shows.push(addNewShow.data)
         let currentShowId = addNewShow.data.id
         const userID = this.currentUser.id
+        console.log(userID)
         let dataAboutTheShow = {
             creator : userID,
             startTime : addNewShow.data.startTime,
@@ -68,8 +69,6 @@ export class GeneralStore {
     }
 
 
-
-
     @action async deleteShow(showId, eventId) {
         let deleteShow = await axios.delete(`http://localhost:8080/api/events?showId=${showId}`)
         console.log(deleteShow)
@@ -77,16 +76,16 @@ export class GeneralStore {
             let deleteShowIndex = this.singleEvent.shows.findIndex(show => parseInt(show.id) === parseInt(showId))
             console.log(deleteShowIndex)
             let deleteTheShow = this.singleEvent.shows.splice(deleteShowIndex, 1)
-
             console.log(deleteTheShow)
         } else {
             console.log("error")
         }
     }
+
+
+
+
     /////////////////User Auth/////////////////////
-
-
-
 
 
 
@@ -213,6 +212,9 @@ export class GeneralStore {
 
 
     /////////COMMENT REVIEW SECTION /////
+
+
+
 
     @action async postReviewShows(showId, showReview) {
         let result = await axios.post(`http://localhost:8080/api/reviews/show`)
