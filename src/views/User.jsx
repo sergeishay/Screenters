@@ -15,7 +15,6 @@ const User = inject('generalStore', 'eventsStores', 'creatorStore')(
     const [isOwner, setIsOwner] = useState(false);
     const [userData, setUserData] = useState({});
     const history = useHistory()
-    console.log(userData.data || null);
     
     useEffect(() => {
       const getProfile = async () => {
@@ -80,7 +79,7 @@ const User = inject('generalStore', 'eventsStores', 'creatorStore')(
             {userData.data.futureShows.length ? (
               <>
                 <MDBTypography variant="h2" tag='h2'>Upcoming Shows:</MDBTypography>
-                <Shows kind="upcoming" shows={userData.data.pastShows}/>
+                <Shows kind="upcoming" shows={userData.data.futureShows}/>
               </>
             ):(
               <>

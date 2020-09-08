@@ -121,8 +121,6 @@ export class User {
 
 
 
-
-
     @action async getReviewShows(reviewId) {
         let result = await axios.get(`http://localhost:8080/api/reviews/${reviewId}`)
         console.log(result)
