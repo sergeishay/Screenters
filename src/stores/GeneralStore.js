@@ -20,7 +20,8 @@ export class GeneralStore {
         reviews: []
     }
 
-    constructor() {
+    constructor(listOfEvents) {
+        this.listOfEvents = listOfEvents
         this.init()
     }
     init = async () => {
