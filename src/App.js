@@ -17,6 +17,8 @@ import { useAuth0 } from '@auth0/auth0-react'
 import history from './utils/history'
 import Creator from './views/Creator'
 import User from './views/User'
+import notification from './utils/notification'
+import axios from 'axios'
 
 // stylesconst { isLoading, error, user } = useAuth0()
 import './App.css'
@@ -30,6 +32,7 @@ initFontAwesome()
 const App = inject('generalStore')(
   observer(props => {
     const { isLoading, error, user } = useAuth0()
+    // notification('+972546445077', 'Assi Cohen', '21:00')
     if (error) {
       return <div>Oops... {error.message}</div>
     }
