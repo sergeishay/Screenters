@@ -74,12 +74,7 @@ export class User {
                     showEventID: resultShowFromDB.data.showEventID
                 }
             )
-<<<<<<< HEAD
 
-            console.log(this.futureShows)
-=======
-            console.log( this.futureShows)
->>>>>>> master
             let addUserToShowImMongoose = {
                 userID: userID,
                 isBook: true
@@ -90,7 +85,7 @@ export class User {
             console.log(addUserToMongoose)
             if (addUserToMongoose) {
                 alert("thank you for you booking , we will remind you half hour before the show start")
-                console.log("")
+                console.log("lol")
             }
 
         } else {

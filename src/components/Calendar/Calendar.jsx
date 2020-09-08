@@ -14,7 +14,7 @@ const Calendar = observer(props => {
   const [selectedDate, setSelectedDate] = useState({})
 
   const { currentUser, shows, currentEvent, isEventPage } = props
-  const [allShows, setAllShows] = useState(shows)
+  const [allShows, setAllShows] = useState([])
 
   const userEditor = props.userEditor
 
@@ -47,7 +47,9 @@ const Calendar = observer(props => {
   }
 
   useEffect(() => {
+
     setAllShows(shows)
+    return  ()=> {setAllShows([])}
   })
   return (
     <>
