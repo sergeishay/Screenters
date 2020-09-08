@@ -12,7 +12,7 @@ import { useAuth0 } from '@auth0/auth0-react'
 
 const queryString = require('query-string')
 const ENDPOINT = 'http://localhost:8181'
-const ID = 321
+// const ID = 321
 
 const minutesToStart = room => {
   const now = new Date()
@@ -20,10 +20,34 @@ const minutesToStart = room => {
   console.log('TIME SIFFERENCE', (showTime - now) * 1000 * 60)
 }
 
+const getPeerUserID = userID => {
+  let correctedUserId = userID
+  let indexOfSign = userID.indexOf('%')
+  if (indexOfSign > 0) {
+    correctedUserId = userID.substring(indexOfSign + 3, userID.length)
+  } else {
+    indexOfSign = userID.indexOf('|')
+    if (indexOfSign > 0) {
+      correctedUserId = userID.substring(indexOfSign + 1, userID.length)
+    }
+  }
+
+  console.log(indexOfSign)
+  console.log(userID)
+
+  console.log(correctedUserId)
+  return correctedUserId
+}
+
 const checkUserRole = (room, userID) => {
-  if (userID === room.creator) return 'CREATOR'
+  console.log(room.creator)
+
+  console.log(getPeerUserID(room.creator))
+  console.log(userID)
+  if (userID === getPeerUserID(room.creator)) return 'CREATOR'
   console.log(room.participants.find(user => userID === user.userID))
-  if (room.participants.find(user => userID === user.userID)) return 'USER'
+  if (room.participants.find(user => userID === getPeerUserID(user.userID)))
+    return 'USER'
 
   return null
 }
@@ -34,16 +58,19 @@ const Homepage = inject(
 )(
   observer(props => {
     const { user, isAuthenticated, loginWithRedirect, logout } = useAuth0()
-    const [currentUserRole, setCurrentUserRole] = useState(null)
+
+    // const [currentUserRole, setCurrentUserRole] = useState(null)
+    // const currentUser = props.generalStore.currentUser
+
     const [screenState, setScreenState] = useState('live')
     const requestedRoomID = props.match.params.roomId
-    const currentUser = props.generalStore.currentUser
+    // let currentUserID = escape(user.sub)
+    let uncutUserID = null
+    let currentUserID = null
+
     const allVideoStreams = []
     let roomInfo = {}
-    let currentUserID = escape(user.sub)
     let creatorID = null
-
-    let location = useLocation()
 
     const socket = socketIOClient(ENDPOINT)
 
@@ -83,32 +110,44 @@ const Homepage = inject(
 
       call.on('stream', userVideoStream => {
         console.log('STREAM RECIEVED FROM USER', userVideoStream)
-
+        console.log('parseInt(creatorID)', creatorID)
+        console.log('parseInt(call.peer)', peerUserID)
         const element =
-          creatorID === peerUserID ? 'main-video' : 'participants-videos'
+          getPeerUserID(creatorID) === peerUserID
+            ? 'main-video'
+            : 'participants-videos'
         addVideoStream(video, userVideoStream, element)
       })
     }
 
+    let location = useLocation()
     useEffect(() => {
       const queryParams = queryString.parse(location.search)
-      // currentUserID = queryParams.user
-      currentUserID = escape(user.sub)
-      console.log(currentUserID)
+      // currentUserID = getPeerUserID(queryParams.user)
+      // console.log(currentUserID)
+      // console.log(getPeerUserID(user.sub))
+      currentUserID = getPeerUserID(user.sub)
+      const peerUserID = getPeerUserID(currentUserID)
+      console.log(peerUserID)
+
+      // currentUserID = escape(user.sub)
 
       async function getData() {
+        // const response = await axios.get(
+        //   `http://localhost:8181/broadcast/${requestedRoomID}`,
+        //   { params: { ID } }
+        // )
         const response = await axios.get(
-          `http://localhost:8181/broadcast/${requestedRoomID}`,
-          { params: { ID } }
+          `http://localhost:8181/broadcast/${requestedRoomID}`
         )
         console.log('ROOM DATA RECIEVED FROM SERVER:', response.data)
 
         if (!response.data.error) {
           roomInfo = response.data
           const userRole = checkUserRole(roomInfo, currentUserID)
-          console.log('userRolevuserRoleuserRole', userRole)
-          setCurrentUserRole(userRole)
-          minutesToStart(roomInfo)
+          console.log('CURRENT USER ROLE', userRole)
+          // setCurrentUserRole(userRole)
+          // minutesToStart(roomInfo)
 
           if (userRole) {
             navigator.mediaDevices
@@ -121,17 +160,25 @@ const Homepage = inject(
                 creatorID = response.data.creator
                 socket.emit('update-streams', currentUserID, stream.id)
                 const element =
-                  currentUserID === response.data.creator
-                    ? 'main-video'
-                    : 'participants-videos'
+                  userRole === 'CREATOR' ? 'main-video' : 'participants-videos'
+                // currentUserID === response.data.creator
 
                 addVideoStream(myVideoObject, stream, element)
 
-                const peer = new Peer(currentUserID, {
+                socket.on('FromAPI', msg => {
+                  console.log('SOCKET SERVER', msg)
+                })
+                socket.emit('test', 'TEST')
+
+                console.log(peerUserID)
+
+                const peer = new Peer(peerUserID, {
                   path: '/peerjs',
                   host: '/',
                   port: '8181',
                 })
+
+                console.log(peer)
 
                 socket.on(
                   'user-conncted',
@@ -147,7 +194,7 @@ const Homepage = inject(
                 )
 
                 peer.on('connection', function (conn) {
-                  console.log(conn)
+                  console.log('PEER CONECTED')
                   conn.on('data', function (data) {
                     console.log('DATA FROM PEER', data)
                   })
@@ -186,10 +233,10 @@ const Homepage = inject(
                       call.on('stream', function (remoteStream) {
                         const newVideoObject = document.createElement('video')
                         console.log('CALLLLL', call)
-                        console.log('parseInt(creatorID)', parseInt(creatorID))
-                        console.log('parseInt(call.peer)', parseInt(call.peer))
+                        console.log('parseInt(creatorID)', creatorID)
+                        console.log('parseInt(call.peer)', call.peer)
                         const element =
-                          creatorID === call.peer
+                          getPeerUserID(creatorID) === call.peer
                             ? 'main-video'
                             : 'participants-videos'
                         addVideoStream(newVideoObject, remoteStream, element)
