@@ -12,7 +12,11 @@ const Paypal = observer(props => {
     <div className="paymentBtn">
       {(checkout === true)
         ? <div className="payment-div">
-          <ReactPayPal />
+          <ReactPayPal currentUser={props.currentUser}
+                      price={props.price}
+                      show={props.show}
+                      checkoutSwitch={props.checkoutSwitch}
+          />
         </div>
         : <div>
           <MDBBtn

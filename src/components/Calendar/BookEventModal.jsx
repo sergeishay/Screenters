@@ -15,6 +15,12 @@ import './BookEventModal.css'
 
 const BookModal = inject('generalStore')(props => {
   const [isOpen, setIsOpen] = useState(true)
+  const [isCheckOut, setisCheckOut] = useState('15vh')
+
+const checkoutSwitch = (size) =>{
+  setisCheckOut(size)
+}
+
   const toggle = () => {
     setIsOpen(!isOpen)
     props.toggleModal()
@@ -23,11 +29,11 @@ const BookModal = inject('generalStore')(props => {
     props.generalStore.deleteShow(props.show.id, props.currentEvent.id)
     setIsOpen(false)
   }
-  const handleBook = () => {
-    console.log(props.generalStore.currentUser)
-    const result = props.generalStore.currentUser.bookShow(props.show.id)
-    console.log('handleBook RESULT', result)
-  }
+  // const handleBook = () => {
+  //   console.log(props.generalStore.currentUser)
+  //   const result = props.generalStore.currentUser.bookShow(props.show.id)
+  //   console.log('handleBook RESULT', result)
+  // }
   const userEditor = props.userEditor
   console.log('isUserEditorisUserEditorisUserEditor', props.currentEvent)
   return (
@@ -39,17 +45,21 @@ const BookModal = inject('generalStore')(props => {
           <p>End: {formatDate(props.show.end)}</p>
           <p>Price: ${props.showPrice}</p>
         </MDBModalBody>
-        <MDBModalFooter>
+        <MDBModalFooter style={{height:isCheckOut}}>
           {(userEditor && (
             <MDBBtn onClick={deleteShow} color='danger'>
               DELETE
             </MDBBtn>
           )) || (
             <>
-              <MDBBtn onClick={handleBook} color='primary'>
+              {/* <MDBBtn onClick={handleBook} color='primary'>
                 BOOK NOW
-              </MDBBtn>
-              <Paypal />
+              </MDBBtn> */}
+              <Paypal currentUser={props.currentUser}
+                      price={props.showPrice}
+                      show={props.show}
+                      checkoutSwitch={checkoutSwitch}
+              />
             </>
           )}
         </MDBModalFooter>
