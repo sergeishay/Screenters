@@ -39,7 +39,6 @@ export class User {
         this.about = about
         this.futureShows = futureShows || []
         this.pastShows = pastShows || []
-        // this.init()
     }
 
 
@@ -52,11 +51,11 @@ export class User {
     @action async updateUser(userId, data) {
         let updateUser = await axios.put(`http://localhost:8080/api/users/${userId}`, data)
     }
+
+
+
+
     ////////////////BOOK SHOW///////////////////
-
-
-
-
 
 
 
@@ -67,7 +66,7 @@ export class User {
         console.log(resultShowFromDB.data)
 
         if (resultShowFromDB.data !== "saving error") {
-            const pushToFutureShowArray = this.futureShows.push(
+            this.futureShows.push(
                 {
                     id: resultShowFromDB.data.id,
                     startTime: resultShowFromDB.data.startTime,
@@ -81,22 +80,35 @@ export class User {
             }
             let addUserToMongoose = await axios.put(`http://localhost:8181/broadCast/${showID}`, addUserToShowImMongoose)
             console.log(addUserToMongoose)
-            if(addUserToMongoose){
+            if (addUserToMongoose) {
                 alert("thank you for you booking , we will remind you half hour before the show start")
             }
         } else {
             alert("you all ready book to this show")
         }
-
-
     }
 
     @action async unBookShow(showID) {
         const userID = this.id
+        console.log(userID)
         let resultShowFromDB = await axios.delete(`http://localhost:8080/api/users/show/${userID}/${showID}`)
         console.log(resultShowFromDB.data)
+
+
         const showIndex = this.futureShows.findIndex(show => parseInt(show.id) === parseInt(showID))
         this.futureShows.splice(showIndex, 1)
+        console.log(showIndex, "index")
+
+        let addUserToShowImMongooseData = {
+            userID: userID,
+            isBook: false
+        }
+        let deleteUserFromMongoose = await axios.put(`http://localhost:8181/broadCast/${showID}`, addUserToShowImMongooseData)
+        console.log(deleteUserFromMongoose)
+        if (deleteUserFromMongoose) {
+            alert("your booking is canceled , forget about the money")
+        }
+
     }
 
 
