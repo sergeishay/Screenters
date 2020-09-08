@@ -13,12 +13,14 @@ import {
 import { observer } from 'mobx-react'
 import Rating from '../Inputs/Rating'
 import './CreatorCard.css'
-import { useState } from 'react'
+import { useState } from 'react';
+import { useHistory } from 'react-router-dom'
 
 const CreatorCard = observer(props => {
 
   const history = useHistory();
   const watchScreenter = () => {
+
     history.push(`/creator/${props.creatorDetails.id}`)
   }
   return (
@@ -31,7 +33,11 @@ const CreatorCard = observer(props => {
         />
         <MDBCardBody>
           <Rating rating={parseFloat(props.creatorDetails.rating) || 0} />
-          <MDBCardTitle>{props.creatorDetails.firstName + ' ' + props.creatorDetails.lastName}</MDBCardTitle>
+          <MDBCardTitle>
+            {props.creatorDetails.firstName +
+              ' ' +
+              props.creatorDetails.lastName}
+          </MDBCardTitle>
           <MDBCardText>{props.creatorDetails.about}</MDBCardText>
           <>
             <button
@@ -40,7 +46,8 @@ const CreatorCard = observer(props => {
               onClick={() => watchScreenter(props.creatorDetails.id)}
             >
               Watch Screenter
-                        </button>
+
+            </button>
           </>
         </MDBCardBody>
       </MDBCard>

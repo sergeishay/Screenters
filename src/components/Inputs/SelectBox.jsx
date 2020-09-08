@@ -13,7 +13,9 @@ const SelectBox = props => {
 
   return (
     <Dropdown isOpen={dropdownOpen} toggle={toggle}>
-      <DropdownToggle caret>Dropdown</DropdownToggle>
+      <DropdownToggle color='secondary' caret>
+        Dropdown
+      </DropdownToggle>
       <DropdownMenu>
         <DropdownItem header>Header</DropdownItem>
         <DropdownItem>Some Action</DropdownItem>

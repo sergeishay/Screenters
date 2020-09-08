@@ -11,7 +11,7 @@ import axios from 'axios'
 import { useAuth0 } from '@auth0/auth0-react'
 
 const queryString = require('query-string')
-const ENDPOINT = 'https://e0e7c5da3af8.ngrok.io'
+const ENDPOINT = 'http://b1d7360167f1.ngrok.io'
 // const ID = 321
 
 const minutesToStart = room => {
@@ -59,6 +59,7 @@ const Homepage = inject(
   observer(props => {
     const [myVideo, setMyVideo] = useState(null)
     const [myCreatorVideo, setMyCreatorVideo] = useState(null)
+    const [myUserName, setMyUserName] = useState('')
 
     const { user, isAuthenticated, loginWithRedirect, logout } = useAuth0()
 
@@ -75,7 +76,7 @@ const Homepage = inject(
     let roomInfo = {}
     let creatorID = null
 
-    const socket = socketIOClient(ENDPOINT)
+    const socket = socketIOClient(`${ENDPOINT}:8181`)
 
     const myVideoObject = document.createElement('video')
     myVideoObject.muted = true
@@ -118,18 +119,26 @@ const Homepage = inject(
         const element =
           getPeerUserID(creatorID) === peerUserID
             ? 'main-video'
-            : 'participants-videos'
+            : 'others-videos'
         addVideoStream(video, userVideoStream, element)
       })
+    }
+
+    const sendChatMessage = msg => {
+      console.log('MSG PARENT')
+      console.log(socket)
+      socket.emit('message', msg)
     }
 
     let location = useLocation()
     useEffect(() => {
       const queryParams = queryString.parse(location.search)
-      // currentUserID = getPeerUserID(queryParams.user)
+      currentUserID = getPeerUserID(queryParams.user)
       // console.log(currentUserID)
       // console.log(getPeerUserID(user.sub))
-      currentUserID = getPeerUserID(user.sub)
+      // currentUserID = getPeerUserID(user.sub)
+      // console.log(user.nickname)
+      // setMyUserName()
       const peerUserID = getPeerUserID(currentUserID)
       console.log(peerUserID)
 
@@ -141,7 +150,7 @@ const Homepage = inject(
         //   { params: { ID } }
         // )
         const response = await axios.get(
-          `https://e0e7c5da3af8.ngrok.io/broadcast/${requestedRoomID}`
+          `${ENDPOINT}:8181/broadCast/${requestedRoomID}`
         )
         console.log('ROOM DATA RECIEVED FROM SERVER:', response.data)
 
@@ -192,7 +201,7 @@ const Homepage = inject(
 
                 const peer = new Peer(peerUserID, {
                   path: '/peerjs',
-                  host: '/',
+                  host: 'https://e0e7c5da3af8.ngrok.io',
                   port: '8181',
                 })
 
@@ -228,6 +237,20 @@ const Homepage = inject(
                   )
                 })
 
+                socket.on('user-message', messageObj => {
+                  // createMsg(messageObj)
+                  const msgBody = document.createElement('div')
+                  msgBody.className = 'msg-body'
+                  msgBody.innerHTML = `<strong>${messageObj.user}</strong>: ${messageObj.msg}<br>`
+
+                  document.getElementById('chat-window').append(msgBody)
+                  document.getElementById(
+                    'chat-window'
+                  ).scrollTop = document.getElementById(
+                    'chat-window'
+                  ).scrollHeight
+                })
+
                 peer.on('call', function (call) {
                   console.log('Got calls')
                   socket.emit('update-streams', currentUserID, myVideoStream.id)
@@ -256,7 +279,7 @@ const Homepage = inject(
                         const element =
                           getPeerUserID(creatorID) === call.peer
                             ? 'main-video'
-                            : 'participants-videos'
+                            : 'others-videos'
                         addVideoStream(newVideoObject, remoteStream, element)
                       })
                     },
@@ -323,50 +346,38 @@ const Homepage = inject(
           )) ||
           (screenState === 'live' && (
             <>
-              <div className='main-video-wrapper'>
-                <div id='main-video'>
-                  {myCreatorVideo && (
-                    <VideoBox
-                      // videoObject={myVideo.videoObject}
-                      videoStream={myCreatorVideo.videoStream}
-                      username={currentUserID}
-                    />
-                  )}
+              <div className='left-side'>
+                <div className='main-video-wrapper'>
+                  <div id='main-video'>
+                    {myCreatorVideo && (
+                      <VideoBox
+                        // videoObject={myVideo.videoObject}
+                        videoStream={myCreatorVideo.videoStream}
+                        username={currentUserID}
+                      />
+                    )}
+                  </div>
+                  <div id='secondary-video'></div>
                 </div>
-                <div id='secondary-video'></div>
+                <div id='participants-videos'>
+                  <div id='my-video'>
+                    {myVideo && (
+                      <VideoBox
+                        // videoObject={myVideo.videoObject}
+                        videoStream={myVideo.videoStream}
+                        username={currentUserID}
+                      />
+                    )}
+                  </div>
+                  <div className='vertical-spacer'></div>
+                  <div id='others-videos'></div>
+                </div>
               </div>
-              <div id='participants-videos'>
-                <div id='my-video'>
-                  {myVideo && (
-                    <VideoBox
-                      // videoObject={myVideo.videoObject}
-                      videoStream={myVideo.videoStream}
-                      username={currentUserID}
-                    />
-                  )}
-                </div>
-                <div className='vertical-spacer'></div>
-                <div id='others-videos'></div>
-              </div>
-              <div id='my-video-controls'>
-                <div id='video-button-group'>
-                  <MDBBtn
-                    id='qsLoginBtn'
-                    color='primary'
-                    className='btn-margin small-button'
-                    onClick={() => {}}
-                  >
-                    <MDBIcon icon='volume-mute' size='sm' />
-                  </MDBBtn>
-                  <MDBBtn
-                    id='qsLoginBtn'
-                    color='primary'
-                    className='btn-margin small-button'
-                    onClick={() => {}}
-                  >
-                    <MDBIcon icon='video-slash' size='sm' />
-                  </MDBBtn>
-                </div>
+              <div className='right-side'>
+                <ChatScreen
+                  username={user.nickname}
+                  sendChat={sendChatMessage}
+                />
               </div>
             </>
           ))}
@@ -452,6 +463,36 @@ const VideoBox = props => {
         >
           <MDBIcon icon='desktop' size='sm' />
         </MDBBtn>
+      </div>
+    </div>
+  )
+}
+
+const ChatScreen = props => {
+  const sendMessage = e => {
+    if (e.which == 13) {
+      console.log('Message')
+      props.sendChat({
+        user: props.username,
+        msg: e.target.value,
+      })
+      // socket.emit('message', 'I SENT A CHAT MESSAGE')
+    }
+  }
+  return (
+    <div className='chat-area'>
+      <div className='chat-header'>
+        <h3>Chat</h3>
+      </div>
+      <div id='chat-window'></div>
+      <div className='chat-input'>
+        <input
+          type='text'
+          name='chatMessage'
+          id='chatMessage'
+          placeholder='Type message'
+          onKeyDown={sendMessage}
+        />
       </div>
     </div>
   )
