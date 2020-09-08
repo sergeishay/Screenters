@@ -104,11 +104,11 @@ export class User {
         this.futureShows.splice(showIndex, 1)
         console.log(showIndex, "index")
 
-        let addUserToShowImMongooseData = {
+        let removeUserFromMongooseData = {
             userID: userID,
             isBook: false
         }
-        let deleteUserFromMongoose = await axios.put(`http://localhost:8181/broadCast/${showID}`, addUserToShowImMongooseData)
+        let deleteUserFromMongoose = await axios.put(`http://localhost:8181/broadCast/${showID}`, removeUserFromMongooseData)
         console.log(deleteUserFromMongoose)
         if (deleteUserFromMongoose) {
             alert("your booking is canceled , forget about the money")
