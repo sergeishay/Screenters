@@ -3,7 +3,8 @@ import { useHistory } from 'react-router-dom';
 import { useAuth0 } from '@auth0/auth0-react';
 import Modal from '../../UI/Modal/Modal'
 import { inject, observer } from 'mobx-react'
-import { MDBContainer, MDBRow, MDBCol, MDBTypography, MDBBtn } from 'mdbreact';
+import { MDBContainer, MDBRow, MDBCol, MDBTypography, MDBBtn, toast, ToastContainer } from 'mdbreact';
+import AddToCalendar from 'react-add-to-calendar'
 import moment from 'moment'
 import './Show.css'
 
@@ -27,8 +28,24 @@ const Show = inject("generalStore")(observer(props => {
 
     const handelUnbook = () => {
         props.generalStore.currentUser.unBookShow(show.id);
-        history.push(`/user/${escape(user.sub)}`)
-    }    
+        history.push(`/user/${escape(user.sub)}`);
+        toast.error('Show successfuly unbooked!', {
+            closeButton: false
+          });
+    }
+
+    let eventToCalendar = {
+        title: "Screenter's Reminder",
+        description: `www.screenters.com/broadcast-room/${show.id}`,
+        location: 'Israel, IL',
+        startTime: show.startTime,
+        endTime: show.endTime    
+    }
+
+    let items = [
+        { outlook: 'Outlook' },
+        { google: 'Google' }
+     ];     
         
     return (
         <MDBContainer className="show-container">
@@ -43,9 +60,14 @@ const Show = inject("generalStore")(observer(props => {
                 </MDBCol>
                 <MDBCol md="3" middle className="mb-3 text-center">
                     <MDBBtn onClick={toggle} color="primary">Invite Friend</MDBBtn>
-                    <MDBBtn href="/new" color="info">Add Reminder</MDBBtn>
+                    <MDBBtn color="info"><AddToCalendar listItems={items} event={eventToCalendar}>Add Reminder</AddToCalendar></MDBBtn>
                     <MDBBtn onClick={handelUnbook} color="danger">Unbook</MDBBtn>
                     <Modal eventId={event.id} modal={modal} toggle={toggle}/>
+                    <ToastContainer
+                        hideProgressBar={true}
+                        newestOnTop={true}
+                        autoClose={5000}
+                    />
                 </MDBCol>
             </MDBRow>
         </MDBContainer>
