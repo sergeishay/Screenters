@@ -16,6 +16,9 @@ export class GeneralStore {
     @observable singleEvent = {
         shows: [],
     }
+    @observable singleCreator = {
+        reviews: []
+    }
 
     constructor(listOfEvents) {
         this.listOfEvents = listOfEvents
@@ -26,8 +29,6 @@ export class GeneralStore {
     init = async () => {
         this.gelAllCategories()
         this.getAllCreators()
-
-
     }
     @action async gelAllCategories() {
         let gelAllCategories = await axios.get(
@@ -43,8 +44,6 @@ export class GeneralStore {
         let getUserById = await axios.get(`http://localhost:8080/api/users/${userId}`)
         return getUserById
     }
-
-
 
 
     ////////////////SHOWS///////////////////////////

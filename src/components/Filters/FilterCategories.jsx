@@ -12,10 +12,17 @@ const FilterCategories = inject('generalStore')(
     const [categoriesChecked, setCategoriesChecked] = useState('1')
     const [categories, setCategories] = useState([])
     useEffect(() => {
-      const formatedCategories = props.generalStore.categories.map(
-        category => ({ value: `${category.id}`, text: category.name_en })
-      )
-      setCategories(formatedCategories)
+      console.log(props.generalStore.categories)
+      const getCat = async () => {
+        const result = await props.generalStore.gelAllCategories()
+        const formatedCategories = props.generalStore.categories.map(
+          category => {
+            return { value: `${category.id}`, text: category.name_en }
+          }
+        )
+        setCategories(formatedCategories)
+      }
+      getCat()
     }, [props.generalStore.categories])
 
     return (
