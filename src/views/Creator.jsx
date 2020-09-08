@@ -3,7 +3,7 @@ import { observer, inject } from 'mobx-react'
 import { useHistory } from 'react-router-dom'
 import ImageUplaod from '../components/Inputs/ImageUpload'
 import CreatorBackground from '../components/Profile/Creator/CreatorBackground/CreatorBackground'
-import { MDBContainer, MDBRow, MDBCol, MDBTypography, MDBInput, MDBBtn, MDBNotification } from 'mdbreact'
+import { MDBContainer, MDBRow, MDBCol, MDBTypography, MDBInput, MDBBtn, toast, ToastContainer } from 'mdbreact'
 import { useAuth0 } from '@auth0/auth0-react';
 import CreatorEventList from '../components/CreatorEventList';
 import Reviews from '../components/Reviews/Reviews';
@@ -78,6 +78,9 @@ const Creator = inject('generalStore', 'creatorStore')(
       props.creatorStore.addReviewToCreator(reviewHeaderInput, reviewContentInput, creator.data.Data.id, escape(user.sub));
       setReviewContentInput("");
       setReviewHeaderInput("");
+      toast.info('Your review is pending approval, Thank you :)', {
+        closeButton: false
+      });
     }
 
     const backToUser = () => {
@@ -139,6 +142,11 @@ const Creator = inject('generalStore', 'creatorStore')(
               <br />
               <MDBInput value={reviewContentInput} onChange={handleReviewContent} type="textarea" label="Your Review.." rows="2" />
               <MDBBtn onClick={addReview} color="primary">Submit</MDBBtn>
+              <ToastContainer
+                hideProgressBar={true}
+                newestOnTop={true}
+                autoClose={5000}
+              />
             </MDBContainer>
           ) : null}
         </MDBContainer>
