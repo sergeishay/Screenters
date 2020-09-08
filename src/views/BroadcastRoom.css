@@ -10,10 +10,12 @@
 .broadcast-page-wrapper {
   background-color: #000;
   min-height: 80vh;
+  position: relative;
 }
 .main-video-wrapper {
-  height: 50vh;
+  min-height: 50vh;
   background-color: #000;
+  position: relative;
 }
 #main-video {
   height: 100%;
@@ -38,6 +40,19 @@
 .small-button {
   padding: 7px 10px;
 }
-#main-video-controls {
-  background-color: #555;
+.my-video-controls {
+  background-color: rgb(46, 46, 46);
+  position: absolute;
+  bottom: 0;
+  left: 0;
+  width: 100%;
+  text-align: center;
+}
+.vertical-spacer {
+  display: inline-block;
+  width: 2px;
+  height: 100%;
+  background-color: #aaa;
+  margin-left: 5px;
+  margin-right: 5px;
 }
