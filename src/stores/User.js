@@ -74,14 +74,18 @@ export class User {
                     showEventID: resultShowFromDB.data.showEventID
                 }
             )
+            console.log( this.futureShows)
             let addUserToShowImMongoose = {
                 userID: userID,
                 isBook: true
             }
+            console.log(addUserToShowImMongoose)
+
             let addUserToMongoose = await axios.put(`http://localhost:8181/broadCast/${showID}`, addUserToShowImMongoose)
             console.log(addUserToMongoose)
             if (addUserToMongoose) {
                 alert("thank you for you booking , we will remind you half hour before the show start")
+                console.log("")
             }
         } else {
             alert("you all ready book to this show")
