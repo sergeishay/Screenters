@@ -21,3 +21,42 @@ h2 {
 .make-all-center .col {
   margin: 0 auto;
 }
+h4 {
+  text-shadow: none !important;
+}
+.carousel-caption {
+  background-color: rgba(0, 0, 0, 0.3);
+  box-shadow: 0px 0px 10px 5px rgba(0, 0, 0, 0.3);
+  text-shadow: 1px 2px 2px #000 !important;
+  font-weight: 400 !important;
+}
+.carousel-caption .btn-primary {
+  background-color: #b40000 !important;
+}
+.carousel {
+  border-bottom: 9px solid #c70000;
+}
+div[data-test='col'] {
+  margin-left: auto;
+  margin-right: auto;
+}
+
+div[data-test='card'] .view .Ripple-parent {
+  border-bottom: 9px solid #c70000;
+}
+
+div[data-test='card'] .small-text {
+  margin-bottom: 10px;
+}
+
+footer.bg-light {
+  background-color: #333 !important;
+  color: #eee;
+  padding-top: 20px;
+}
+body {
+  background-color: rgb(233, 233, 233);
+}
+nav {
+  border-bottom: 10px solid rgb(0, 33, 48);
+}

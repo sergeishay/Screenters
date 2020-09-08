@@ -1,3 +1,14 @@
+.broadcast-page-wrapper {
+  display: flex;
+}
+.left-side {
+  flex: 0.8;
+}
+.right-side {
+  flex: 0.2;
+  border-left: solid #999 2px;
+  padding: 10px;
+}
 .center-container {
   display: grid;
   justify-content: center;
@@ -13,7 +24,7 @@
   position: relative;
 }
 .main-video-wrapper {
-  min-height: 50vh;
+  flex: 0.8;
   background-color: #000;
   position: relative;
 }
@@ -28,8 +39,10 @@
   display: block;
 }
 #participants-videos {
+  flex: 0.8;
   display: flex;
-  height: 30vh;
+  flex-wrap: nowrap;
+
   background-color: rgb(19, 19, 19);
 }
 
@@ -55,4 +68,13 @@
   background-color: #aaa;
   margin-left: 5px;
   margin-right: 5px;
+}
+.msg-body {
+  color: #eee;
+}
+.chat-area {
+}
+#chat-window {
+  overflow-y: hidden;
+  height: 50vh;
 }
