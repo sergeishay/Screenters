@@ -11,7 +11,7 @@
     "server:dev": "nodemon server.js",
     "api-server": "node api-server.js",
     "api-server:dev": "nodemon api-server.js",
-    "dev": "npm-run-all --parallel spa server",
+    "dev": "react-scripts start",
     "prod": "npm-run-all --parallel server api-server"
   },
   "dependencies": {
