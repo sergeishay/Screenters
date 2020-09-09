@@ -78,8 +78,6 @@ export class User {
             let addUserToMongoose = await axios.put(`https://screenters-vsv.herokuapp.com/broadCast/${showID}`, addUserToShowImMongoose)
             console.log(addUserToMongoose)
             if (addUserToMongoose) {
-                alert("thank you for you booking , we will remind you half hour before the show start")
-                console.log("lol")
             }
 
         } else {

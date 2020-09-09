@@ -35,7 +35,8 @@ const Creator = inject('generalStore', 'creatorStore')(
         await props.creatorStore.setCreatorReviews(props.match.params.id);
       }
       getProfile();
-    }, [])
+    }, [props.creatorStore.currentUser])
+    
 
     const saveImage = (source, field) => {
       props.creatorStore.updateCreator(creator.data.Data.id, {
@@ -86,6 +87,10 @@ const Creator = inject('generalStore', 'creatorStore')(
     const backToUser = () => {
       history.push(`/user/${user.sub}`)
     }
+
+    console.log(creator.data);
+    
+    
 
     return (
       creator.data ? (
