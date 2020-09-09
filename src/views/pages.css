@@ -48,14 +48,16 @@ div[data-test='card'] .view .Ripple-parent {
 div[data-test='card'] .small-text {
   margin-bottom: 10px;
 }
-
+footer {
+  padding-top: 50px;
+}
 footer.bg-light {
   background-color: #333 !important;
   color: #eee;
   padding-top: 20px;
 }
 body {
-  background-color: rgb(233, 233, 233);
+  background-color: rgb(234, 234, 234);
 }
 nav {
   border-bottom: 10px solid rgb(0, 33, 48);
