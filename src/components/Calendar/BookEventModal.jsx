@@ -1,5 +1,7 @@
 import React from 'react'
 import {
+  toast,
+  ToastContainer,
   MDBContainer,
   MDBBtn,
   MDBModal,
@@ -38,6 +40,9 @@ const BookModal = inject('generalStore')(props => {
   const handleBook = async () => {
     let currentUserHere = await props.generalStore.currentUser
     const result = currentUserHere.bookShow(props.show.id)
+    toast.info(`congratulations!!, You've just booked a new show. Go back to your profile to check it out`, {
+      closeButton: false
+    });
     console.log('handleBook RESULT', result)
   }
   const userEditor = props.userEditor
@@ -74,6 +79,11 @@ const BookModal = inject('generalStore')(props => {
             )}
         </MDBModalFooter>
       </MDBModal>
+      <ToastContainer
+                hideProgressBar={true}
+                newestOnTop={true}
+                autoClose={5000}
+              />
     </MDBContainer >
   )
 })
@@ -96,4 +106,6 @@ const BookModal = inject('generalStore')(props => {
 //   const minutes = date.getMinutes()
 //   return `${dayString} | ${dateString} | ${hour}:${minutes} `
 // }
+
+
 export default BookModal
