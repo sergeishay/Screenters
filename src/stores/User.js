@@ -43,10 +43,10 @@ export class User {
 
 
     @action async deleteUser(userId) {
-        let deleteUser = await axios.delete(`${process.env.REACT_APP_REACT_APP_PROD_URL}/api/users/${userId}`)
+        let deleteUser = await axios.delete(`${process.env.REACT_APP_PROD_URL}/api/users/${userId}`)
     }
     @action async updateUser(userId, data) {
-        let updateUser = await axios.put(`${process.env.REACT_APP_REACT_APP_PROD_URL}/api/users/${userId}`, data)
+        let updateUser = await axios.put(`${process.env.REACT_APP_PROD_URL}/api/users/${userId}`, data)
     }
 
     ////////////////BOOK SHOW///////////////////
@@ -56,7 +56,7 @@ export class User {
     @action async bookShow(showID) {
         const userID = this.id
         console.log({ userID, showID })
-        let resultShowFromDB = await axios.post(`${process.env.REACT_APP_REACT_APP_PROD_URL}/api/users/show`, { userID, showID })
+        let resultShowFromDB = await axios.post(`${process.env.REACT_APP_PROD_URL}/api/users/show`, { userID, showID })
         console.log(resultShowFromDB.data)
 
         if (resultShowFromDB.data !== "saving error") {
@@ -75,7 +75,7 @@ export class User {
             }
             console.log(addUserToShowImMongoose)
 
-            let addUserToMongoose = await axios.put(`http://localhost:8181/broadCast/${showID}`, addUserToShowImMongoose)
+            let addUserToMongoose = await axios.put(`https://screenters-vsv.herokuapp.com/broadCast/${showID}`, addUserToShowImMongoose)
             console.log(addUserToMongoose)
             if (addUserToMongoose) {
                 alert("thank you for you booking , we will remind you half hour before the show start")
@@ -92,7 +92,7 @@ export class User {
     @action async unBookShow(showID) {
         const userID = this.id
         console.log(userID)
-        let resultShowFromDB = await axios.delete(`${process.env.REACT_APP_REACT_APP_PROD_URL}/api/users/show/${userID}/${showID}`)
+        let resultShowFromDB = await axios.delete(`${process.env.REACT_APP_PROD_URL}/api/users/show/${userID}/${showID}`)
         console.log(resultShowFromDB.data)
 
 
@@ -104,7 +104,7 @@ export class User {
             userID: userID,
             isBook: false
         }
-        let deleteUserFromMongoose = await axios.put(`http://localhost:8181/broadCast/${showID}`, removeUserFromMongooseData)
+        let deleteUserFromMongoose = await axios.put(`https://screenters-vsv.herokuapp.com/broadCast/${showID}`, removeUserFromMongooseData)
         console.log(deleteUserFromMongoose)
         if (deleteUserFromMongoose) {
             alert("your booking is canceled , forget about the money")
@@ -118,7 +118,7 @@ export class User {
 
 
     @action async getReviewShows(reviewId) {
-        let result = await axios.get(`${process.env.REACT_APP_REACT_APP_PROD_URL}/api/reviews/${reviewId}`)
+        let result = await axios.get(`${process.env.REACT_APP_PROD_URL}/api/reviews/${reviewId}`)
         console.log(result)
     }
 
