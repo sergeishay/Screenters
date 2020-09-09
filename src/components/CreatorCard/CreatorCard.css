@@ -26,3 +26,6 @@ div[data-test='col'] {
   width: auto;
   min-height: 100%;
 }
+.card-body > p {
+  min-height: 50px;
+}

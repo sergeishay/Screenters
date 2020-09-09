@@ -45,7 +45,7 @@ const CreatorCard = observer(props => {
               props.creatorDetails.lastName}
           </h4>
           <hr />
-          <p>{shortenText(props.creatorDetails.about, 60)}</p>
+          <p>{shortenText(props.creatorDetails.about, 50)}</p>
           <>
             <button
               type='button'

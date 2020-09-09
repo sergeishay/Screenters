@@ -12,7 +12,6 @@ import { useAuth0 } from '@auth0/auth0-react'
 
 const queryString = require('query-string')
 const ENDPOINT = 'https://screenters-vsv.herokuapp.com'
-const PORT = 28290
 // const ID = 321
 
 const minutesToStart = room => {
@@ -77,7 +76,7 @@ const Homepage = inject(
     let roomInfo = {}
     let creatorID = null
 
-    const socket = socketIOClient(`${ENDPOINT}:${PORT}`)
+    const socket = socketIOClient()
 
     const myVideoObject = document.createElement('video')
     myVideoObject.muted = true
@@ -133,11 +132,11 @@ const Homepage = inject(
 
     let location = useLocation()
     useEffect(() => {
-      const queryParams = queryString.parse(location.search)
-      currentUserID = getPeerUserID(queryParams.user)
+      // const queryParams = queryString.parse(location.search)
+      // currentUserID = getPeerUserID(queryParams.user)
       // console.log(currentUserID)
       // console.log(getPeerUserID(user.sub))
-      // currentUserID = getPeerUserID(user.sub)
+      currentUserID = getPeerUserID(user.sub)
       // console.log(user.nickname)
       // setMyUserName()
       const peerUserID = getPeerUserID(currentUserID)
@@ -150,15 +149,10 @@ const Homepage = inject(
         //   `http://localhost:8181/broadcast/${requestedRoomID}`,
         //   { params: { ID } }
         // )
-        console.log('REQUESTING DATA FROM DB')
-
         const response = await axios.get(
-          `${ENDPOINT}/broadCast/${requestedRoomID}`
+          `https://screenters-vsv.herokuapp.com/broadCast/${requestedRoomID}`
         )
         console.log('ROOM DATA RECIEVED FROM SERVER:', response.data)
-
-        const checkPeer = await axios.get(`${ENDPOINT}/peerjs`)
-        console.log(checkPeer)
 
         if (!response.data.error) {
           roomInfo = response.data
@@ -206,10 +200,9 @@ const Homepage = inject(
                 console.log(peerUserID)
 
                 const peer = new Peer(peerUserID, {
-                  secure: true,
                   path: '/peerjs',
-                  host: ENDPOINT,
-                  port: 28290,
+                  host: '/',
+                  port: 443,
                 })
 
                 console.log(peer)

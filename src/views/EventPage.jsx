@@ -279,7 +279,9 @@ const EventPage = inject(
                 <br />
                 <br />
               </MDBTypography>
-              <CreatorCard creatorDetails={creatorDetalis} />
+              <div className='event-creator-card'>
+                <CreatorCard creatorDetails={creatorDetalis} />
+              </div>
             </MDBCol>
           </MDBRow>
         </MDBContainer>

@@ -6,6 +6,7 @@ import BookModal from './BookEventModal'
 import CreateShowModal from './CreateShowModal'
 import { useState, useEffect } from 'react'
 import { observer } from 'mobx-react'
+import './Calendar.css'
 
 const Calendar = observer(props => {
   const [bookModalOpen, setModalOpen] = useState(false)
@@ -47,9 +48,10 @@ const Calendar = observer(props => {
   }
 
   useEffect(() => {
-
     setAllShows(shows)
-    return  ()=> {setAllShows([])}
+    return () => {
+      setAllShows([])
+    }
   })
   return (
     <>

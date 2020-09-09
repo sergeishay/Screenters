@@ -22,7 +22,9 @@ const FilterCategories = inject('generalStore')(
         )
         setCategories(formatedCategories)
       }
-      getCat()
+      if (categories.length === 0) {
+        getCat()
+      }
     }, [props.generalStore.categories])
 
     return (
