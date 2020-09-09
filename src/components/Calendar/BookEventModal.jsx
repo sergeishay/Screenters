@@ -19,13 +19,13 @@ const BookModal = inject('generalStore')(props => {
   const [isOpen, setIsOpen] = useState(true)
   const [isCheckOut, setisCheckOut] = useState('15vh')
 
-const checkoutSwitch = (size) => {
-  if(!isAuthenticated) {
-    loginWithPopup()
-  } else {
-    setisCheckOut(size)
+  const checkoutSwitch = (size) => {
+    if (!isAuthenticated) {
+      loginWithPopup()
+    } else {
+      setisCheckOut(size)
+    }
   }
-}
 
   const toggle = () => {
     setIsOpen(!isOpen)
@@ -35,13 +35,14 @@ const checkoutSwitch = (size) => {
     props.generalStore.deleteShow(props.show.id, props.currentEvent.id)
     setIsOpen(false)
   }
-  // const handleBook = () => {
-  //   console.log(props.generalStore.currentUser)
-  //   const result = props.generalStore.currentUser.bookShow(props.show.id)
-  //   console.log('handleBook RESULT', result)
-  // }
+  const handleBook = async () => {
+    let currentUserHere = await props.generalStore.currentUser
+    const result = currentUserHere.bookShow(props.show.id)
+    console.log('handleBook RESULT', result)
+  }
   const userEditor = props.userEditor
   console.log('isUserEditorisUserEditorisUserEditor', props.currentEvent)
+  console.log(props.showPrice)
   return (
     <MDBContainer>
       <MDBModal isOpen={isOpen} toggle={toggle} centered>
@@ -51,26 +52,29 @@ const checkoutSwitch = (size) => {
           <p>End: {formatDate(props.show.end)}</p>
           <p>Price: ${props.showPrice}</p>
         </MDBModalBody>
-        <MDBModalFooter style={{height:isCheckOut}}>
+        <MDBModalFooter style={{ height: isCheckOut }}>
           {(userEditor && (
             <MDBBtn onClick={deleteShow} color='danger'>
               DELETE
             </MDBBtn>
-          )) || (
+          )) || (props.showPrice == "0" ?
             <>
-              {/* <MDBBtn onClick={handleBook} color='primary'>
+              <MDBBtn onClick={handleBook} color='primary'>
                 BOOK NOW
-              </MDBBtn> */}
+              </MDBBtn>
+            </>
+            :
+            <>
               <Paypal currentUser={props.currentUser}
-                      price={props.showPrice}
-                      show={props.show}
-                      checkoutSwitch={checkoutSwitch}
+                price={props.showPrice}
+                show={props.show}
+                checkoutSwitch={checkoutSwitch}
               />
             </>
-          )}
+            )}
         </MDBModalFooter>
       </MDBModal>
-    </MDBContainer>
+    </MDBContainer >
   )
 })
 

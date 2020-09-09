@@ -44,15 +44,7 @@ const User = inject('generalStore', 'eventsStores', 'creatorStore')(
         value: source
       });
     }
-
-    let role = ""
-    if(userData.userRole === "USER") {
-      role = true
-    } else role = false;
-
-    console.log(role);
     
-
     return (
       userData.data ? (
       <React.Fragment>
@@ -68,7 +60,7 @@ const User = inject('generalStore', 'eventsStores', 'creatorStore')(
             </MDBCol>
             <MDBCol className="center" md="8">
               <MDBTypography variant="h2" tag='h2'>{userData.data.username}</MDBTypography>
-              {userData.userRole === "USER" ? (
+              {userData.data.userRole === "USER" ? (
                 <MDBBtn onClick={becomeCreator} color="primary">Beacome a Creator!</MDBBtn>
               ):(
                 <MDBBtn onClick={backToCreator} color="primary">Back to your Screenter page</MDBBtn>
