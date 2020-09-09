@@ -4,7 +4,8 @@ const morgan = require("morgan");
 const helmet = require("helmet");
 const { join } = require("path");
 
-const app = express();
+
+const app = express()
 
 const server = require('http').Server(app)
 const io = require('socket.io')(server)
@@ -59,7 +60,8 @@ const logJoin = (roomID, peerUserID, currentUserID, streamID) => {
       }      
 
 app.get('/*', function (req, res) {
-        res.sendFile(join(__dirname, 'build', 'index.html'));
-});
+  res.sendFile(join(__dirname, 'build', 'index.html'))
+})
 
 server.listen(port, () => console.log(`server up and running on port ${port}`))
+

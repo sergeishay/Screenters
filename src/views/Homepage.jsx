@@ -2,10 +2,11 @@ import React, { Fragment, useEffect } from 'react'
 import EventGrid from '../components/EventList/EventList'
 import SideBar from '../components/Sidebar/Sidebar'
 import JumboCarousel from '../components/Carousel/JumboCarousel'
-import { MDBContainer, MDBRow, MDBCol } from 'mdbreact'
+import { MDBContainer, MDBRow, MDBCol, MDBTypography } from 'mdbreact'
 import { inject, observer } from 'mobx-react'
 import { useHistory } from 'react-router-dom'
 import { useState } from 'react'
+import './Homepage.css'
 
 const Homepage = inject(
   'eventsStores',
@@ -67,8 +68,38 @@ const Homepage = inject(
           buttonNavigate={navigateToEvent}
           data={carouselEvents}
         />
+
         <div className='spacer'>&nbsp;</div>
         <MDBContainer>
+          <MDBRow>
+            <MDBTypography
+              tag='h1'
+              variant='h1'
+              className='text-center'
+              style={{
+                margin: '0px auto 0px auto',
+                borderBottom: '3px solid rgb(212 0 0)',
+                paddingBottom: '10px',
+                display: 'block',
+                width: '65%',
+              }}
+            >
+              SCREENTERS
+            </MDBTypography>
+            <MDBTypography
+              tag='h3'
+              variant='h3'
+              className='text-center'
+              style={{
+                margin: '10px auto 0 auto',
+                paddingBottom: '10px',
+                display: 'block',
+                width: '85%',
+              }}
+            >
+              STAY HOME | STAY LIVE
+            </MDBTypography>
+          </MDBRow>
           <MDBRow>
             <MDBCol md='2'>
               <SideBar categoryFunction={filterByCategory} />
