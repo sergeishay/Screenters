@@ -89,9 +89,9 @@ export class GeneralStore {
 
     @action async checkUserInDataBase(user) {
         const userId = user.sub
-        console.log(userId)
-        const returnedUser = await axios.get(`${process.env.REACT_APP_PROD_URL}/api/users/${userId}`)
-        console.log(returnedUser)
+        let returnedUser = await axios.get(`${process.env.REACT_APP_PROD_URL}/api/users/${userId}`)
+        const userRole = await axios.get(`${process.env.REACT_APP_PROD_URL}/api/${returnedUser.data.userRole.toLowerCase()}/${userId}`)
+        returnedUser = userRole;
         if (returnedUser.data) {
             // id, firstName, lastName, username, imageURL, videoURL, email,
             //  birthday, memberSince, gender, about, userRole, isAuthorized, phone
