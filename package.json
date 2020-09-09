@@ -3,7 +3,7 @@
   "version": "0.1.0",
   "private": true,
   "scripts": {
-    "start": "npm-run-all --parallel server api-server",
+    "start": "npm-run-all --parallel server",
     "build": "node scripts/build.js",
     "test": "node scripts/test.js --env=jest-environment-jsdom-sixteen",
     "spa": "node scripts/start.js",
