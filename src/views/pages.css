@@ -62,3 +62,12 @@ body {
 nav {
   border-bottom: 10px solid rgb(0, 33, 48);
 }
+.navbar-collapse > .navbar-nav {
+  background-color: none;
+  box-shadow: none;
+}
+
+.event-creator-card {
+  margin: 20px auto;
+  max-width: 300px;
+}

@@ -100,6 +100,7 @@ const Homepage = inject(
               STAY HOME | STAY LIVE
             </MDBTypography>
           </MDBRow>
+          <div className='spacer'>&nbsp;</div>
           <MDBRow>
             <MDBCol md='2'>
               <SideBar categoryFunction={filterByCategory} />
