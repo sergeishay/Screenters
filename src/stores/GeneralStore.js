@@ -61,7 +61,7 @@ export class GeneralStore {
             endTime : addNewShow.data.endTime,
             participants : []
         }
-        let addUserToMongoose = await axios.post(`http://localhost:8181/broadCast/${currentShowId}` , dataAboutTheShow)
+        let addUserToMongoose = await axios.post(`https://screenters-vsv.herokuapp.com/broadCast/${currentShowId}` , dataAboutTheShow)
         console.log(addUserToMongoose)
     }
 
