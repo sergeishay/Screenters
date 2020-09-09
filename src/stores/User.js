@@ -43,10 +43,10 @@ export class User {
 
 
     @action async deleteUser(userId) {
-        let deleteUser = await axios.delete(`${process.env.PROD_URL}/api/users/${userId}`)
+        let deleteUser = await axios.delete(`${process.env.REACT_APP_REACT_APP_PROD_URL}/api/users/${userId}`)
     }
     @action async updateUser(userId, data) {
-        let updateUser = await axios.put(`${process.env.PROD_URL}/api/users/${userId}`, data)
+        let updateUser = await axios.put(`${process.env.REACT_APP_REACT_APP_PROD_URL}/api/users/${userId}`, data)
     }
 
     ////////////////BOOK SHOW///////////////////
@@ -56,7 +56,7 @@ export class User {
     @action async bookShow(showID) {
         const userID = this.id
         console.log({ userID, showID })
-        let resultShowFromDB = await axios.post(`${process.env.PROD_URL}/api/users/show`, { userID, showID })
+        let resultShowFromDB = await axios.post(`${process.env.REACT_APP_REACT_APP_PROD_URL}/api/users/show`, { userID, showID })
         console.log(resultShowFromDB.data)
 
         if (resultShowFromDB.data !== "saving error") {
@@ -89,7 +89,7 @@ export class User {
     @action async unBookShow(showID) {
         const userID = this.id
         console.log(userID)
-        let resultShowFromDB = await axios.delete(`${process.env.PROD_URL}/api/users/show/${userID}/${showID}`)
+        let resultShowFromDB = await axios.delete(`${process.env.REACT_APP_REACT_APP_PROD_URL}/api/users/show/${userID}/${showID}`)
         console.log(resultShowFromDB.data)
 
 
@@ -115,23 +115,23 @@ export class User {
 
 
     @action async getReviewShows(reviewId) {
-        let result = await axios.get(`${process.env.PROD_URL}/api/reviews/${reviewId}`)
+        let result = await axios.get(`${process.env.REACT_APP_REACT_APP_PROD_URL}/api/reviews/${reviewId}`)
         console.log(result)
     }
 
     @action async postReviewShows(creatorId, showReview) {
-        let result = await axios.post(`${process.env.PROD_URL}/api/reviews/show`)
+        let result = await axios.post(`${process.env.REACT_APP_PROD_URL}/api/reviews/show`)
         console.log(result)
     }
 
     @action async getReviewCreator(reviewId) {
-        let result = await axios.get(`${process.env.PROD_URL}/api/reviews/${reviewId}`)
+        let result = await axios.get(`${process.env.REACT_APP_PROD_URL}/api/reviews/${reviewId}`)
         console.log(result)
     }
 
     @action async postReviewCreator(creatorId, creatorReview) {
         //userId , showId , review data to save in this store 
-        let result = await axios.post(`${process.env.PROD_URL}/api/reviews/creator`)
+        let result = await axios.post(`${process.env.REACT_APP_PROD_URL}/api/reviews/creator`)
         console.log(result)
     }
 }

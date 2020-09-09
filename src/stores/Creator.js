@@ -72,7 +72,7 @@ export class Creator extends User {
   ///EVENTS ACTION
   @action async addNewEvent(eventData) {
     let addEvent = await axios.post(
-      `${process.env.PROD_URL}/api/events/event`,
+      `${process.env.REACT_APP_PROD_URL}/api/events/event`,
       eventData
     )
     this.newEvents.push(eventData)
@@ -81,52 +81,52 @@ export class Creator extends User {
   ///SHOWS ACTION
   @action async addShow(eventId, creatorId, showData) {
     let addNewShow = await axios.post(
-      `${process.env.PROD_URL}/api/events/${eventId}/${creatorId}`,
+      `${process.env.REACT_APP_PROD_URL}/api/events/${eventId}/${creatorId}`,
       showData
     )
   }
   @action async deleteShow(eventId, creatorId, showId) {
     let deleteShow = await axios.delete(
-      `${process.env.PROD_URL}/api/events/${eventId}/${creatorId}`,
+      `${process.env.REACT_APP_PROD_URL}/api/events/${eventId}/${creatorId}`,
       showId
     )
   }
   @action async updateShow(eventId, creatorId, showData) {
     let updateShow = await axios.put(
-      `${process.env.PROD_URL}/api/events/${eventId}/${creatorId}`,
+      `${process.env.REACT_APP_PROD_URL}/api/events/${eventId}/${creatorId}`,
       showData
     )
   }
 
   ///CREATOR ACTIONS
   @action async getCreators() {
-    let getCreators = await axios.get(`${process.env.PROD_URL}/api/creators`)
+    let getCreators = await axios.get(`${process.env.REACT_APP_PROD_URL}/api/creators`)
     console.log(getCreators.data)
   }
   @action async addCreator(creatorId) {
     let addCreator = await axios.post(
-      `${process.env.PROD_URL}/api/creators/${creatorId}`
+      `${process.env.REACT_APP_PROD_URL}/api/creators/${creatorId}`
     )
   }
   @action async deleteCreator(creatorId) {
     let deleteCreator = await axios.delete(
-      `${process.env.PROD_URL}/api/creators/${creatorId}`
+      `${process.env.REACT_APP_PROD_URL}/api/creators/${creatorId}`
     )
   }
   @action async updateCreator(creatorId, data) {
     let updateCreator = await axios.put(
-      `${process.env.PROD_URL}/api/creators/${creatorId}`,
+      `${process.env.REACT_APP_PROD_URL}/api/creators/${creatorId}`,
       data
     )
   }
 
   @action async getUser() {
-    let Users = await axios.get(`${process.env.PROD_URL}/api/users`)
+    let Users = await axios.get(`${process.env.REACT_APP_PROD_URL}/api/users`)
     console.log(Users.data)
   }
 
   @action async setCreatorReviews(creatorId) {
-    const { data } = await axios.get(`${process.env.PROD_URL}/api/creators/${creatorId}`)
+    const { data } = await axios.get(`${process.env.REACT_APP_PROD_URL}/api/creators/${creatorId}`)
     this.singleCreator.reviews = data.Reviews;
 }
 
@@ -136,7 +136,7 @@ export class Creator extends User {
     reviewCreatorID,
     reviewUserID
   ) {
-    this.singleCreator.reviews.push(await axios.post(`${process.env.PROD_URL}/api/reviews/creator`, {
+    this.singleCreator.reviews.push(await axios.post(`${process.env.REACT_APP_PROD_URL}/api/reviews/creator`, {
       id: null,
       header,
       text,

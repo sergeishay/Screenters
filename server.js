@@ -2,6 +2,7 @@ const express = require("express");
 const morgan = require("morgan");
 const helmet = require("helmet");
 const { join } = require("path");
+require('dotenv').config()
 
 const app = express();
 
