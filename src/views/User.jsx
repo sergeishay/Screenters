@@ -106,7 +106,7 @@ const User = inject('generalStore', 'eventsStores', 'creatorStore')(
           <MDBRow>
           <MDBCol middle className="center" md="12">
             <MDBTypography variant="h2" tag='h2'>Shows you'll love:</MDBTypography>
-            <CreatorEventList isOwner={false} events={props.eventsStores.listOfEvents.slice(0, 3)}/>
+            <CreatorEventList isOwner={false} events={props.eventsStores.listOfEventsForUserPage}/>
           </MDBCol>
           </MDBRow>
         </MDBContainer>

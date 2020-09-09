@@ -1,6 +1,8 @@
 export const shortenText = (text, numOfChars) => {
-  const suffix = text.length > numOfChars ? '...' : ''
-  return text.substring(0, numOfChars) + suffix
+  if(text){
+    const suffix = text.length > numOfChars ? '...' : ''
+    return text.substring(0, numOfChars) + suffix
+  }
 }
 
 export const formatDate = date => {
