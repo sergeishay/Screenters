@@ -1,7 +1,8 @@
 export const shortenText = (text, numOfChars) => {
-  if(text) {
-  const suffix = text.length > numOfChars ? '...' : ''
-  return text.substring(0, numOfChars) + suffix
+  if (text) {
+    const suffix = text.length > numOfChars ? '...' : ''
+    return text.substring(0, numOfChars) + suffix
+
   }
 }
 
