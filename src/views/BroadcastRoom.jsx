@@ -11,7 +11,7 @@ import axios from 'axios'
 import { useAuth0 } from '@auth0/auth0-react'
 
 const queryString = require('query-string')
-const ENDPOINT = 'http://b1d7360167f1.ngrok.io'
+const ENDPOINT = 'https://screenters-vsv.herokuapp.com'
 // const ID = 321
 
 const minutesToStart = room => {
@@ -76,7 +76,7 @@ const Homepage = inject(
     let roomInfo = {}
     let creatorID = null
 
-    const socket = socketIOClient(`${ENDPOINT}:8181`)
+    const socket = socketIOClient(`https://screenters-vsv.herokuapp.com`)
 
     const myVideoObject = document.createElement('video')
     myVideoObject.muted = true
@@ -150,7 +150,7 @@ const Homepage = inject(
         //   { params: { ID } }
         // )
         const response = await axios.get(
-          `${ENDPOINT}:8181/broadCast/${requestedRoomID}`
+          `https://screenters-vsv.herokuapp.com/broadCast/${requestedRoomID}`
         )
         console.log('ROOM DATA RECIEVED FROM SERVER:', response.data)
 
@@ -201,8 +201,8 @@ const Homepage = inject(
 
                 const peer = new Peer(peerUserID, {
                   path: '/peerjs',
-                  host: 'https://e0e7c5da3af8.ngrok.io',
-                  port: '8181',
+                  host: 'https://screenters-vsv.herokuapp.com',
+                  port: 443,
                 })
 
                 console.log(peer)

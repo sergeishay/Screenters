@@ -2,6 +2,7 @@ const express = require("express");
 const morgan = require("morgan");
 const helmet = require("helmet");
 const { join } = require("path");
+require('dotenv').config()
 
 const app = express();
 
@@ -12,7 +13,7 @@ app.use((req, res, next) => {
         next();
 })
 
-const port = process.env.SERVER_PORT || 3000;
+const port = process.env.PORT || 3000;
 
 app.use(morgan("dev"));
 app.use(helmet());
