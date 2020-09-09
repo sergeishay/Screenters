@@ -28,6 +28,7 @@ app.use(helmet());
 app.use(express.static(join(__dirname, "build")));
 app.use(express.urlencoded({ extended: true }));
 app.use(express.json());
+app.use('/peerjs', peerServer)
 
 const rooms = {}
 io.on('connection', socket => {
