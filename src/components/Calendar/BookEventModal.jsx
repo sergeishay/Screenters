@@ -11,14 +11,20 @@ import { useState } from 'react'
 import { inject } from 'mobx-react'
 import { formatDate } from '../../utils/functions'
 import Paypal from '../Paypal/PaypalBtn'
+import { useAuth0 } from '@auth0/auth0-react';
 import './BookEventModal.css'
 
 const BookModal = inject('generalStore')(props => {
+  const { user, isAuthenticated, loginWithPopup } = useAuth0();
   const [isOpen, setIsOpen] = useState(true)
   const [isCheckOut, setisCheckOut] = useState('15vh')
 
-const checkoutSwitch = (size) =>{
-  setisCheckOut(size)
+const checkoutSwitch = (size) => {
+  if(!isAuthenticated) {
+    loginWithPopup()
+  } else {
+    setisCheckOut(size)
+  }
 }
 
   const toggle = () => {
