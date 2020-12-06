@@ -1,23 +1,22 @@
-#technologies
-------frontend------
-1.java-script
-2.css
-3.html
-4.react
-5.MDBootstrap
-6.MobX
------backend--------
-1.mongoDB
-2.AWS
-3.Node-JS
-4.express
-5.MySQL
------3rd part library--------
-1.PayPal
-2.Socket-IO
-3.PEERJS
-4.Auth0
-
+<br><b>technologies
+<br>======frontend======
+<br>1.java-script
+<br>2.css
+<br>3.html
+<br class="brs">4.react
+<br>5.MDBootstrap
+<br>6.MobX
+<br>======backend======
+<br>1.mongoDB
+<br>2.AWS
+<br>3.Node-JS
+<br>4.express
+<br>5.MySQL
+<br>======3rd part library======
+<br>1.PayPal
+<br>2.Socket-IO
+<br>3.PEERJS
+<br>4.Auth0
 
 
 
