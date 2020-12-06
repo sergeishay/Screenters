@@ -1,3 +1,26 @@
+#technologies
+------frontend------
+1.java-script
+2.css
+3.html
+4.react
+5.MDBootstrap
+6.MobX
+-----backend--------
+1.mongoDB
+2.AWS
+3.Node-JS
+4.express
+5.MySQL
+-----3rd part library--------
+1.PayPal
+2.Socket-IO
+3.PEERJS
+4.Auth0
+
+
+
+
 # Auth0 React SDK Sample Application
 
 This sample demonstrates the integration of [Auth0 React SDK](https://github.com/auth0/auth0-react) into a React application created using [create-react-app](https://reactjs.org/docs/create-a-new-react-app.html). The sample is a companion to the [Auth0 React SDK Quickstart](https://auth0.com/docs/quickstart/spa/react).
